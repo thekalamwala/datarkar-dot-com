@@ -44,9 +44,9 @@ export default function BlogPage() {
     <>
       <JsonLd data={breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Blog", path: "/blog" }])} />
       <PageHero
-        eyebrow="Blog"
+        eyebrow="Writing"
         title="Thinking, in public"
-        description="Two a week — one deep dive, one short essay. Systems, receipts, and the occasional contrarian take."
+        description="Essays, playbooks and teardowns on building products, marketing, SEO and AI — written as I learn them."
         crumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
       />
 
@@ -58,8 +58,8 @@ export default function BlogPage() {
             <BlogFeed />
           </Suspense>
 
-          <div className="mt-12 rounded-card border border-border bg-card p-8 text-center">
-            <h2 className="text-xl font-bold tracking-tight">Never miss the next one</h2>
+          <div className="mt-12 rounded-3xl border border-border bg-card p-8 text-center">
+            <h2 className="font-display text-xl font-bold tracking-tight">Never miss the next one</h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
               Get every new piece in your inbox, plus one idea I don’t publish anywhere else.
             </p>
@@ -77,7 +77,16 @@ async function BlogFeed() {
   const lead = posts.find((p) => p.featured) ?? posts[0];
 
   if (!lead) {
-    return <p className="mt-8 text-muted-foreground">No posts yet.</p>;
+    return (
+      <div className="mt-8 rounded-3xl border border-border bg-card p-10 text-center">
+        <h2 className="font-display text-xl font-bold tracking-tight">The first essays are on the way.</h2>
+        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+          I&rsquo;m writing them down as I build — on products, marketing, SEO and AI. Subscribe and you&rsquo;ll
+          get the first one the day it lands.
+        </p>
+        <NewsletterForm className="mx-auto mt-5 max-w-md" />
+      </div>
+    );
   }
 
   const category = blogCategories.find((c) => c.slug === lead.category);

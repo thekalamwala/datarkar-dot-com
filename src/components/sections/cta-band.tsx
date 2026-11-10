@@ -30,7 +30,7 @@ export function CtaBand({
     <Section>
       <Container>
         <Reveal>
-          <div className="relative overflow-hidden rounded-card bg-foreground px-6 py-14 text-background md:px-14 md:py-20">
+          <div className="relative overflow-hidden rounded-3xl bg-foreground px-6 py-14 text-background md:px-14 md:py-20">
             <div className="bg-dots pointer-events-none absolute inset-0 opacity-[0.06]" aria-hidden />
             <div className="relative mx-auto max-w-2xl text-center">
               <h2 className="text-3xl font-bold tracking-tight text-background md:text-4xl">{title}</h2>
@@ -41,7 +41,7 @@ export function CtaBand({
                   {...(primaryIsExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className={cn(
                     buttonVariants({ size: "lg" }),
-                    "w-full bg-background text-foreground hover:bg-background/90 sm:w-auto",
+                    "w-full rounded-full bg-background text-foreground hover:bg-background/90 sm:w-auto",
                   )}
                 >
                   {primaryIcon && <BrandIcon name={primaryIcon} />}
@@ -51,7 +51,7 @@ export function CtaBand({
                   href={secondaryHref}
                   className={cn(
                     buttonVariants({ variant: "outline", size: "lg" }),
-                    "w-full border-background/25 bg-transparent text-background hover:bg-background/10 hover:text-background sm:w-auto",
+                    "w-full rounded-full border-background/25 bg-transparent text-background hover:bg-background/10 hover:text-background sm:w-auto",
                   )}
                 >
                   {secondaryLabel}
