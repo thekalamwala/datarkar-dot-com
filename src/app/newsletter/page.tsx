@@ -1,19 +1,15 @@
-import { ArrowUpRight, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { buildMetadata, breadcrumbSchema } from "@/lib/seo";
 import {
   newsletterMeta,
   whatYoullReceive,
   issueQualities,
-  sampleIssues,
   whoFor,
   whatItsNot,
-  readerQuotes,
 } from "@/lib/data/newsletter";
 import { Container, Section } from "@/components/layout/container";
 import { SectionHeading } from "@/components/layout/section-heading";
-import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Stagger, StaggerItem, Reveal } from "@/components/motion/reveal";
 import { NewsletterForm } from "@/components/sections/newsletter-form";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -84,27 +80,6 @@ export default function NewsletterPage() {
         </Container>
       </Section>
 
-      {/* Sample issues */}
-      <Section bleed className="border-y border-border bg-card py-16 md:py-24">
-        <Container size="narrow">
-          <SectionHeading eyebrow="Sample issues" title="What recent editions looked like" />
-          <Stagger className="mt-8 grid gap-4 sm:grid-cols-2">
-            {sampleIssues.map((issue) => (
-              <StaggerItem key={issue.no}>
-                <Card interactive className="group flex h-full flex-col p-6">
-                  <div className="flex items-center justify-between">
-                    <span className="font-display text-sm font-bold text-muted-foreground">Issue #{issue.no}</span>
-                    <ArrowUpRight className="size-4 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5" />
-                  </div>
-                  <h3 className="mt-3 text-base font-semibold leading-snug">{issue.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{issue.summary}</p>
-                </Card>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </Container>
-      </Section>
-
       {/* Who it's for / what it's not */}
       <Section>
         <Container size="narrow">
@@ -134,31 +109,6 @@ export default function NewsletterPage() {
               <p className="mt-5 text-sm text-muted-foreground">This is deliberate thinking.</p>
             </div>
           </div>
-        </Container>
-      </Section>
-
-      {/* Reader quotes */}
-      <Section bleed className="border-y border-border bg-card py-16 md:py-24">
-        <Container>
-          <SectionHeading eyebrow="What readers say" title="From the inbox" align="center" />
-          <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {readerQuotes.map((r) => (
-              <StaggerItem key={r.name}>
-                <Card className="flex h-full flex-col p-6">
-                  <p className="flex-1 text-[15px] leading-relaxed">&ldquo;{r.quote}&rdquo;</p>
-                  <div className="mt-5 flex items-center gap-3">
-                    <Avatar className="size-9">
-                      <AvatarFallback className="text-xs">{r.initials}</AvatarFallback>
-                    </Avatar>
-                    <div className="text-sm">
-                      <div className="font-medium">{r.name}</div>
-                      <div className="text-muted-foreground">{r.role}</div>
-                    </div>
-                  </div>
-                </Card>
-              </StaggerItem>
-            ))}
-          </Stagger>
         </Container>
       </Section>
 

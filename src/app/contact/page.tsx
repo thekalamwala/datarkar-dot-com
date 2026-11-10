@@ -24,8 +24,8 @@ export const metadata = buildMetadata({
 });
 
 const paths = [
-  { label: "Agency & growth work", detail: "Full-funnel growth via The Bogus Company.", href: "/services" },
-  { label: "Consulting & advisory", detail: "Founder-to-founder, bi-weekly sessions.", href: "/services/advisory" },
+  { label: "Design, build & grow", detail: "A website, app or growth system — via Rajmudra Media.", href: "https://rajmudramedia.com" },
+  { label: "What I'm building", detail: "The products and companies taking shape right now.", href: "/projects" },
   { label: "Speaking & workshops", detail: "Talks and workshops for your event.", href: "/speaking" },
 ];
 
