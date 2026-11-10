@@ -14,7 +14,7 @@ export const site = {
   location: "Nagpur, India",
   tagline: "The builder who markets, the marketer who builds.",
   description:
-    "Shubham Datarkar (The Kalamwala) is Founder & CEO of Timewheel Internet, Nagpur's top digital marketing, advertising and SaaS development company. Copywriter, marketer, and builder behind The Bogus Company, and CMO at Book A Sloth.",
+    "Shubham Datarkar (The Kalamwala) is a founder and product builder from Nagpur. He builds software products and runs the marketing that grows them — through Rajmudra Media and products like Meeticulous and Book A Sloth.",
   // External booking software — Book A Sloth, his own scheduling product.
   bookingUrl: "https://bookasloth.com/sndatarkar",
   spotifyUrl: "https://open.spotify.com/playlist/1p5XuC8FEI1iYrBRZIxVSW",

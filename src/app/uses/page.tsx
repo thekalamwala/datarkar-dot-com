@@ -6,9 +6,9 @@ import { Stagger, StaggerItem } from "@/components/motion/reveal";
 
 export const metadata = buildMetadata({
   title: "The Tools Behind the Work",
-  description: "The hardware, software, and services I use to build, write, and run three companies. Boring, deliberate, and kept minimal on purpose.",
+  description: "The hardware, software, and services I use to build, write, and ship products. Boring, deliberate, and kept minimal on purpose.",
   ogTitle: "The tools behind the work",
-  ogDescription: "Everything I use to build, write, and run three companies. Boring, deliberate, minimal on purpose.",
+  ogDescription: "Everything I use to build, write, and ship products. Boring, deliberate, minimal on purpose.",
   path: "/uses",
 });
 
@@ -18,7 +18,7 @@ export default function UsesPage() {
       <PageHero
         eyebrow="Uses"
         title="The tools behind the work"
-        description="Everything I use to build, write, and run three companies. Boring, deliberate, and kept minimal on purpose."
+        description="Everything I use to build, write, and ship products. Boring, deliberate, and kept minimal on purpose."
         crumbs={[{ label: "Home", href: "/" }, { label: "Uses" }]}
       />
       <Section>
