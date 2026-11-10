@@ -36,85 +36,116 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ───────────── Hero (marclou-style: punchy line + stats + socials) ───────────── */}
+      {/* ───────────── Split hero: profile left, products right (marclou layout) ───────────── */}
       <Section
         bleed
-        className="relative overflow-hidden border-b border-border bg-[radial-gradient(75%_55%_at_50%_-5%,color-mix(in_oklab,var(--brand)_10%,transparent),transparent_70%)]"
+        className="relative overflow-hidden border-b border-border bg-[radial-gradient(60%_50%_at_25%_-5%,color-mix(in_oklab,var(--brand)_10%,transparent),transparent_70%)]"
       >
-        <Container className="py-20 md:py-28">
-          <Reveal>
-            <h1 className="max-w-4xl text-balance font-display text-4xl font-extrabold leading-[1.04] tracking-tight sm:text-6xl md:text-7xl">
-              I build businesses, products and brands — then <span className="text-brand">market what I build.</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              I&rsquo;m Shubham Datarkar — <strong className="text-foreground">The Kalamwala</strong>. Founder and
-              product builder from Nagpur. {companies.length} products and companies, building since 2021 — on systems
-              I own, not rent.
-            </p>
-          </Reveal>
-          <Reveal delay={0.14}>
-            <div className="mt-8 flex flex-wrap items-center gap-2">
-              {socialLinks.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-border px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-ui hover:border-brand/40 hover:text-brand"
-                >
-                  {s.label}
-                </a>
-              ))}
-            </div>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-sm font-medium shadow-sm">
-              <span className="size-2 rounded-full bg-brand" aria-hidden />
-              Currently building <span className="font-semibold">Meeticulous</span> — an AI-powered appointment booking app.
-            </p>
-          </Reveal>
-        </Container>
-      </Section>
-
-      {/* ───────────── Products grid (marclou signature) ───────────── */}
-      <Section bleed className="border-b border-border">
-        <Container className="py-16 md:py-24">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              My products
-              <span className="ml-2 align-middle text-base font-semibold text-muted-foreground">{companies.length}</span>
-            </h2>
-            <p className="text-sm text-muted-foreground">{liveCount} live · the rest building or in the works.</p>
-          </div>
-
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {companies.map((c) => {
-              const hasUrl = "url" in c && Boolean(c.url);
-              const inner = (
-                <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-5 shadow-sm transition-ui hover:border-brand/30 hover:shadow-md">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="font-display text-lg font-bold tracking-tight">{c.name}</h3>
-                    {hasUrl && <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-ui group-hover:text-brand" />}
-                  </div>
-                  <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                    <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide", statusTone[c.status] ?? statusTone.Idea)}>
-                      {c.status}
-                    </span>
-                    <span className="text-xs text-muted-foreground">{c.kind}</span>
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+        <Container className="py-14 md:py-20">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
+            {/* Profile */}
+            <div className="lg:sticky lg:top-24 lg:self-start">
+              <Reveal>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={site.photo}
+                  alt={site.name}
+                  width={96}
+                  height={96}
+                  className="size-20 rounded-full border border-border object-cover shadow-sm md:size-24"
+                />
+              </Reveal>
+              <Reveal delay={0.05}>
+                <h1 className="mt-5 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">{site.name}</h1>
+              </Reveal>
+              <Reveal delay={0.1}>
+                <p className="mt-3 text-pretty text-lg font-medium leading-snug">
+                  I build businesses, products and brands — then <span className="text-brand">market what I build.</span>
+                </p>
+              </Reveal>
+              <Reveal delay={0.15}>
+                <p className="mt-4 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+                  Known as <strong className="text-foreground">The Kalamwala</strong>. Founder &amp; product builder from
+                  Nagpur. {companies.length} products and companies, building since 2021 — on systems I own, not rent.
+                </p>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <div className="mt-5 flex flex-wrap items-center gap-2">
+                  {socialLinks.map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground transition-ui hover:border-brand/40 hover:text-brand"
+                    >
+                      {s.label}
+                    </a>
+                  ))}
                 </div>
-              );
-              return hasUrl ? (
-                <a key={c.name} href={(c as { url: string }).url} target="_blank" rel="noopener noreferrer" className="group block h-full">
-                  {inner}
-                </a>
-              ) : (
-                <div key={c.name} className="group h-full">{inner}</div>
-              );
-            })}
+              </Reveal>
+              <Reveal delay={0.25}>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link href="/about" className={cn(buttonVariants({ size: "default" }), pill)}>
+                    About me
+                    <ArrowRight className="size-4" />
+                  </Link>
+                  <a href={site.bookingUrl} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ variant: "outline", size: "default" }), pill)}>
+                    Book a call
+                  </a>
+                </div>
+              </Reveal>
+            </div>
+
+            {/* Products list */}
+            <div>
+              <div className="flex items-end justify-between gap-4">
+                <h2 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  What I&rsquo;m building
+                  <span className="ml-2 text-muted-foreground/70">{companies.length}</span>
+                </h2>
+                <Link href="/projects" className="text-xs font-medium text-muted-foreground transition-ui hover:text-brand">
+                  {liveCount} live
+                </Link>
+              </div>
+
+              <ol className="mt-5 flex flex-col divide-y divide-border">
+                {companies.map((c) => {
+                  const hasUrl = "url" in c && Boolean(c.url);
+                  const Row = (
+                    <div className="group grid grid-cols-[1fr_auto] items-start gap-4 py-4 transition-ui">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                          <h3 className="font-display text-base font-bold tracking-tight group-hover:text-brand">{c.name}</h3>
+                          <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide", statusTone[c.status] ?? statusTone.Idea)}>
+                            {c.status}
+                          </span>
+                          <span className="text-xs text-muted-foreground">{c.kind}</span>
+                        </div>
+                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+                      </div>
+                      {hasUrl && <ArrowUpRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-ui group-hover:text-brand" />}
+                    </div>
+                  );
+                  return (
+                    <li key={c.name}>
+                      {hasUrl ? (
+                        <a href={(c as { url: string }).url} target="_blank" rel="noopener noreferrer" className="block">
+                          {Row}
+                        </a>
+                      ) : (
+                        Row
+                      )}
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-sm font-medium shadow-sm">
+                <span className="size-2 rounded-full bg-brand" aria-hidden />
+                Currently building <span className="font-semibold">Meeticulous</span>.
+              </p>
+            </div>
           </div>
         </Container>
       </Section>
@@ -217,8 +248,8 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
-              <Link href="/about" className={cn(buttonVariants({ size: "lg" }), pill)}>
-                About me
+              <Link href="/projects" className={cn(buttonVariants({ size: "lg" }), pill)}>
+                See everything
                 <ArrowRight className="size-4" />
               </Link>
               <Link href="/now" className={cn(buttonVariants({ variant: "outline", size: "lg" }), pill)}>

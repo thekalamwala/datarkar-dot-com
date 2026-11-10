@@ -21,6 +21,7 @@ export const site = {
   youtubeUrl: "https://www.youtube.com/@sndatarkar",
   // GitHub username for the activity graph. Empty → module hidden. [CONFIRM]
   github: "",
+  photo: "https://company-assets.bookasloth.in/images/sd/website/profile.webp",
 } as const;
 
 export const companies = [
