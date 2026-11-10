@@ -49,15 +49,7 @@ export default function MyStoryPage() {
               disappear? I didn&rsquo;t have the language for it then, but I was already studying leverage.
             </P>
             <P>
-              <a
-                href="https://nnawca.org/support-developers"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium text-foreground underline underline-offset-4 transition-ui hover:text-muted-foreground"
-              >
-                School
-              </a>{" "}
-              sharpened that curiosity. I was drawn to words. Writing felt powerful. A sentence could change perception.
+              School sharpened that curiosity. I was drawn to words. Writing felt powerful. A sentence could change perception.
               A paragraph could shift emotion. I learned that communication wasn&rsquo;t decoration — it was influence.
             </P>
             <P>
