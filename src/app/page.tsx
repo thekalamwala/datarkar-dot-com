@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, ArrowRight, Play } from "lucide-react";
 
 import { buildMetadata } from "@/lib/seo";
@@ -24,6 +25,13 @@ export const metadata = buildMetadata({
 export const revalidate = 300;
 
 const pill = "rounded-full";
+
+// Rotating colour accents for the venture cards (orange / plum / green).
+const ACCENTS = [
+  { soft: "bg-brand/10", text: "text-brand/30" },
+  { soft: "bg-plum/10", text: "text-plum/30" },
+  { soft: "bg-green/10", text: "text-green/30" },
+];
 
 const fmtDate = (iso: string) =>
   iso ? new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "";
@@ -112,29 +120,32 @@ export default async function HomePage() {
               <div className="mt-5 grid grid-cols-2 gap-3">
                 {companies.map((c, i) => {
                   const hasUrl = "url" in c && Boolean(c.url);
-                  const logo = "logo" in c ? (c as { logo?: string }).logo : undefined;
-                  const feature = c.status === "Building" && i === 0 ? false : i === 0; // first card spans full width
+                  const image = "image" in c ? (c as { image?: string }).image : undefined;
+                  const accent = ACCENTS[i % ACCENTS.length];
+                  const feature = i === 0; // first card spans full width
+                  const initial = c.name.replace(/^The\s+/i, "").charAt(0);
                   const inner = (
-                    <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-4 shadow-sm transition-ui hover:border-brand/30 hover:shadow-md">
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex items-center gap-2.5">
-                          {logo ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={logo} alt="" width={40} height={40} className="size-10 rounded-xl border border-border object-cover" />
-                          ) : (
-                            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand/10 font-display text-base font-extrabold text-brand">
-                              {c.name.replace(/^The\s+/i, "").charAt(0)}
-                            </span>
-                          )}
-                          <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide", statusTone[c.status] ?? statusTone.Idea)}>
-                            {c.status}
+                    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-ui hover:border-brand/30 hover:shadow-md">
+                      <div className={cn("relative overflow-hidden", accent.soft, feature ? "aspect-[21/9]" : "aspect-[16/10]")}>
+                        {image ? (
+                          <Image src={image} alt={c.name} fill sizes="(max-width: 1024px) 50vw, 420px" className="object-cover object-top" />
+                        ) : (
+                          <span className={cn("absolute inset-0 grid place-items-center font-display text-5xl font-extrabold", accent.text)}>{initial}</span>
+                        )}
+                        <span className="absolute left-3 top-3 rounded-full border border-border bg-card/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide backdrop-blur">
+                          {c.status}
+                        </span>
+                        {hasUrl && (
+                          <span className="absolute right-3 top-3 grid size-7 place-items-center rounded-full bg-card/90 backdrop-blur">
+                            <ArrowUpRight className="size-4 text-foreground transition-ui group-hover:text-brand" />
                           </span>
-                        </div>
-                        {hasUrl && <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-ui group-hover:text-brand" />}
+                        )}
                       </div>
-                      <h3 className="mt-3 font-display text-base font-bold tracking-tight group-hover:text-brand">{c.name}</h3>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{c.kind}</p>
-                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+                      <div className="flex flex-1 flex-col p-4">
+                        <h3 className="font-display text-base font-bold tracking-tight group-hover:text-brand">{c.name}</h3>
+                        <p className="mt-0.5 text-xs text-muted-foreground">{c.kind}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+                      </div>
                     </div>
                   );
                   return (

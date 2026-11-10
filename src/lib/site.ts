@@ -35,6 +35,7 @@ export const companies = [
   },
   {
     name: "Meeticulous",
+    image: "/ventures/meeticulous2.png",
     kind: "Booking SaaS",
     since: "2026",
     status: "Building",
@@ -42,6 +43,7 @@ export const companies = [
   },
   {
     name: "Alluminaty",
+    image: "/ventures/alluminaty2.png",
     kind: "Alumni Management",
     since: "2025",
     status: "Live",
@@ -49,6 +51,7 @@ export const companies = [
   },
   {
     name: "Coffee and Toffee",
+    image: "/ventures/coffee-toffee.png",
     kind: "Tips & Donations",
     since: "2025",
     status: "Live",
@@ -56,6 +59,7 @@ export const companies = [
   },
   {
     name: "Ticket Dino",
+    image: "/ventures/ticket-dino.png",
     kind: "Events & Ticketing",
     since: "2025",
     status: "Live",
