@@ -60,23 +60,28 @@ export default function NowPage() {
       <Section>
         <Container size="narrow">
           <Stagger className="grid gap-4 sm:grid-cols-2">
-            {now.map((block) => (
-              <StaggerItem key={block.heading}>
-                <Card className="h-full p-6">
-                  <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                    {block.heading}
-                  </h2>
-                  <ul className="mt-4 flex flex-col gap-3">
-                    {block.items.map((item) => (
-                      <li key={item} className="flex gap-3 text-[15px] leading-relaxed">
-                        <span className="mt-2 size-1.5 shrink-0 rounded-full bg-foreground/40" aria-hidden />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
-              </StaggerItem>
-            ))}
+            {now.map((block, i) => {
+              const tone = ["text-brand", "text-plum", "text-green", "text-brand"][i % 4];
+              const dot = ["bg-brand", "bg-plum", "bg-green", "bg-brand"][i % 4];
+              return (
+                <StaggerItem key={block.heading}>
+                  <Card className="relative h-full overflow-hidden p-6">
+                    <span className={`absolute inset-y-0 left-0 w-1 ${dot}`} aria-hidden />
+                    <h2 className={`font-display text-sm font-bold uppercase tracking-[0.12em] ${tone}`}>
+                      {block.heading}
+                    </h2>
+                    <ul className="mt-4 flex flex-col gap-3">
+                      {block.items.map((item) => (
+                        <li key={item} className="flex gap-3 text-[15px] leading-relaxed">
+                          <span className={`mt-2 size-1.5 shrink-0 rounded-full ${dot}`} aria-hidden />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
           <Reveal className="mt-10">
             <div className="rounded-card border border-border bg-card p-6 text-center">

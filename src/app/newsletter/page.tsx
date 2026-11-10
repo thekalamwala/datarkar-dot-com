@@ -64,7 +64,7 @@ export default function NewsletterPage() {
             {whatYoullReceive.map((item) => (
               <StaggerItem key={item}>
                 <div className="flex items-start gap-3 rounded-card border border-border p-4">
-                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+                  <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-green text-green-foreground">
                     <Check className="size-3" />
                   </span>
                   <span className="text-[15px]">{item}</span>
@@ -89,7 +89,7 @@ export default function NewsletterPage() {
               <ul className="mt-4 flex flex-col gap-3">
                 {whoFor.map((w) => (
                   <li key={w} className="flex items-start gap-3 text-[15px]">
-                    <Check className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                    <Check className="mt-0.5 size-4 shrink-0 text-green" />
                     {w}
                   </li>
                 ))}

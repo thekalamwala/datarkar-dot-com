@@ -37,9 +37,9 @@ export default function FaqPage() {
       <Section>
         <Container size="narrow">
           <div className="flex flex-col gap-12">
-            {groups.map((group) => (
+            {groups.map((group, i) => (
               <Reveal key={group}>
-                <h2 className="mb-2 text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                <h2 className={`mb-2 font-display text-sm font-bold uppercase tracking-[0.12em] ${["text-brand", "text-plum", "text-green"][i % 3]}`}>
                   {group}
                 </h2>
                 <Accordion type="single" collapsible>
