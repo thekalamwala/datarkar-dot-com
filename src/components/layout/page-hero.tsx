@@ -29,7 +29,7 @@ export function PageHero({
     <Section
       bleed
       className={cn(
-        "relative overflow-hidden border-b border-border bg-[radial-gradient(70%_60%_at_50%_-5%,color-mix(in_oklab,var(--brand)_8%,transparent),transparent_70%)]",
+        "relative overflow-hidden border-b border-border",
         className,
       )}
     >

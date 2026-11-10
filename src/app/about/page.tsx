@@ -82,7 +82,7 @@ export default function AboutPage() {
       {/* Hero */}
       <Section
         bleed
-        className="border-b border-border bg-[radial-gradient(70%_55%_at_50%_-5%,color-mix(in_oklab,var(--brand)_9%,transparent),transparent_70%)]"
+        className="border-b border-border"
       >
         <Container className="py-16 md:py-24">
           <Reveal>

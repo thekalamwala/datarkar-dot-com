@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Poppins } from "next/font/google";
+import { Plus_Jakarta_Sans, Poppins, Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 
 import { site } from "@/lib/site";
@@ -25,6 +25,13 @@ import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
+  display: "swap",
+});
+
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],
   display: "swap",
@@ -83,7 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${jakarta.variable} ${poppins.variable}`}
+      className={`${bricolage.variable} ${jakarta.variable} ${poppins.variable}`}
     >
       <body className="min-h-dvh bg-background text-foreground antialiased">
         <GoogleTagManagerNoScript />

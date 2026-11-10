@@ -39,7 +39,7 @@ export default async function HomePage() {
       {/* ───────────── Split hero: profile left, products right (marclou layout) ───────────── */}
       <Section
         bleed
-        className="relative overflow-hidden border-b border-border bg-[radial-gradient(60%_50%_at_25%_-5%,color-mix(in_oklab,var(--brand)_10%,transparent),transparent_70%)]"
+        className="relative overflow-hidden border-b border-border"
       >
         <Container className="py-14 md:py-20">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
