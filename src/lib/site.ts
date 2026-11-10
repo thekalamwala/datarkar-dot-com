@@ -27,6 +27,7 @@ export const site = {
 export const companies = [
   {
     name: "Rajmudra Media",
+    image: "/ventures/rajmudra-logo.svg",
     kind: "Design · Build · Grow",
     since: "2024",
     status: "Live",

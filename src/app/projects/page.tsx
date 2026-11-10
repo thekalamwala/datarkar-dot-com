@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { buildMetadata, breadcrumbSchema } from "@/lib/seo";
 import { site, companies, statusTone } from "@/lib/site";
@@ -38,28 +39,46 @@ const GROUPS: { status: string; label: string }[] = [
 
 type Company = (typeof companies)[number];
 
+const SOFT: Record<string, { soft: string; text: string }> = {
+  Live: { soft: "bg-green/10", text: "text-green/30" },
+  Building: { soft: "bg-brand/10", text: "text-brand/30" },
+  Active: { soft: "bg-plum/10", text: "text-plum/30" },
+  Idea: { soft: "bg-plum/10", text: "text-plum/30" },
+};
+
 function VentureCard({ c }: { c: Company }) {
   const hasUrl = "url" in c && Boolean(c.url);
+  const image = "image" in c ? (c as { image?: string }).image : undefined;
+  const accent = SOFT[c.status] ?? SOFT.Idea;
+  const initial = c.name.replace(/^The\s+/i, "").charAt(0);
   const inner = (
-    <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm transition-ui hover:border-brand/30 hover:shadow-md">
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="font-display text-xl font-bold tracking-tight">{c.name}</h3>
-        {hasUrl && (
-          <ArrowUpRight className="size-5 shrink-0 text-muted-foreground transition-ui group-hover:text-brand" />
+    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-ui hover:border-brand/30 hover:shadow-md">
+      <div className={cn("relative aspect-[16/10] overflow-hidden", accent.soft)}>
+        {image ? (
+          <Image
+            src={image}
+            alt={c.name}
+            fill
+            sizes="(max-width: 1024px) 50vw, 360px"
+            className={image.endsWith(".svg") ? "object-contain p-10" : "object-cover object-top"}
+          />
+        ) : (
+          <span className={cn("absolute inset-0 grid place-items-center font-display text-5xl font-extrabold", accent.text)}>{initial}</span>
         )}
-      </div>
-      <div className="mt-2 flex flex-wrap items-center gap-2">
-        <span
-          className={cn(
-            "rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
-            statusTone[c.status] ?? statusTone.Idea,
-          )}
-        >
+        <span className="absolute left-3 top-3 rounded-full border border-border bg-card/90 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide backdrop-blur">
           {c.status}
         </span>
-        <span className="text-xs text-muted-foreground">{c.kind} · since {c.since}</span>
+        {hasUrl && (
+          <span className="absolute right-3 top-3 grid size-7 place-items-center rounded-full bg-card/90 backdrop-blur">
+            <ArrowUpRight className="size-4 text-foreground transition-ui group-hover:text-brand" />
+          </span>
+        )}
       </div>
-      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+      <div className="flex flex-1 flex-col p-5">
+        <h3 className="font-display text-lg font-bold tracking-tight group-hover:text-brand">{c.name}</h3>
+        <p className="mt-0.5 text-xs text-muted-foreground">{c.kind} · since {c.since}</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+      </div>
     </div>
   );
   return hasUrl ? (

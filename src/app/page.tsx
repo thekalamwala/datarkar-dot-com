@@ -128,7 +128,13 @@ export default async function HomePage() {
                     <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-ui hover:border-brand/30 hover:shadow-md">
                       <div className={cn("relative overflow-hidden", accent.soft, feature ? "aspect-[21/9]" : "aspect-[16/10]")}>
                         {image ? (
-                          <Image src={image} alt={c.name} fill sizes="(max-width: 1024px) 50vw, 420px" className="object-cover object-top" />
+                          <Image
+                            src={image}
+                            alt={c.name}
+                            fill
+                            sizes="(max-width: 1024px) 50vw, 420px"
+                            className={image.endsWith(".svg") ? "object-contain p-10" : "object-cover object-top"}
+                          />
                         ) : (
                           <span className={cn("absolute inset-0 grid place-items-center font-display text-5xl font-extrabold", accent.text)}>{initial}</span>
                         )}
