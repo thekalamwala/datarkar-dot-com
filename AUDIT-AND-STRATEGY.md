@@ -124,7 +124,18 @@ The new site is the opposite problem: **subtract, don't add.** Keep the parts th
 - **Voice:** plain, specific, first-person, low-hype. No agency language, no "unlock your growth."
 - **Proof model:** ventures and shipped products *are* the credibility — no testimonials wall, no skill bars.
 
-**[NEEDS INPUT]** One-line identity statement, and the 3–6 ventures you want to stand behind publicly (name, one-line, stage, your role, link).
+**Identity line:** "The Builder who Markets, the Marketer who Builds."
+
+**Real ventures (from your data reference PDF — verify status/links, don't invent metrics):**
+- **Timewheel Internet Pvt Ltd** — software co. for small/local businesses; parent of Book A Sloth.
+- **Book A Sloth** — appointment-booking SaaS (booking, CRM, WhatsApp automation, payments, analytics). **Flagship.**
+- **SERP Sutra** — SEO/search-marketing tooling.
+- **The Parliament** — community/platform.
+- **Marketing Bug** — newsletter/content.
+- **WhatsLoom** — WhatsApp engagement.
+- Concepts: Ticket Dino, Coffee & Toffee, Link Lantern, Alluminaty, The Kalamwala (writing identity). FOCE Care / WeCos only if relevant.
+
+**[NEEDS INPUT]** Which of these go live now + each one's status + public URL. (Workspace folders Meeticulous/BAS/Bazaar are NOT your official ventures — excluded.)
 
 ---
 
@@ -158,8 +169,8 @@ Nav: identity-first (About · Building · Blog), commerce in a secondary group (
 
 All three keep the existing mono+`#ff4800` token system (why throw away a perfect palette). They differ in *layout & temperament*.
 
-**Direction A — "Editorial Founder"** *(RECOMMENDED)*
-Serif display headers (e.g. a single elegant serif) over the existing sans body; generous whitespace; left-aligned, text-forward, long-line hero; ventures as a numbered editorial list, not tiles; accent only on links/hover. Feels like a founder's letter + a quiet index. Closest to marclou's calm-personal vibe while staying premium. Communicates: *thinks independently, writes, builds.*
+**Direction A — "Editorial + Builder-Workbench"** *(CHOSEN, updated to your stated prefs)*
+Per your data reference: **Plus Jakarta Sans headings, Poppins body, 4px borders, soft neo-brutalism** (not serif — earlier serif idea dropped). Existing `globals.css` already matches. Confident type, strong hierarchy, useful info density, compact components, low noise; mono ink + the single `#ff4800` accent on interaction only. Ventures as a tight editorial/workbench index with status chips, not glossy tiles. Premium, founder-led — marclou only as reference for the personal-HQ breadth, never a clone.
 
 **Direction B — "Build Log / Terminal-minimal"**
 Monospace accents, dense index-of-everything, changelog-forward home, subtle grid lines (`CrosshairGrid` already there). Confident, technical, in-public. Risk: reads "developer" more than "entrepreneur."
@@ -221,10 +232,15 @@ Big venture cover images, visual-forward, each venture a mini case page. Strong 
 - **DB: shared Supabase `nefmwittrybufjqhpxip`** → namespace, don't wipe
 - **Domain: `datarkar.com`** (to buy)
 
+## Design + modules (resolved from PDFs)
+- Direction: **A — Editorial + Builder-Workbench**, Jakarta/Poppins, 4px neo-brutalism.
+- Core nav: Home · Building · Writing(Blog) · About (+ commerce: Shop · Book · Support). Optional phase-2 modules: **Now**, **Build log / timeline**, **Workbench** (GitHub activity — only if API verified). Keep smallest coherent nav.
+- Rules locked: no invented metrics; metrics opt-in private; preserve data; don't clone marclou.
+
 ## Still open — **[NEEDS INPUT]**
-1. The 3–6 ventures to feature (name, tagline, stage, role, link). Which folders are real/public/yours: Timewheel, Book A Sloth, Meeticulous, BAS, Bazaar, Parliament, KalamAI…?
-2. Any private ventures/metrics that must **not** appear?
-3. Zoho product confirm — **Zoho Pay / Zoho Checkout / Zoho Billing**? INR only?
-4. Shared DB: is there a **table-naming convention** already used by your other sites I must match (prefix/schema)?
+1. Which ventures go live **now**, and each one's **status** (idea/building/live) + **public URL**. Likely: Book A Sloth (flagship) + Timewheel + SERP Sutra + 1–2 more.
+2. Any venture that must **not** appear publicly yet?
+3. Zoho product confirm — **Zoho Pay / Zoho Checkout / Zoho Billing**? INR only? (payments milestone)
+4. GitHub handle — if you want a Workbench/activity module (else skip).
 
 > Nearly unblocked. Confirm **Option 1 + Direction A** and M0 (fork & strip + Supabase namespace audit) starts. Email/payments verify once Resend key + Zoho creds are in.
