@@ -93,7 +93,7 @@ export function ReactionBar({
                 "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
                 active
                   ? "bg-foreground text-background"
-                  : "text-muted-foreground hover:-translate-y-px hover:text-foreground",
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               <Icon className="size-5" />

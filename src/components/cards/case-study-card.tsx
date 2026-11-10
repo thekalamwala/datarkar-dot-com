@@ -22,7 +22,7 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
       <p className="mt-2 flex-1 text-sm text-muted-foreground">{study.client}</p>
       <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium">
         Read case study
-        <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
       </span>
     </Card>
   );

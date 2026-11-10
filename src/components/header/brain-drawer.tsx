@@ -72,7 +72,7 @@ function NavGroups({ groups, pathname }: { groups: NavGroup[]; pathname: string 
                       </span>
                     )}
                   </span>
-                  <ArrowUpRight className="size-4 shrink-0 translate-y-1 text-muted-foreground transition-ui group-hover:-translate-y-0 group-hover:text-foreground" />
+                  <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-ui group-hover:text-foreground" />
                 </Link>
               </li>
             ))}

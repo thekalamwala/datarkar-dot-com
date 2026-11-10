@@ -29,7 +29,7 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">{product.category}</p>
         <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-foreground">
           Explore
-          <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
         </span>
       </Card>
     </Link>

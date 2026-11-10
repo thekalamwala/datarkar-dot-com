@@ -41,7 +41,7 @@ type Company = (typeof companies)[number];
 function VentureCard({ c }: { c: Company }) {
   const hasUrl = "url" in c && Boolean(c.url);
   const inner = (
-    <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm transition-ui hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md">
+    <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm transition-ui hover:border-brand/30 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <h3 className="font-display text-xl font-bold tracking-tight">{c.name}</h3>
         {hasUrl && (

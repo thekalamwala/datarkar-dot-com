@@ -10,7 +10,7 @@ export function WorkCard({ item }: { item: WorkItem }) {
       <div className="flex items-start justify-between gap-2">
         <Badge variant="muted">{item.tag}</Badge>
         {item.url && (
-          <ArrowUpRight className="size-4 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <ArrowUpRight className="size-4 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5" />
         )}
       </div>
       <h3 className="mt-4 text-base font-semibold tracking-tight">{item.name}</h3>

@@ -94,7 +94,7 @@ export default function NewsletterPage() {
                 <Card interactive className="group flex h-full flex-col p-6">
                   <div className="flex items-center justify-between">
                     <span className="font-display text-sm font-bold text-muted-foreground">Issue #{issue.no}</span>
-                    <ArrowUpRight className="size-4 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="size-4 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5" />
                   </div>
                   <h3 className="mt-3 text-base font-semibold leading-snug">{issue.title}</h3>
                   <p className="mt-2 text-sm text-muted-foreground">{issue.summary}</p>

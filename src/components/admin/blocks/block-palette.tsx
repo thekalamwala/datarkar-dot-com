@@ -59,7 +59,7 @@ export function BlockPalette({
               "inline-flex h-9 items-center gap-1.5 rounded-btn px-4 text-sm font-medium transition-ui",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
               selected
-                ? "bg-brand text-brand-foreground hover:-translate-y-px hover:shadow-sm"
+                ? "bg-brand text-brand-foreground hover:shadow-sm"
                 : "cursor-not-allowed bg-foreground/70 text-background",
             )}
           >
@@ -92,7 +92,7 @@ export function BlockPalette({
                   onDoubleClick={() => insert(b.type)}
                   className={cn(
                     "flex flex-col items-center gap-2 rounded-card border p-3 text-center transition-ui",
-                    "hover:-translate-y-px hover:bg-accent hover:shadow-sm",
+                    "hover:bg-accent hover:shadow-sm",
                     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
                     isSel ? "border-brand bg-accent ring-1 ring-brand" : "border-border",
                   )}
