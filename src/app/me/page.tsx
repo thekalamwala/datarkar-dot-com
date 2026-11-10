@@ -98,8 +98,8 @@ export default async function BuildingInPublicPage() {
                 Join the Builders List
                 <ArrowRight />
               </Link>
-              <Link href="/community" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
-                Visit the community
+              <Link href="/projects" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
+                See what I&rsquo;m building
               </Link>
             </div>
           </div>
