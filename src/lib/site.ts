@@ -8,11 +8,11 @@ export const site = {
   alias: "The Kalamwala",
   shortName: "SD",
   role: "Founder · Marketer · Copywriter",
-  domain: "shubhamdatarkar.com",
-  url: "https://shubhamdatarkar.com",
-  email: "hello@shubhamdatarkar.com",
+  domain: "datarkar.com",
+  url: "https://datarkar.com",
+  email: "hello@datarkar.com",
   location: "Nagpur, India",
-  tagline: "Build what you market. Market what you build.",
+  tagline: "The builder who markets, the marketer who builds.",
   description:
     "Shubham Datarkar (The Kalamwala) is Founder & CEO of Timewheel Internet, Nagpur's top digital marketing, advertising and SaaS development company. Copywriter, marketer, and builder behind The Bogus Company, and CMO at Book A Sloth.",
   // External booking software — Book A Sloth, his own scheduling product.
@@ -62,60 +62,57 @@ export type NavGroup = {
 // (Growth & Systems — the analytical, business-of-building side) and a right
 // kebab (Ideas & Play — the creative, human side). Each opens a themed drawer;
 // a toggle inside flips between the two on any screen size.
+// Dual-brain navigation, re-themed for the founder HQ:
+//   left  = "Building" — the work, the products, how to work with me.
+//   right = "Writing & Story" — the words and the human behind them.
 export const leftBrain: NavGroup[] = [
   {
-    label: "Services",
+    label: "Building",
     items: [
-      { label: "All Services", href: "/services", description: "How I can help" },
-      { label: "SEO & Organic Growth", href: "/services/seo", description: "Compounding traffic systems" },
-      { label: "Performance Marketing", href: "/services/performance", description: "Paid that pays back" },
-      { label: "AI Automation", href: "/services/ai-workflows", description: "Leverage at every layer" },
-    ],
-  },
-  {
-    label: "Proof",
-    items: [
-      { label: "Work", href: "/work", description: "Everything I've shipped" },
+      { label: "What I'm building", href: "/projects", description: "Products, companies, experiments" },
       { label: "Case Studies", href: "/case-studies", description: "Real outcomes, real numbers" },
-      { label: "Companies", href: "/about#companies", description: "Three operating businesses" },
-      { label: "Testimonials", href: "/testimonials", description: "What clients say" },
+      { label: "Changelog", href: "/changelog", description: "What shipped, and when" },
     ],
   },
   {
-    label: "Products",
+    label: "Work with me",
     items: [
-      { label: "Products", href: "/products", description: "Timewheel SaaS" },
-      { label: "Free Tools", href: "/tools", description: "Use them, no signup" },
-      { label: "Components", href: "/components", description: "The design system" },
-      { label: "Changelog", href: "/changelog", description: "What changed, and when" },
+      { label: "Shop", href: "/products", description: "Products you can buy" },
+      { label: "Book a call", href: "/book", description: "Grab a slot" },
+      { label: "Support", href: "/support", description: "Back the work" },
+    ],
+  },
+  {
+    label: "Current",
+    items: [
+      { label: "Now", href: "/now", description: "What I'm focused on" },
+      { label: "Uses", href: "/uses", description: "Tools & setup" },
+      { label: "Roadmap", href: "/roadmap", description: "Where this is going" },
     ],
   },
 ];
 
 export const rightBrain: NavGroup[] = [
   {
-    label: "Content",
+    label: "Writing",
     items: [
       { label: "Blog", href: "/blog", description: "Essays, playbooks, teardowns" },
-      { label: "Newsletter", href: "/newsletter", description: "One signal every Tuesday" },
-      { label: "Resources", href: "/resources", description: "Frameworks & templates" },
-    ],
-  },
-  {
-    label: "Community & Play",
-    items: [
-      { label: "Community", href: "/community", description: "Build-in-public feed" },
-      { label: "Movies", href: "/movies", description: "Films I recommend" },
-      { label: "Games", href: "/games", description: "Daily word puzzles" },
-      { label: "AI Experiments", href: "/ai-experiments", description: "The lab" },
+      { label: "Newsletter", href: "/newsletter", description: "One signal, by email" },
     ],
   },
   {
     label: "Story",
     items: [
-      { label: "About", href: "/about", description: "The operating system behind me" },
+      { label: "About", href: "/about", description: "Who I am, how I work" },
       { label: "My Story", href: "/my-story", description: "How I got here" },
-      { label: "Speaking", href: "/speaking", description: "Talks & workshops" },
+      { label: "Me", href: "/me", description: "The short version" },
+    ],
+  },
+  {
+    label: "Connect",
+    items: [
+      { label: "Contact", href: "/contact", description: "Reach me" },
+      { label: "Members", href: "/members", description: "The inner circle" },
     ],
   },
 ];
@@ -125,7 +122,6 @@ export const footerNav: NavGroup[] = [
     label: "Explore",
     items: [
       { label: "Home", href: "/" },
-      { label: "Me", href: "/me" },
       { label: "About", href: "/about" },
       { label: "My Story", href: "/my-story" },
       { label: "Now", href: "/now" },
@@ -134,36 +130,29 @@ export const footerNav: NavGroup[] = [
     ],
   },
   {
-    label: "Work",
+    label: "Building",
     items: [
-      { label: "Projects", href: "/work" },
+      { label: "Projects", href: "/projects" },
       { label: "Case Studies", href: "/case-studies" },
-      { label: "Services", href: "/services" },
-      { label: "Testimonials", href: "/testimonials" },
-      { label: "Speaking", href: "/speaking" },
+      { label: "Shop", href: "/products" },
+      { label: "Changelog", href: "/changelog" },
     ],
   },
   {
-    label: "Content",
+    label: "Writing",
     items: [
       { label: "Blog", href: "/blog" },
       { label: "Newsletter", href: "/newsletter" },
-      { label: "Resources", href: "/resources" },
-      { label: "Tools", href: "/tools" },
-      { label: "Products", href: "/products" },
-      { label: "Movies", href: "/movies" },
-      { label: "Games", href: "/games" },
     ],
   },
   {
     label: "More",
     items: [
+      { label: "Book a call", href: "/book" },
       { label: "Support", href: "/support" },
+      { label: "Members", href: "/members" },
       { label: "FAQ", href: "/faq" },
-      { label: "Media Kit", href: "/media-kit" },
-      { label: "Changelog", href: "/changelog" },
       { label: "Contact", href: "/contact" },
-      { label: "Components", href: "/components" },
     ],
   },
 ];

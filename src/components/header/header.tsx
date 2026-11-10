@@ -62,7 +62,7 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Growth & Systems menu"
+            aria-label="Building menu"
             onClick={() => openDrawer("left")}
           >
             <Menu />
@@ -89,20 +89,20 @@ export function Header() {
             </Link>
           ) : (
             <Link
-              href="/community"
+              href="/newsletter"
               className={cn(
                 buttonVariants({ size: "sm" }),
                 "mr-1 hidden sm:inline-flex",
               )}
             >
-              Join Community
+              Subscribe
             </Link>
           )}
           <ThemeToggle />
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Ideas & Play menu"
+            aria-label="Writing & Story menu"
             onClick={() => openDrawer("right")}
           >
             <MoreVertical />

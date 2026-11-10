@@ -13,13 +13,13 @@ export type Brain = "left" | "right";
 
 const BRAINS: Record<Brain, { title: string; tagline: string; groups: NavGroup[] }> = {
   left: {
-    title: "Growth & Systems",
-    tagline: "Services, proof, and the machine behind the businesses.",
+    title: "Building",
+    tagline: "The products, the proof, and how to work with me.",
     groups: leftBrain,
   },
   right: {
-    title: "Ideas & Play",
-    tagline: "Writing, community, experiments — the human side.",
+    title: "Writing & Story",
+    tagline: "The words, and the human behind the work.",
     groups: rightBrain,
   },
 };
