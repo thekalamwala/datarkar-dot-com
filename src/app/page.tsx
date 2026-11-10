@@ -1,350 +1,224 @@
 import Link from "next/link";
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 
 import { buildMetadata } from "@/lib/seo";
-import type { Service, CaseStudy, Testimonial } from "@/lib/data/types";
-import { getPublishedEntities } from "@/lib/content/queries";
+import { site, companies } from "@/lib/site";
+import { getPublishedPosts } from "@/lib/blog/queries";
 
 import { Container, Section } from "@/components/layout/container";
-import { SectionHeading } from "@/components/layout/section-heading";
-import { CrosshairGrid } from "@/components/blueprint";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
+import { Reveal } from "@/components/motion/reveal";
 import { buttonVariants } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ClientsMarquee } from "@/components/sections/clients-marquee";
-import { CtaBand } from "@/components/sections/cta-band";
-import { ServiceCard } from "@/components/cards/service-card";
-import { CaseStudyCard } from "@/components/cards/case-study-card";
-import { TestimonialCard } from "@/components/cards/testimonial-card";
 import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
   path: "/",
   titleAbsolute: true,
-  // Lead with the Timewheel Founder & CEO entity claim, then the AEO/GEO/SEO
-  // money keyword. Kept under ~160 chars so Google shows it whole.
   description:
-    "Founder & CEO of Timewheel Internet — Nagpur's top digital marketing, advertising & SaaS development company. SEO, AEO & GEO that gets your brand cited by AI.",
-  ogTitle: "Get your brand cited by AI — SEO · AEO · GEO",
+    "Shubham Datarkar — founder and product builder. I build software products and internet businesses, then market what I build. Building in public, writing it down.",
+  ogTitle: "The builder who markets, the marketer who builds",
   ogDescription:
-    "When a founder asks ChatGPT who to hire, you're either the answer or you're invisible. AEO, GEO, and the SEO underneath it.",
+    "Founder, product builder and marketer. What I'm building, and how I think about building it.",
 });
 
-function ViewAll({ href, label }: { href: string; label: string }) {
-  return (
-    <Link href={href} className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-ui hover:gap-2">
-      {label}
-      <ArrowRight className="size-4" />
-    </Link>
-  );
-}
+export const revalidate = 300;
 
-// Services to feature, in this exact order. AEO/GEO (seo) leads. Selected by slug —
-// the DB order is by `sort`, so slicing the array would surface the wrong ones.
-const SERVICE_SLUGS = ["seo", "content", "advisory"];
-
-// Slug-preferred, not `featured`-filtered. The seed's featured flags include a
-// cost-per-install gaming case, which reads as incoherent under an AI-citation
-// headline. Occasion Cakes is search-visibility proof; Stone & Acres is
-// qualified-visit proof.
-const CASE_SLUGS = ["occasion-cakes-local-seo", "stone-and-acres-land-stories"];
-
-// Copied literally from src/app/services/page.tsx — a page module is not a data
-// module, so importing it across routes would be a defect.
-const how = [
-  { step: "Audit", detail: "Understand the business and find what's actually winnable." },
-  { step: "Design", detail: "Design the mechanism that will compound — not a campaign." },
-  { step: "Build", detail: "Ship it, hands-on, with quality gates at every step." },
-  { step: "Compound", detail: "Instrument it, hand it over, and let it run without me." },
-];
-
-// Beyond the client work — the parts of the site a buyer-funnel home otherwise
-// never surfaces. Each links to a real, already-shipped area.
-const alsoHere = [
-  {
-    href: "/games",
-    label: "Games",
-    detail: "Daily word puzzles — Alfazy, Hit & Blow, Integra. Streaks, archives, leaderboards.",
-  },
-  {
-    href: "/community",
-    label: "Community",
-    detail: "A running feed of what I'm building, in public. Read it, or jump in.",
-  },
-  {
-    href: "/tools",
-    label: "Free tools",
-    detail: "SEO audits, ROAS math, and a growing shelf of utilities. No signup.",
-  },
-];
-
-const forYou = [
-  "0–10 Cr ARR SaaS, agencies, and growth-stage startups in India",
-  "You have a product and customers — visibility is the constraint",
-  "You want a system that compounds, not a campaign that spikes",
-];
-
-const notForYou = [
-  "Pre-revenue and pre-product",
-  "One-off campaigns or a single landing page",
-  "Anyone shopping on price alone",
-];
-
-export const revalidate = 300; // ISR: static HTML from CDN, refresh every 5 min
+const fmtDate = (iso: string) =>
+  iso ? new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "";
 
 export default async function HomePage() {
-  // Fire all three reads in parallel — they're independent, so serial awaits
-  // just stack their latencies onto TTFB.
-  const [allServices, allCaseStudies, testimonials] = await Promise.all([
-    getPublishedEntities<Service>("services"),
-    getPublishedEntities<CaseStudy>("case_studies"),
-    getPublishedEntities<Testimonial>("testimonials"),
-  ]);
-
-  const homeServices = SERVICE_SLUGS
-    .map((slug) => allServices.find((s) => s.slug === slug))
-    .filter((s): s is Service => Boolean(s));
-
-  const preferred = CASE_SLUGS
-    .map((slug) => allCaseStudies.find((c) => c.slug === slug))
-    .filter((c): c is CaseStudy => Boolean(c));
-  const homeCases = preferred.length === CASE_SLUGS.length
-    ? preferred
-    : allCaseStudies.filter((c) => c.featured).slice(0, 2);
+  const posts = await getPublishedPosts().catch(() => []);
+  const latest = posts.slice(0, 3);
 
   return (
     <>
-      {/* 1 — Hero */}
-      <Section bleed className="relative overflow-hidden border-b border-border">
-        <CrosshairGrid className="opacity-50 [mask-image:radial-gradient(ellipse_at_top,#000_20%,transparent_70%)]" />
-        <Container className="relative py-24 md:py-32">
-          <div className="mx-auto max-w-5xl text-center">
-            <Reveal>
-              <h1 className="text-balance text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl">
-                Get your brand
-                <br />
-                <span className="text-brand">cited by AI.</span>
-              </h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-                When a founder asks ChatGPT who to hire, you are either the answer or you are invisible. I make
-                0–10 Cr companies the answer — through AEO, GEO, and the SEO underneath it.
+      {/* ───────────── Hero ───────────── */}
+      <Section bleed className="border-b-2 border-foreground">
+        <Container className="py-20 md:py-28">
+          <Reveal>
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+              {site.name} <span className="text-brand">—</span> {site.location}
+            </p>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h1 className="mt-6 max-w-4xl text-balance font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl md:text-7xl">
+              I build businesses,
+              <br className="hidden sm:block" /> products and brands —
+              <br className="hidden sm:block" /> then <span className="text-brand">market what I build.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Founder and product builder. I ship software, run internet experiments, and work
+              across product, marketing and SEO — building in public and writing down what I learn.
+            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Link href="/projects" className={cn(buttonVariants({ size: "lg" }))}>
+                See what I&rsquo;m building
+                <ArrowRight className="size-4" />
+              </Link>
+              <Link href="/blog" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
+                Read the writing
+              </Link>
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-10 inline-flex items-center gap-2 border-2 border-foreground px-3 py-1.5 text-sm font-medium shadow-[3px_3px_0_0_var(--foreground)]">
+              <span className="size-2 rounded-full bg-brand" aria-hidden />
+              Currently building <span className="font-semibold">Book A Sloth</span> — India&rsquo;s calmest booking platform.
+            </p>
+          </Reveal>
+        </Container>
+      </Section>
+
+      {/* ───────────── Building ───────────── */}
+      <Section bleed className="border-b-2 border-foreground">
+        <Container className="py-16 md:py-24">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                Building
               </p>
-            </Reveal>
-            <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Link href="/contact" className={cn(buttonVariants({ size: "lg" }))}>
-                Start a conversation
-                <ArrowRight />
-              </Link>
-              <Link href="/case-studies" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
-                See the work
-              </Link>
+              <h2 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+                The companies and products
+              </h2>
             </div>
-            <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-              {["Fixed scope, clear prices", "No retainer mystery", "India-based, hands-on"].map((item) => (
-                <li key={item} className="inline-flex items-center gap-2">
-                  <Check className="size-4 text-brand" />
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <Link
+              href="/projects"
+              className="hidden shrink-0 items-center gap-1 text-sm font-medium transition-ui hover:text-brand sm:inline-flex"
+            >
+              All of it <ArrowUpRight className="size-4" />
+            </Link>
           </div>
-        </Container>
-      </Section>
 
-      {/* 2 — Brands worked with */}
-      <Section bleed className="border-b border-border bg-card py-12">
-        <Container>
-          <p className="mb-6 text-center text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-            Brands I&rsquo;ve worked with
-          </p>
-          <ClientsMarquee />
-        </Container>
-      </Section>
-
-      {/* 3 — Who this is for / who this isn't for */}
-      <Section>
-        <Container>
-          <SectionHeading
-            eyebrow="Fit"
-            title="Who this is for — and who it isn't"
-            description="The work compounds for a specific kind of company. If that isn't you, better to know now than after a kickoff call."
-          />
-          <div className="mt-12 grid gap-4 sm:grid-cols-2">
-            <Reveal>
-              <Card className="flex h-full flex-col p-6 md:p-8">
-                <h3 className="text-lg font-semibold tracking-tight">This is for you if</h3>
-                <ul className="mt-5 flex flex-col gap-4">
-                  {forYou.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm leading-relaxed">
-                      <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
-                        <Check className="size-3" />
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <Card className="flex h-full flex-col p-6 md:p-8">
-                <h3 className="text-lg font-semibold tracking-tight text-muted-foreground">This isn&rsquo;t for you if</h3>
-                <ul className="mt-5 flex flex-col gap-4">
-                  {notForYou.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
-                      <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full border border-border">
-                        <X className="size-3" />
-                      </span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            </Reveal>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 4 — Services with prices */}
-      <Section bleed className="border-y border-border bg-card py-16 md:py-24">
-        <Container>
-          <div className="flex items-end justify-between gap-4">
-            <SectionHeading
-              eyebrow="Services"
-              title="Three ways to become the answer"
-              description="Productized engagements with clear outcomes and clear prices. No retainer mystery."
-            />
-            <div className="hidden sm:block">
-              <ViewAll href="/services" label="All services" />
-            </div>
-          </div>
-          <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {homeServices.map((s) => (
-              <StaggerItem key={s.slug}>
-                <ServiceCard service={s} />
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </Container>
-      </Section>
-
-      {/* 5 — Case studies */}
-      <Section>
-        <Container>
-          <div className="flex items-end justify-between gap-4">
-            <SectionHeading
-              eyebrow="Proof"
-              title="Numbers, not adjectives"
-              description="Two systems and what they moved. The full write-ups show the mechanism behind each result."
-            />
-            <div className="hidden sm:block">
-              <ViewAll href="/case-studies" label="All cases" />
-            </div>
-          </div>
-          <Stagger className="mt-12 grid gap-4 md:grid-cols-2">
-            {homeCases.map((c) => (
-              <StaggerItem key={c.slug}>
-                <CaseStudyCard study={c} />
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </Container>
-      </Section>
-
-      {/* 6 — How it works */}
-      <Section bleed className="border-y border-border bg-card py-16 md:py-24">
-        <Container>
-          <SectionHeading eyebrow="How it works" title="The same operating system, every time" />
-          <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {how.map((h, i) => (
-              <StaggerItem key={h.step}>
-                <Card className="h-full p-6">
+          <ol className="mt-10 border-t-2 border-foreground">
+            {companies.map((c, i) => {
+              const Row = (
+                <div className="group grid grid-cols-[auto_1fr] items-start gap-4 border-b-2 border-border py-6 transition-ui hover:border-foreground sm:grid-cols-[3rem_1fr_auto] sm:items-center">
                   <span className="font-display text-sm font-bold text-muted-foreground">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-3 text-lg font-semibold">{h.step}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{h.detail}</p>
-                </Card>
-              </StaggerItem>
-            ))}
-          </Stagger>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                      <h3 className="font-display text-xl font-bold tracking-tight group-hover:text-brand">
+                        {c.name}
+                      </h3>
+                      <span className="border-2 border-foreground px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide">
+                        {c.status}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {c.kind} · since {c.since}
+                    </p>
+                    <p className="mt-2 max-w-xl text-sm leading-relaxed">{c.blurb}</p>
+                  </div>
+                  {"url" in c && c.url ? (
+                    <ArrowUpRight className="col-start-2 size-5 text-muted-foreground transition-ui group-hover:text-brand sm:col-start-3" />
+                  ) : (
+                    <span className="col-start-2 hidden sm:col-start-3 sm:block" />
+                  )}
+                </div>
+              );
+              return (
+                <li key={c.name}>
+                  {"url" in c && c.url ? (
+                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="block">
+                      {Row}
+                    </a>
+                  ) : (
+                    Row
+                  )}
+                </li>
+              );
+            })}
+          </ol>
         </Container>
       </Section>
 
-      {/* 7 — Testimonials (static grid — proof must sit still) */}
-      <Section>
-        <Container>
-          <SectionHeading eyebrow="Vouch for the cat" title="What it's like to work together" align="center" />
-          <Stagger className="mt-12 grid gap-4 md:grid-cols-3">
-            {testimonials.slice(0, 3).map((t) => (
-              <StaggerItem key={t.name}>
-                <TestimonialCard testimonial={t} className="h-full" />
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </Container>
-      </Section>
+      {/* ───────────── Writing ───────────── */}
+      <Section bleed className="border-b-2 border-foreground bg-card">
+        <Container className="py-16 md:py-24">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                Writing
+              </p>
+              <h2 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+                Thinking out loud
+              </h2>
+            </div>
+            <Link
+              href="/blog"
+              className="hidden shrink-0 items-center gap-1 text-sm font-medium transition-ui hover:text-brand sm:inline-flex"
+            >
+              All writing <ArrowUpRight className="size-4" />
+            </Link>
+          </div>
 
-      {/* 8 — Who is Shubham */}
-      <Section bleed className="border-y border-border bg-card py-16 md:py-24">
-        <Container>
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionHeading eyebrow="Who's behind this" title="Shubham Datarkar" align="center" />
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-              I&rsquo;m Shubham Datarkar — Founder &amp; CEO of{" "}
-              <a href="https://timewheel.co.in" target="_blank" rel="noopener" className="underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground">
-                Timewheel Internet
-              </a>
-              , Nagpur&rsquo;s top digital marketing, advertising and SaaS development company, and the builder behind
-              The Bogus Company and{" "}
-              <a href="https://bookasloth.com" target="_blank" rel="noopener" className="underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground">
-                Book A Sloth
-              </a>
-              . I build the systems I write about, which is the only reason the advice
-              survives contact with reality.
+          {latest.length > 0 ? (
+            <ul className="mt-10 border-t-2 border-foreground">
+              {latest.map((p) => (
+                <li key={p.slug}>
+                  <Link
+                    href={`/blog/${p.category}/${p.slug}`}
+                    className="group flex items-baseline justify-between gap-4 border-b-2 border-border py-5 transition-ui hover:border-foreground"
+                  >
+                    <span className="min-w-0">
+                      <span className="block font-display text-lg font-semibold tracking-tight group-hover:text-brand">
+                        {p.title}
+                      </span>
+                      {p.excerpt && (
+                        <span className="mt-1 line-clamp-1 block text-sm text-muted-foreground">
+                          {p.excerpt}
+                        </span>
+                      )}
+                    </span>
+                    <span className="shrink-0 text-xs text-muted-foreground">{fmtDate(p.date)}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-10 max-w-xl border-l-4 border-brand pl-4 text-muted-foreground">
+              Essays on building products, marketing, and SEO — the first ones land soon.{" "}
+              <Link href="/newsletter" className="font-medium text-foreground underline-offset-4 hover:underline">
+                Get them by email
+              </Link>
+              .
             </p>
-            <div className="mt-8 flex justify-center">
-              <Link href="/me" className={cn(buttonVariants({ variant: "outline" }))}>
-                More about me
-                <ArrowRight />
+          )}
+        </Container>
+      </Section>
+
+      {/* ───────────── Now / About ───────────── */}
+      <Section bleed>
+        <Container className="py-16 md:py-24">
+          <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
+            <div>
+              <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                The short version
+              </p>
+              <p className="mt-4 max-w-2xl text-balance font-display text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
+                {site.tagline}
+              </p>
+              <p className="mt-4 max-w-xl text-muted-foreground">
+                I care about products that compound and marketing that isn&rsquo;t noise. If
+                that&rsquo;s your kind of thing, there&rsquo;s a lot here to dig into.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
+              <Link href="/about" className={cn(buttonVariants({ size: "lg" }))}>
+                About me
+                <ArrowRight className="size-4" />
+              </Link>
+              <Link href="/now" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
+                What I&rsquo;m doing now
               </Link>
             </div>
           </div>
         </Container>
       </Section>
-
-      {/* 8.5 — Beyond the work: surface games / community / tools */}
-      <Section>
-        <Container>
-          <SectionHeading
-            eyebrow="Also here"
-            title="More than the client work"
-            description="The site isn't only a pitch. There's a place to play, a place to follow along, and tools you can use right now."
-          />
-          <Stagger className="mt-12 grid gap-4 sm:grid-cols-3">
-            {alsoHere.map((item) => (
-              <StaggerItem key={item.href}>
-                <Link href={item.href} className="group block h-full">
-                  <Card className="flex h-full flex-col p-6 transition-ui group-hover:border-foreground/20">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold tracking-tight">{item.label}</h3>
-                      <ArrowRight className="size-4 text-muted-foreground transition-ui group-hover:translate-x-1 group-hover:text-foreground" />
-                    </div>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.detail}</p>
-                  </Card>
-                </Link>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </Container>
-      </Section>
-
-      {/* 9 — CTA band (defaults: booking calendar + /contact) */}
-      <CtaBand
-        title="Be the name AI recommends."
-        description="When your next customer asks an AI who to hire, the answer should be you. Let's build the visibility that gets you cited."
-      />
     </>
   );
 }
