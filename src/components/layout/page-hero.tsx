@@ -33,6 +33,11 @@ export function PageHero({
         className,
       )}
     >
+      {/* Rajmudra-style sunburst — warm orange rays from top centre, faded. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[120%] opacity-[0.06] [background:repeating-conic-gradient(from_0deg_at_50%_0,var(--brand)_0deg_5deg,transparent_5deg_11deg)] [mask-image:radial-gradient(ellipse_60%_55%_at_50%_0,#000,transparent_72%)]"
+      />
       <Container className="relative py-14 md:py-20">
         {crumbs && <Breadcrumb items={crumbs} className="mb-6" />}
         <div className={cn("flex flex-col gap-4", align === "center" && "items-center text-center")}>

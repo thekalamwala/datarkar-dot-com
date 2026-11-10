@@ -50,7 +50,7 @@ export default async function HomePage() {
         className="relative overflow-hidden border-b border-border"
       >
         <Container className="py-14 md:py-20">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-16">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-16">
             {/* Profile */}
             <div className="lg:sticky lg:top-24 lg:self-start">
               <Reveal>
