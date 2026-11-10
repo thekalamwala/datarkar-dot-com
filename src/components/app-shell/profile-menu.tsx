@@ -56,7 +56,7 @@ export function ProfileMenu({
 
         {/* View profile — ghost, turns primary on hover */}
         <DropdownMenuItem asChild className="mt-1 justify-center bg-brand/10 py-2 font-medium text-brand hover:bg-brand hover:text-white focus:bg-brand focus:text-white">
-          <Link href="/community/me">View Your Profile</Link>
+          <Link href="/members/account">View Your Profile</Link>
         </DropdownMenuItem>
 
         {/* Membership status — primary, turns ghost on hover */}
