@@ -3,16 +3,14 @@ import { ArrowRight } from "lucide-react";
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { site } from "@/lib/site";
 import { buildMetadata, breadcrumbSchema, speakingServiceSchema } from "@/lib/seo";
-import { press } from "@/lib/data/site-content";
 import { Container, Section } from "@/components/layout/container";
 import { PageHero } from "@/components/layout/page-hero";
 import { SectionHeading } from "@/components/layout/section-heading";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
-import { formatDate, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
   title: "Keynotes & Workshops",
@@ -95,27 +93,6 @@ export default function SpeakingPage() {
         </Container>
       </Section>
 
-      <Section>
-        <Container>
-          <SectionHeading eyebrow="Recent" title="Talks, podcasts & features" />
-          <div className="mt-10 divide-y divide-border rounded-card border border-border">
-            {press.map((p) => (
-              <div key={p.title} className="flex flex-col gap-1 p-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium">{p.outlet}</span>
-                    <Badge variant="muted">{p.kind}</Badge>
-                  </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{p.title}</p>
-                </div>
-                <time className="text-sm text-muted-foreground" dateTime={p.date}>
-                  {formatDate(p.date)}
-                </time>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
     </>
   );
 }

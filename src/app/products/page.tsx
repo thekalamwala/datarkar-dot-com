@@ -9,10 +9,10 @@ import { ProductCard } from "@/components/cards/product-card";
 import { JsonLd } from "@/components/seo/json-ld";
 
 export const metadata = buildMetadata({
-  title: "SaaS Products by Timewheel",
-  description: "The Timewheel Internet product portfolio — scheduling, ticketing, communities, creator tools, messaging, and SEO. Each its own brand.",
-  ogTitle: "Software that compounds — the Timewheel portfolio",
-  ogDescription: "A family of focused SaaS products, each with its own brand. Built calm, fast, and free of bloat.",
+  title: "Products",
+  description: "Software products from the Rajmudra ecosystem and beyond — booking, ticketing, alumni management, creator tools. Each built calm, fast, and on systems you own.",
+  ogTitle: "Products I'm building",
+  ogDescription: "A family of focused products, each with its own job to do. Built calm, fast, and free of bloat.",
   path: "/products",
 });
 
@@ -26,19 +26,18 @@ export default async function ProductsPage() {
         data={[
           breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Products", path: "/products" }]),
           itemListPageSchema({
-            name: "SaaS Products by Timewheel",
+            name: "Products by Shubham Datarkar",
             description:
-              "The Timewheel Internet product portfolio — scheduling, ticketing, communities, creator tools, messaging, and SEO.",
+              "Software products from the Rajmudra ecosystem and beyond — booking, ticketing, alumni management, creator tools.",
             path: "/products",
             items: products.map((p) => ({ name: p.name, path: `/products/${p.slug}`, description: p.tagline })),
           }),
         ]}
       />
       <PageHero
-        blueprint
         eyebrow="Products"
         title="Software that compounds"
-        description="The Timewheel Internet portfolio — a family of focused products, each with its own brand and job to do. Built calm, fast, and free of bloat."
+        description="Focused products — booking, ticketing, alumni management, creator tools — each with its own job to do. Built calm, fast, and on systems you own."
         crumbs={[{ label: "Home", href: "/" }, { label: "Products" }]}
       />
       <Section>
