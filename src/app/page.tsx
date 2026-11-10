@@ -109,37 +109,47 @@ export default async function HomePage() {
                 </Link>
               </div>
 
-              <ol className="mt-5 flex flex-col divide-y divide-border">
-                {companies.map((c) => {
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                {companies.map((c, i) => {
                   const hasUrl = "url" in c && Boolean(c.url);
-                  const Row = (
-                    <div className="group grid grid-cols-[1fr_auto] items-start gap-4 py-4 transition-ui">
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-                          <h3 className="font-display text-base font-bold tracking-tight group-hover:text-brand">{c.name}</h3>
+                  const logo = "logo" in c ? (c as { logo?: string }).logo : undefined;
+                  const feature = c.status === "Building" && i === 0 ? false : i === 0; // first card spans full width
+                  const inner = (
+                    <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-4 shadow-sm transition-ui hover:border-brand/30 hover:shadow-md">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="flex items-center gap-2.5">
+                          {logo ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={logo} alt="" width={40} height={40} className="size-10 rounded-xl border border-border object-cover" />
+                          ) : (
+                            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand/10 font-display text-base font-extrabold text-brand">
+                              {c.name.replace(/^The\s+/i, "").charAt(0)}
+                            </span>
+                          )}
                           <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide", statusTone[c.status] ?? statusTone.Idea)}>
                             {c.status}
                           </span>
-                          <span className="text-xs text-muted-foreground">{c.kind}</span>
                         </div>
-                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+                        {hasUrl && <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-ui group-hover:text-brand" />}
                       </div>
-                      {hasUrl && <ArrowUpRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-ui group-hover:text-brand" />}
+                      <h3 className="mt-3 font-display text-base font-bold tracking-tight group-hover:text-brand">{c.name}</h3>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{c.kind}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
                     </div>
                   );
                   return (
-                    <li key={c.name}>
+                    <div key={c.name} className={cn("group", feature && "col-span-2")}>
                       {hasUrl ? (
-                        <a href={(c as { url: string }).url} target="_blank" rel="noopener noreferrer" className="block">
-                          {Row}
+                        <a href={(c as { url: string }).url} target="_blank" rel="noopener noreferrer" className="block h-full">
+                          {inner}
                         </a>
                       ) : (
-                        Row
+                        <div className="h-full">{inner}</div>
                       )}
-                    </li>
+                    </div>
                   );
                 })}
-              </ol>
+              </div>
 
               <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-sm font-medium shadow-sm">
                 <span className="size-2 rounded-full bg-brand" aria-hidden />
