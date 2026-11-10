@@ -75,33 +75,39 @@
 
 .dark,
 .torch {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-  --card: #101012;
-  --card-foreground: #fafafa;
-  --popover: #101012;
-  --popover-foreground: #fafafa;
+  /* Warm espresso dark to cohere with the cream light theme (rajmudra). */
+  --background: #16120d;
+  --foreground: #f5f0e7;
+  --card: #1f1811;
+  --card-foreground: #f5f0e7;
+  --popover: #1f1811;
+  --popover-foreground: #f5f0e7;
 
-  --primary: #fafafa;
-  --primary-foreground: #0a0a0a;
+  --primary: #f5f0e7;
+  --primary-foreground: #16120d;
 
-  --secondary: #1b1b1f;
-  --secondary-foreground: #fafafa;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --accent: #1b1b1f;
-  --accent-foreground: #fafafa;
+  --secondary: #2a2218;
+  --secondary-foreground: #f5f0e7;
+  --muted: #241d14;
+  --muted-foreground: #b3a893;
+  --accent: #2a2218;
+  --accent-foreground: #f5f0e7;
 
-  --border: #27272a;
-  --input: #2a2a2e;
-  --ring: #fafafa;
+  --border: #352b1f;
+  --input: #3a3024;
+  --ring: #fe5100;
 
-  /* Brand holds the same value on dark — orange reads on black and white. */
-  --brand: #ff4800;
+  --brand: #fe5100;
   --brand-foreground: #ffffff;
 
-  --success: #4ea884;
-  --warning: #c9a94a;
+  /* Accent colours — lifted for contrast on dark. */
+  --plum: #b06a9e;
+  --plum-foreground: #16120d;
+  --green: #3cc088;
+  --green-foreground: #16120d;
+
+  --success: #3cc088;
+  --warning: #d2a94a;
   --danger: #e0695e;
 
   --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.4);
