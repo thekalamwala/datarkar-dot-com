@@ -17,29 +17,33 @@ const now = [
   {
     heading: "Building",
     items: [
-      "Scaling Book A Sloth — India's calmest booking platform — toward public launch.",
-      "Growing the Timewheel product family: Ticket Dino, WhatsLoom, and SERP Sutra.",
-      "Leading marketing at Grey Hawks Media.",
+      "Meeticulous — an AI-powered appointment booking app. My main focus right now.",
+      "The Rajmudra Media ecosystem: Alluminaty, Coffee and Toffee and Ticket Dino, all live.",
+      "Marketing at Book A Sloth as CMO.",
     ],
   },
   {
     heading: "Writing",
     items: [
-      "Two articles a week, one deep SEO/AI piece and one short founder essay.",
-      "A pillar on programmatic SEO for B2B that won't read like spam.",
-      "The Tuesday newsletter — one signal, no noise.",
+      "Starting to publish essays on building products, marketing and SEO.",
+      "The newsletter — one idea a week, no noise.",
+      "Documenting what I learn shipping Meeticulous, in public.",
     ],
   },
   {
-    heading: "Reading",
-    items: ["Working in Public — Nadia Eghbal", "The Cold Start Problem — Andrew Chen", "Re-reading Obviously Awesome — April Dunford"],
+    heading: "Learning",
+    items: [
+      "Where LLM search (GEO) is taking SEO next.",
+      "Wiring AI into real product flows, not demos.",
+      "Running a small ecosystem on systems I own, not rent.",
+    ],
   },
   {
     heading: "Thinking about",
     items: [
-      "How LLM search reshapes what 'ranking' even means in 2026.",
       "Distribution as a product feature, not a marketing afterthought.",
-      "The smallest possible team to run three compounding businesses.",
+      "Why owning your stack beats renting someone else's platform.",
+      "The smallest team that can ship and grow a product well.",
     ],
   },
 ];
@@ -50,7 +54,7 @@ export default function NowPage() {
       <PageHero
         eyebrow="Now"
         title="What I'm focused on right now"
-        description="A living snapshot of where my attention goes. Updated roughly monthly — last updated June 2026."
+        description="A living snapshot of where my attention goes. Updated roughly monthly — last updated November 2026."
         crumbs={[{ label: "Home", href: "/" }, { label: "Now" }]}
       />
       <Section>
@@ -80,28 +84,6 @@ export default function NowPage() {
               <NewsletterForm variant="inline" className="mx-auto mt-4 max-w-md" />
             </div>
           </Reveal>
-        </Container>
-      </Section>
-
-      <Section className="pt-0">
-        <Container size="narrow">
-          <div className="rounded-card border border-dashed border-border p-6">
-            <h2 className="font-display text-lg font-bold tracking-tight">Live badges</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Self-updating status badges. Embed one on any site — it stays current.
-            </p>
-            <div className="mt-5 flex flex-wrap items-center gap-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/api/badge/latest-post" alt="Latest post" height={56} />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/api/badge/posts" alt="Published post count" height={56} />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/api/badge/members" alt="Community member count" height={56} />
-            </div>
-            <pre className="mt-5 overflow-x-auto rounded-input border border-border bg-muted/40 p-3 text-xs">
-              <code>{`<img src="https://shubhamdatarkar.com/api/badge/latest-post" alt="Latest post">`}</code>
-            </pre>
-          </div>
         </Container>
       </Section>
     </>
