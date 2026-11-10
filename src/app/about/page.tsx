@@ -1,64 +1,74 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { BrandIcon } from "@/components/ui/brand-icon";
-import { site, companies } from "@/lib/site";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+
+import { site, companies, statusTone } from "@/lib/site";
 import { buildMetadata, breadcrumbSchema, faqSchema, profilePageSchema } from "@/lib/seo";
-import { principles, stats } from "@/lib/data/site-content";
-import { experience } from "@/lib/data/experience";
 import { Container, Section } from "@/components/layout/container";
-import { PageHero } from "@/components/layout/page-hero";
-import { SectionHeading } from "@/components/layout/section-heading";
-import { StatGrid } from "@/components/sections/stat-grid";
-import { CtaBand } from "@/components/sections/cta-band";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Reveal } from "@/components/motion/reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
-  title: "Founder, Marketer & Copywriter",
+  title: "About",
   description:
-    "The founder who writes the copy, runs the marketing, and builds the software — across a creative studio, a booking SaaS, and an internet company.",
-  ogTitle: "Marketer who builds. Builder who markets.",
-  ogDescription:
-    "Most marketers can't build. Most builders can't market. The leverage is being both — and wiring AI underneath. Three companies, one operator.",
+    "Shubham Datarkar — founder and product builder known as The Kalamwala. He builds software products and runs the marketing that grows them, through Rajmudra Media and products like Meeticulous and Book A Sloth.",
+  ogTitle: "The builder who markets, the marketer who builds",
+  ogDescription: "Who I am, how I work, and what I'm building — from Nagpur, for founders everywhere.",
   path: "/about",
   type: "profile",
 });
 
-// Entity-answer FAQ: the questions an AI answer engine asks to resolve "who is
-// this" — fed as FAQPage JSON-LD + visible copy so the answers are citable.
+// Entity-answer FAQ (FAQPage JSON-LD + visible copy) so answer engines can cite
+// a clean, current description.
 const aboutFaqs = [
   {
     question: "Who is Shubham Datarkar?",
     answer:
-      "Shubham Datarkar is the Founder & CEO of Timewheel Internet, Nagpur's top digital marketing, advertising and SaaS development company. Known online as The Kalamwala, he writes the copy, runs the marketing, and builds the software — across Timewheel, a creative studio (The Bogus Company), and a booking SaaS (Book A Sloth, where he is CMO).",
+      "Shubham Datarkar is a founder and product builder from Nagpur, India, known online as The Kalamwala. He builds software products and runs the marketing that grows them — through Rajmudra Media (design, build and grow) and products like Meeticulous and Book A Sloth.",
   },
   {
     question: "What does 'The Kalamwala' mean?",
     answer:
-      "Kalam means pen; wala means one who works with it. The Kalamwala is Shubham Datarkar's alias for content and writing — Indian heritage, global execution. The alias is for content; the name Shubham Datarkar is for business.",
+      "Kalam means pen; wala means one who works with it. The Kalamwala is Shubham Datarkar's alias for writing and content — the name Shubham Datarkar is for the business and the building.",
   },
   {
     question: "What does Shubham Datarkar do?",
     answer:
-      "He builds compounding growth systems — SEO, AEO/GEO, performance marketing, content, and AI workflows — for founder-led companies, and builds his own products alongside. The through-line: a marketer who can build and a builder who can market, with AI wired underneath.",
+      "He designs, builds and markets internet products. The through-line is being both: a marketer who can build and a builder who can market — so the product and the growth are never two different teams.",
   },
   {
-    question: "What companies is Shubham Datarkar behind?",
+    question: "What is Rajmudra Media?",
     answer:
-      "The Bogus Company (a creative and advertising studio), Book A Sloth (a booking and scheduling SaaS, where he is CMO), and Timewheel Internet (Nagpur's top digital marketing, advertising and SaaS development company, where he is Founder & CEO). He has also co-founded Grey Hawks Media, a performance marketing agency.",
+      "Rajmudra Media is Shubham's studio — one team to design, build and grow a business online, on systems you own rather than rent. Its ecosystem includes products like Meeticulous, Alluminaty, Coffee and Toffee and Ticket Dino.",
   },
   {
     question: "Where is Shubham Datarkar based?",
-    answer:
-      "Nagpur, Maharashtra, India — working with founders and teams worldwide.",
+    answer: "Nagpur, Maharashtra, India — working with founders and teams worldwide.",
+  },
+];
+
+const principles = [
+  {
+    title: "Build what you can market.",
+    body: "A product nobody can explain doesn't ship. I design the thing and the story it tells at the same time.",
+  },
+  {
+    title: "Own the stack.",
+    body: "Your code, your data, your infrastructure — no platform rent, no lock-in. Systems you control compound; systems you rent expire.",
+  },
+  {
+    title: "Compound, don't spike.",
+    body: "Campaigns spike and die. I'd rather build the mechanism that keeps paying out quietly, long after launch.",
+  },
+  {
+    title: "Ship, then write it down.",
+    body: "Building in public isn't a flex — it's how the lessons stop being private. If I learned it the hard way, I write it down.",
   },
 ];
 
 export default function AboutPage() {
+  const featured = companies.slice(0, 5);
   return (
     <>
       <JsonLd
@@ -68,157 +78,161 @@ export default function AboutPage() {
           breadcrumbSchema([{ name: "Home", path: "/" }, { name: "About", path: "/about" }]),
         ]}
       />
-      <PageHero
-        blueprint
-        eyebrow="About"
-        title="Marketer who builds. Builder who markets."
-        description="I'm Shubham Datarkar — The Kalamwala. I write the copy, run the marketing, and build the software — across a creative studio, a booking SaaS, and my own internet company."
-        crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
-        actions={
-          <>
-            <a href={site.bookingUrl} target="_blank" rel="noopener noreferrer" className={cn(buttonVariants({ size: "lg" }))}>
-              <BrandIcon name="CalendarCheck" />
-              Book a call
-            </a>
-            <Link href="/work" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
-              See my work
-              <ArrowRight />
-            </Link>
-            <Link href="/my-story" className={cn(buttonVariants({ variant: "ghost", size: "lg" }))}>
-              Read my story
-            </Link>
-          </>
-        }
-      />
 
-      {/* Story */}
-      <Section>
-        <Container size="narrow">
-          <Reveal className="flex flex-col gap-6 text-[17px] leading-8 text-foreground/90">
-            <p>
-              I build things that make other things easier — sometimes an ad, sometimes a brand, sometimes entire
-              software. I write the copy, architect the SEO, build the product, and run the campaigns. I don’t fit a
-              single category. That’s the point.
+      {/* Hero */}
+      <Section
+        bleed
+        className="border-b border-border bg-[radial-gradient(70%_55%_at_50%_-5%,color-mix(in_oklab,var(--brand)_9%,transparent),transparent_70%)]"
+      >
+        <Container className="py-16 md:py-24">
+          <Reveal>
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">About</p>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h1 className="mt-5 max-w-3xl text-balance font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+              The builder who markets, <span className="text-brand">the marketer who builds.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              I&rsquo;m Shubham Datarkar — known online as <strong className="text-foreground">The Kalamwala</strong>.
+              I build software products and run the marketing that grows them, from Nagpur, for founders everywhere.
             </p>
-            <p>
-              The thesis is simple. Most marketers can’t build, so they’re at the mercy of engineers. Most builders
-              can’t market, so they ship into silence. The leverage is in being both — and wiring AI underneath so one
-              operator can do the work of a team without burning out.
-            </p>
-            <p>
-              Three companies, two domains, one operating philosophy:{" "}
-              <em className="font-medium text-foreground">systems over hustle, compounding over campaigns, and ownership over employment.</em>
-            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Link href="/book" className={cn(buttonVariants({ size: "lg" }), "rounded-full")}>
+                Book a call
+                <ArrowRight className="size-4" />
+              </Link>
+              <Link href="/projects" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full")}>
+                See what I&rsquo;m building
+              </Link>
+            </div>
           </Reveal>
         </Container>
       </Section>
 
-      {/* Numbers */}
-      <Section bleed className="border-y border-border bg-card py-16 md:py-24">
-        <Container>
-          <SectionHeading eyebrow="The receipts" title="Numbers, not adjectives" />
-          <div className="mt-10">
-            <StatGrid stats={stats} />
+      {/* Story */}
+      <Section bleed className="border-b border-border">
+        <Container className="py-16 md:py-24">
+          <div className="max-w-2xl">
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              The story
+            </p>
+            <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+              <p>
+                I started with words — copy, content, the craft of making people care. That&rsquo;s where{" "}
+                <span className="text-foreground">The Kalamwala</span> comes from: <em>kalam</em>, the pen.
+              </p>
+              <p>
+                But writing about products I couldn&rsquo;t change got frustrating. So I learned to build them. Now I
+                do both — design and ship the software, then run the SEO, content and growth that fill it. The two
+                stopped being separate jobs a long time ago.
+              </p>
+              <p>
+                Today that happens through <span className="text-foreground">Rajmudra Media</span> and a handful of
+                products in its ecosystem — built on systems I own, not rent. Some are live; one or two are still
+                taking shape. I build in public and write down what I learn along the way.
+              </p>
+            </div>
           </div>
         </Container>
       </Section>
 
-      {/* Experience */}
-      <Section>
-        <Container size="narrow">
-          <SectionHeading eyebrow="The journey" title="Where I've worked" description="Nearly a decade across copy, content, growth, and code — from farm to founder." />
-          <Stagger className="mt-10 flex flex-col">
-            {experience.map((e) => (
-              <StaggerItem key={`${e.company}-${e.period}`}>
-                <div className="grid gap-1 border-b border-border py-6 last:border-0 sm:grid-cols-[190px_1fr] sm:gap-6">
-                  <div className="text-sm font-medium text-muted-foreground">{e.period}</div>
-                  <div>
-                    <div className="flex flex-wrap items-baseline gap-x-2">
-                      <h3 className="font-semibold">{e.role}</h3>
-                      <span className="text-sm text-muted-foreground">· {e.company}</span>
-                    </div>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{e.detail}</p>
-                  </div>
-                </div>
-              </StaggerItem>
+      {/* How I work */}
+      <Section bleed className="border-b border-border bg-card">
+        <Container className="py-16 md:py-24">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            How I work
+          </p>
+          <div className="mt-8 grid gap-5 sm:grid-cols-2">
+            {principles.map((p) => (
+              <div key={p.title} className="rounded-2xl border border-border bg-background p-6 shadow-sm">
+                <h3 className="font-display text-lg font-bold tracking-tight">{p.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.body}</p>
+              </div>
             ))}
-          </Stagger>
+          </div>
         </Container>
       </Section>
 
       {/* Companies */}
-      <Section bleed id="companies" className="scroll-mt-24 border-y border-border bg-card py-16 md:py-24">
-        <Container>
-          <SectionHeading eyebrow="The companies" title="Three operating businesses" />
-          <Stagger className="mt-10 grid gap-4 md:grid-cols-3">
-            {companies.map((co) => (
-              <StaggerItem key={co.name}>
-                <Card className="flex h-full flex-col p-6">
-                  <div className="flex items-center justify-between">
-                    <span className="font-display text-sm font-bold">{co.since}</span>
-                    <Badge variant={co.status === "Active" ? "success" : "muted"}>{co.status}</Badge>
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold tracking-tight">
-                    {"url" in co && co.url ? (
-                      <a href={co.url} target="_blank" rel="noopener" className="hover:underline">
-                        {co.name}
-                      </a>
-                    ) : (
-                      co.name
-                    )}
-                  </h3>
-                  <p className="text-sm font-medium text-muted-foreground">{co.kind}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{co.blurb}</p>
-                </Card>
-              </StaggerItem>
-            ))}
-          </Stagger>
-        </Container>
-      </Section>
-
-      {/* Principles */}
-      <Section>
-        <Container>
-          <SectionHeading
-            eyebrow="Operating principles"
-            title="How I make decisions"
-            description="The mental models behind every business I build. There's a deeper page on this if you want it."
-          />
-          <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {principles.map((p) => (
-              <StaggerItem key={p.title}>
-                <Card className="h-full p-6">
-                  <h3 className="text-base font-semibold">{p.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{p.text}</p>
-                </Card>
-              </StaggerItem>
-            ))}
-          </Stagger>
-          <div className="mt-8">
-            <Link href="/philosophy" className="inline-flex items-center gap-1 text-sm font-medium hover:gap-2">
-              Read the full philosophy
-              <ArrowRight className="size-4" />
+      <Section bleed className="border-b border-border">
+        <Container className="py-16 md:py-24">
+          <div className="flex items-end justify-between gap-4">
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              What I&rsquo;m building
+            </p>
+            <Link href="/projects" className="inline-flex items-center gap-1 text-sm font-medium transition-ui hover:text-brand">
+              Full index <ArrowUpRight className="size-4" />
             </Link>
           </div>
+          <ul className="mt-8 flex flex-col gap-1">
+            {featured.map((c) => (
+              <li
+                key={c.name}
+                className="grid grid-cols-[1fr_auto] items-center gap-4 rounded-2xl px-3 py-4 transition-ui hover:bg-muted/50"
+              >
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                    <span className="font-display text-lg font-bold tracking-tight">{c.name}</span>
+                    <span
+                      className={cn(
+                        "rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
+                        statusTone[c.status] ?? statusTone.Idea,
+                      )}
+                    >
+                      {c.status}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-muted-foreground">{c.blurb}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </Container>
       </Section>
 
-      {/* Entity FAQ — feeds AI answer engines a citable "who is Shubham" block */}
-      <Section>
-        <Container size="narrow">
-          <SectionHeading eyebrow="FAQ" title="About Shubham Datarkar" />
-          <dl className="mt-10 flex flex-col">
+      {/* FAQ */}
+      <Section bleed className="border-b border-border bg-card">
+        <Container className="py-16 md:py-24">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            In short
+          </p>
+          <dl className="mt-8 max-w-3xl divide-y divide-border">
             {aboutFaqs.map((f) => (
-              <div key={f.question} className="border-b border-border py-6 first:pt-0 last:border-b-0">
-                <dt className="text-lg font-semibold tracking-tight">{f.question}</dt>
-                <dd className="mt-2 text-[17px] leading-8 text-muted-foreground">{f.answer}</dd>
+              <div key={f.question} className="py-5">
+                <dt className="font-display text-base font-semibold tracking-tight">{f.question}</dt>
+                <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.answer}</dd>
               </div>
             ))}
           </dl>
         </Container>
       </Section>
 
-      <CtaBand title="Want this kind of thinking on your problem?" />
+      {/* CTA */}
+      <Section bleed>
+        <Container className="py-16 md:py-24">
+          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-border bg-card p-8 shadow-sm sm:flex-row sm:items-center md:p-10">
+            <div>
+              <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">Let&rsquo;s build something.</h2>
+              <p className="mt-2 max-w-md text-muted-foreground">
+                Partner, client, founder or fellow builder — if it&rsquo;s interesting, I want to hear it.
+              </p>
+            </div>
+            <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+              <Link href="/contact" className={cn(buttonVariants({ size: "lg" }), "rounded-full")}>
+                Get in touch
+                <ArrowRight className="size-4" />
+              </Link>
+              <Link href="/book" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "rounded-full")}>
+                Book a call
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </Section>
     </>
   );
 }
