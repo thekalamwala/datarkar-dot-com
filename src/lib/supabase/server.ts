@@ -24,6 +24,8 @@ function env(name: string): string {
 
 const baseOptions = {
   auth: { persistSession: false, autoRefreshToken: false },
+  // All Datarkar tables live in the `datarkar` schema on the shared project.
+  db: { schema: "datarkar" },
 } as const;
 
 let anonClient: SupabaseClient | undefined;
@@ -36,7 +38,7 @@ export function supabaseAnon(): SupabaseClient {
     env("NEXT_PUBLIC_SUPABASE_URL"),
     env("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
     baseOptions,
-  );
+  ) as unknown as SupabaseClient;
   return anonClient;
 }
 
@@ -47,7 +49,7 @@ export function supabaseAdmin(): SupabaseClient {
     env("NEXT_PUBLIC_SUPABASE_URL"),
     env("SUPABASE_SERVICE_ROLE_KEY"),
     baseOptions,
-  );
+  ) as unknown as SupabaseClient;
   return adminClient;
 }
 
@@ -58,6 +60,7 @@ export async function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      db: { schema: "datarkar" },
       cookies: {
         getAll: () => store.getAll(),
         setAll: (list) => {

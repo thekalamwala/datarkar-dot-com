@@ -26,6 +26,7 @@ export function getSupabaseBrowser(): SupabaseClient {
 
   client = createClient(url, anonKey, {
     auth: { persistSession: false }, // no visitor auth in v1
-  });
+    db: { schema: "datarkar" },
+  }) as unknown as SupabaseClient;
   return client;
 }
