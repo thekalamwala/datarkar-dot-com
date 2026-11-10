@@ -1,87 +1,132 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { buildMetadata, breadcrumbSchema } from "@/lib/seo";
-import { site } from "@/lib/site";
-import { supportProjects } from "@/lib/data/support-content";
+import { site, companies, statusTone } from "@/lib/site";
 import { Container, Section } from "@/components/layout/container";
-import { PageHero } from "@/components/layout/page-hero";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Stagger, StaggerItem } from "@/components/motion/reveal";
-import { CtaBand } from "@/components/sections/cta-band";
+import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
+import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
-  title: "Projects",
+  title: "Building",
   description:
-    "The products, platforms, and communities I'm building — from a live booking SaaS and an alumni network to a Community OS, a marketing publication, and more. Some live, some in progress.",
-  ogTitle: "Projects I'm building",
-  ogDescription: "Products, platforms, and communities — some live, some in progress. Booking SaaS, alumni networks, a Community OS, and more.",
+    "The companies and products Shubham Datarkar is building — Rajmudra Media, Meeticulous, Alluminaty, Coffee and Toffee, Ticket Dino and more. Some live, some in progress.",
+  ogTitle: "What I'm building",
+  ogDescription: "The companies and products taking shape — some live, some in progress.",
   path: "/projects",
 });
 
-// ItemList feeds answer engines a clean, citable list of projects — "what is
-// Shubham Datarkar building" resolves to these, in order.
-function projectsItemList() {
+function itemList() {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Projects by Shubham Datarkar",
-    itemListElement: supportProjects.map((p, i) => ({
+    itemListElement: companies.map((c, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `${site.url}/projects/${p.key}`,
-      name: p.name,
+      name: c.name,
+      ...("url" in c && c.url ? { url: c.url } : {}),
     })),
   };
+}
+
+// Group order: what I'm actively building first, then what's live, then the rest.
+const GROUPS: { status: string; label: string }[] = [
+  { status: "Building", label: "Building now" },
+  { status: "Live", label: "Live" },
+  { status: "Active", label: "Active" },
+];
+
+type Company = (typeof companies)[number];
+
+function VentureCard({ c }: { c: Company }) {
+  const hasUrl = "url" in c && Boolean(c.url);
+  const inner = (
+    <div className="flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-sm transition-ui hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md">
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="font-display text-xl font-bold tracking-tight">{c.name}</h3>
+        {hasUrl && (
+          <ArrowUpRight className="size-5 shrink-0 text-muted-foreground transition-ui group-hover:text-brand" />
+        )}
+      </div>
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <span
+          className={cn(
+            "rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
+            statusTone[c.status] ?? statusTone.Idea,
+          )}
+        >
+          {c.status}
+        </span>
+        <span className="text-xs text-muted-foreground">{c.kind} · since {c.since}</span>
+      </div>
+      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
+    </div>
+  );
+  return hasUrl ? (
+    <a
+      href={(c as { url: string }).url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group block h-full"
+    >
+      {inner}
+    </a>
+  ) : (
+    <div className="group h-full">{inner}</div>
+  );
 }
 
 export default function ProjectsPage() {
   return (
     <>
-      <JsonLd
-        data={breadcrumbSchema([
-          { name: "Home", path: "/" },
-          { name: "Projects", path: "/projects" },
-        ])}
-      />
-      <JsonLd data={projectsItemList()} />
-      <PageHero
-        blueprint
-        eyebrow="Projects"
-        title="What I'm building"
-        description="The products, platforms, and communities taking shape right now. Some are live and in your hands; others are still being built in the open."
-        crumbs={[{ label: "Home", href: "/" }, { label: "Projects" }]}
-      />
-      <Section>
-        <Container>
-          <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {supportProjects.map((project) => (
-              <StaggerItem key={project.key}>
-                <Link href={`/projects/${project.key}`} className="group block h-full">
-                  <Card interactive className="flex h-full flex-col p-6">
-                    <div className="flex items-start justify-between gap-3">
-                      <Badge variant="muted">{project.category}</Badge>
-                      <Badge variant={project.status === "live" ? "success" : "outline"}>
-                        {project.status === "live" ? "Live" : "Building"}
-                      </Badge>
-                    </div>
-                    <h2 className="mt-4 flex items-center gap-1 text-lg font-semibold tracking-tight">
-                      {project.name}
-                      <ArrowUpRight className="size-4 text-muted-foreground transition-ui group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </h2>
-                    <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{project.tagline}</p>
-                    <span className="mt-4 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                      {project.role}
-                    </span>
-                  </Card>
-                </Link>
-              </StaggerItem>
-            ))}
-          </Stagger>
+      <JsonLd data={breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Building", path: "/projects" }])} />
+      <JsonLd data={itemList()} />
+
+      {/* Hero */}
+      <Section
+        bleed
+        className="border-b border-border bg-[radial-gradient(70%_55%_at_50%_-5%,color-mix(in_oklab,var(--brand)_9%,transparent),transparent_70%)]"
+      >
+        <Container className="py-16 md:py-24">
+          <Reveal>
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Building
+            </p>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h1 className="mt-5 max-w-3xl text-balance font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+              Everything I&rsquo;m building.
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              Companies and products taking shape right now — some live and in your hands, others
+              still being built in the open. The honest list, with status.
+            </p>
+          </Reveal>
         </Container>
       </Section>
-      <CtaBand />
+
+      {/* Grouped grid */}
+      {GROUPS.map(({ status, label }) => {
+        const items = companies.filter((c) => c.status === status);
+        if (items.length === 0) return null;
+        return (
+          <Section key={status} bleed className="border-b border-border last:border-b-0">
+            <Container className="py-14 md:py-20">
+              <h2 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                {label}
+                <span className="ml-2 text-muted-foreground/60">{items.length}</span>
+              </h2>
+              <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((c) => (
+                  <VentureCard key={c.name} c={c} />
+                ))}
+              </div>
+            </Container>
+          </Section>
+        );
+      })}
     </>
   );
 }
