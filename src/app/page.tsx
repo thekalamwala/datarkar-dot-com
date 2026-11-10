@@ -23,13 +23,14 @@ export const metadata = buildMetadata({
 
 export const revalidate = 300;
 
+const pill = "rounded-full";
+
 const fmtDate = (iso: string) =>
   iso ? new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "";
 
-// Eyebrow + heading used across every section.
 function Eyebrow({ label }: { label: string }) {
   return (
-    <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+    <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
       {label}
     </p>
   );
@@ -43,13 +44,16 @@ export default async function HomePage() {
   return (
     <>
       {/* ───────────── Hero ───────────── */}
-      <Section bleed className="border-b-2 border-foreground">
+      <Section
+        bleed
+        className="relative overflow-hidden border-b border-border bg-[radial-gradient(70%_55%_at_50%_-5%,color-mix(in_oklab,var(--brand)_9%,transparent),transparent_70%)]"
+      >
         <Container className="py-20 md:py-28">
           <Reveal>
             <Eyebrow label={`${site.name} — ${site.location}`} />
           </Reveal>
           <Reveal delay={0.05}>
-            <h1 className="mt-6 max-w-4xl text-balance font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl md:text-7xl">
+            <h1 className="mt-6 max-w-4xl text-balance font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
               I build businesses,
               <br className="hidden sm:block" /> products and brands —
               <br className="hidden sm:block" /> then <span className="text-brand">market what I build.</span>
@@ -63,11 +67,11 @@ export default async function HomePage() {
           </Reveal>
           <Reveal delay={0.15}>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <Link href="/projects" className={cn(buttonVariants({ size: "lg" }))}>
+              <Link href="/projects" className={cn(buttonVariants({ size: "lg" }), pill)}>
                 See what I&rsquo;m building
                 <ArrowRight className="size-4" />
               </Link>
-              <Link href="/blog" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
+              <Link href="/blog" className={cn(buttonVariants({ variant: "outline", size: "lg" }), pill)}>
                 Read the writing
               </Link>
             </div>
@@ -80,7 +84,7 @@ export default async function HomePage() {
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-2 border-border px-3 py-1.5 text-sm font-medium transition-ui hover:border-foreground hover:text-brand"
+                  className="rounded-full border border-border px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition-ui hover:border-brand/40 hover:text-brand"
                 >
                   {s.label}
                 </a>
@@ -88,7 +92,7 @@ export default async function HomePage() {
             </div>
           </Reveal>
           <Reveal delay={0.25}>
-            <p className="mt-8 inline-flex items-center gap-2 border-2 border-foreground px-3 py-1.5 text-sm font-medium shadow-[3px_3px_0_0_var(--foreground)]">
+            <p className="mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3.5 py-1.5 text-sm font-medium shadow-sm">
               <span className="size-2 rounded-full bg-brand" aria-hidden />
               Currently building <span className="font-semibold">Meeticulous</span> — an AI-powered appointment booking app.
             </p>
@@ -97,7 +101,7 @@ export default async function HomePage() {
       </Section>
 
       {/* ───────────── Building (breadth) ───────────── */}
-      <Section bleed className="border-b-2 border-foreground">
+      <Section bleed className="border-b border-border">
         <Container className="py-16 md:py-24">
           <div className="flex items-end justify-between gap-4">
             <div>
@@ -114,11 +118,11 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <ol className="mt-10 border-t-2 border-foreground">
+          <ol className="mt-8 flex flex-col gap-1">
             {companies.map((c, i) => {
               const hasUrl = "url" in c && Boolean(c.url);
               const Row = (
-                <div className="group grid grid-cols-[2rem_1fr] items-start gap-4 border-b-2 border-border py-5 transition-ui hover:border-foreground sm:grid-cols-[2.5rem_1fr_auto] sm:items-center">
+                <div className="group grid grid-cols-[2rem_1fr] items-start gap-4 rounded-2xl px-3 py-4 transition-ui hover:bg-muted/50 sm:grid-cols-[2.5rem_1fr_auto] sm:items-center">
                   <span className="font-display text-sm font-bold text-muted-foreground">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -129,7 +133,7 @@ export default async function HomePage() {
                       </h3>
                       <span
                         className={cn(
-                          "border-2 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
+                          "rounded-full border px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
                           statusTone[c.status] ?? statusTone.Idea,
                         )}
                       >
@@ -163,7 +167,7 @@ export default async function HomePage() {
       </Section>
 
       {/* ───────────── Writing ───────────── */}
-      <Section bleed className="border-b-2 border-foreground bg-card">
+      <Section bleed className="border-b border-border bg-card">
         <Container className="py-16 md:py-24">
           <div className="flex items-end justify-between gap-4">
             <div>
@@ -179,12 +183,12 @@ export default async function HomePage() {
           </div>
 
           {latest.length > 0 ? (
-            <ul className="mt-10 border-t-2 border-foreground">
+            <ul className="mt-8 flex flex-col gap-1">
               {latest.map((p) => (
                 <li key={p.slug}>
                   <Link
                     href={`/blog/${p.category}/${p.slug}`}
-                    className="group flex items-baseline justify-between gap-4 border-b-2 border-border py-5 transition-ui hover:border-foreground"
+                    className="group flex items-baseline justify-between gap-4 rounded-2xl px-3 py-4 transition-ui hover:bg-muted/50"
                   >
                     <span className="min-w-0">
                       <span className="block font-display text-lg font-semibold tracking-tight group-hover:text-brand">
@@ -200,7 +204,7 @@ export default async function HomePage() {
               ))}
             </ul>
           ) : (
-            <p className="mt-10 max-w-xl border-l-4 border-brand pl-4 text-muted-foreground">
+            <p className="mt-8 max-w-xl rounded-2xl border border-border bg-background/60 p-5 text-muted-foreground">
               Essays on building products, marketing, and SEO — the first ones land soon.{" "}
               <Link href="/newsletter" className="font-medium text-foreground underline-offset-4 hover:underline">
                 Get them by email
@@ -212,7 +216,7 @@ export default async function HomePage() {
       </Section>
 
       {/* ───────────── Watch (YouTube) ───────────── */}
-      <Section bleed className="border-b-2 border-foreground">
+      <Section bleed className="border-b border-border">
         <Container className="py-16 md:py-24">
           <Eyebrow label="Watch" />
           <div className="mt-6 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
@@ -223,7 +227,7 @@ export default async function HomePage() {
               href={site.youtubeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex shrink-0 items-center gap-2 border-2 border-foreground px-4 py-2.5 font-display text-sm font-semibold shadow-[3px_3px_0_0_var(--foreground)] transition-ui hover:bg-brand hover:text-brand-foreground"
+              className={cn(buttonVariants({ size: "lg" }), pill, "shrink-0")}
             >
               <Play className="size-4 fill-current" />
               Watch on YouTube
@@ -234,7 +238,7 @@ export default async function HomePage() {
 
       {/* ───────────── GitHub activity (only when handle set) ───────────── */}
       {site.github ? (
-        <Section bleed className="border-b-2 border-foreground bg-card">
+        <Section bleed className="border-b border-border bg-card">
           <Container className="py-16 md:py-24">
             <div className="flex items-end justify-between gap-4">
               <div>
@@ -250,12 +254,12 @@ export default async function HomePage() {
                 @{site.github} <ArrowUpRight className="size-4" />
               </a>
             </div>
-            <div className="mt-8 overflow-x-auto border-2 border-foreground p-4">
+            <div className="mt-8 overflow-x-auto rounded-2xl border border-border bg-background p-5 shadow-sm">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`https://ghchart.rshah.org/ff4800/${site.github}`}
                 alt={`GitHub contribution graph for ${site.github}`}
-                className="min-w-[640px] dark:invert dark:hue-rotate-180"
+                className="min-w-[640px]"
               />
             </div>
           </Container>
@@ -263,9 +267,9 @@ export default async function HomePage() {
       ) : null}
 
       {/* ───────────── Newsletter ───────────── */}
-      <Section bleed className="border-b-2 border-foreground">
+      <Section bleed className="border-b border-border">
         <Container className="py-16 md:py-24">
-          <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:items-center">
+          <div className="grid gap-8 rounded-3xl border border-border bg-card p-8 shadow-sm md:grid-cols-[1fr_1fr] md:items-center md:p-10">
             <div>
               <Eyebrow label="Newsletter" />
               <h2 className="mt-2 max-w-md font-display text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
@@ -275,7 +279,7 @@ export default async function HomePage() {
                 No noise, no fluff — just the one thing worth your attention. Unsubscribe anytime.
               </p>
             </div>
-            <div className="border-2 border-foreground p-5 shadow-[4px_4px_0_0_var(--foreground)]">
+            <div>
               <NewsletterForm variant="block" />
             </div>
           </div>
@@ -297,11 +301,11 @@ export default async function HomePage() {
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
-              <Link href="/about" className={cn(buttonVariants({ size: "lg" }))}>
+              <Link href="/about" className={cn(buttonVariants({ size: "lg" }), pill)}>
                 About me
                 <ArrowRight className="size-4" />
               </Link>
-              <Link href="/now" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
+              <Link href="/now" className={cn(buttonVariants({ variant: "outline", size: "lg" }), pill)}>
                 What I&rsquo;m doing now
               </Link>
             </div>
