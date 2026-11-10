@@ -76,11 +76,14 @@ export default function ContactPage() {
                   Three ways to work together
                 </h2>
                 <ul className="mt-4 flex flex-col divide-y divide-border">
-                  {paths.map((p) => (
+                  {paths.map((p, i) => (
                     <li key={p.label} className="py-3 first:pt-0 last:pb-0">
-                      <Link href={p.href} className="group block">
-                        <span className="font-medium transition-ui group-hover:text-muted-foreground">{p.label}</span>
-                        <span className="mt-0.5 block text-sm text-muted-foreground">{p.detail}</span>
+                      <Link href={p.href} className="group flex items-start gap-3">
+                        <span className={`mt-1.5 size-2 shrink-0 rounded-full ${["bg-brand", "bg-plum", "bg-green"][i % 3]}`} aria-hidden />
+                        <span className="min-w-0">
+                          <span className="font-medium transition-ui group-hover:text-brand">{p.label}</span>
+                          <span className="mt-0.5 block text-sm text-muted-foreground">{p.detail}</span>
+                        </span>
                       </Link>
                     </li>
                   ))}
