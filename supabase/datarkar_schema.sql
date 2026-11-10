@@ -10,6 +10,42 @@
 create schema if not exists datarkar;
 grant usage on schema datarkar to anon, authenticated, service_role;
 
+-- ======== profiles (extracted from games_init; members/support depend on it) ========
+-- Member identity, keyed to the shared auth.users. Must exist before members_platform.
+create table if not exists datarkar.profiles (
+  id         uuid primary key references auth.users(id) on delete cascade,
+  username   text unique not null,
+  created_at timestamptz default now()
+);
+
+create or replace function datarkar.handle_new_user()
+returns trigger language plpgsql security definer set search_path = datarkar, public as $$
+begin
+  insert into datarkar.profiles (id, username)
+  values (
+    new.id,
+    lower(split_part(new.email, '@', 1)) || '_' || substr(md5(new.id::text), 1, 4)
+  )
+  on conflict (id) do nothing;
+  return new;
+end; $$;
+
+-- datarkar-specific trigger name so it never clashes with another site's
+-- trigger on the shared auth.users table.
+drop trigger if exists datarkar_on_auth_user_created on auth.users;
+create trigger datarkar_on_auth_user_created
+  after insert on auth.users
+  for each row execute function datarkar.handle_new_user();
+
+alter table datarkar.profiles enable row level security;
+drop policy if exists "profiles self read" on datarkar.profiles;
+create policy "profiles self read" on datarkar.profiles for select using (true);
+drop policy if exists "profiles self write" on datarkar.profiles;
+create policy "profiles self write" on datarkar.profiles
+  for update using (auth.uid() = id) with check (auth.uid() = id);
+grant select on datarkar.profiles to anon, authenticated;
+grant update on datarkar.profiles to authenticated;
+
 -- ======== 20260614000001_create_supports ========
 -- Support module: persisted supports + public-safe derived views.
 -- Target project: Shubham's OWN Supabase (ref oyzzgjrefkppqkxjccot). NOT the BAS project.
