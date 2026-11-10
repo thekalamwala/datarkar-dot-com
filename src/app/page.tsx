@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Play } from "lucide-react";
 
 import { buildMetadata } from "@/lib/seo";
-import { site, companies } from "@/lib/site";
+import { site, companies, socials, statusTone } from "@/lib/site";
 import { getPublishedPosts } from "@/lib/blog/queries";
 
 import { Container, Section } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { buttonVariants } from "@/components/ui/button";
+import { NewsletterForm } from "@/components/sections/newsletter-form";
 import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
@@ -25,9 +26,19 @@ export const revalidate = 300;
 const fmtDate = (iso: string) =>
   iso ? new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "";
 
+// Eyebrow + heading used across every section.
+function Eyebrow({ label }: { label: string }) {
+  return (
+    <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+      {label}
+    </p>
+  );
+}
+
 export default async function HomePage() {
   const posts = await getPublishedPosts().catch(() => []);
   const latest = posts.slice(0, 3);
+  const socialLinks = socials.filter((s) => s.href !== site.bookingUrl);
 
   return (
     <>
@@ -35,9 +46,7 @@ export default async function HomePage() {
       <Section bleed className="border-b-2 border-foreground">
         <Container className="py-20 md:py-28">
           <Reveal>
-            <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-              {site.name} <span className="text-brand">—</span> {site.location}
-            </p>
+            <Eyebrow label={`${site.name} — ${site.location}`} />
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="mt-6 max-w-4xl text-balance font-display text-4xl font-extrabold leading-[1.02] tracking-tight sm:text-6xl md:text-7xl">
@@ -64,56 +73,73 @@ export default async function HomePage() {
             </div>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-10 inline-flex items-center gap-2 border-2 border-foreground px-3 py-1.5 text-sm font-medium shadow-[3px_3px_0_0_var(--foreground)]">
+            <div className="mt-8 flex flex-wrap items-center gap-2">
+              {socialLinks.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-2 border-border px-3 py-1.5 text-sm font-medium transition-ui hover:border-foreground hover:text-brand"
+                >
+                  {s.label}
+                </a>
+              ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.25}>
+            <p className="mt-8 inline-flex items-center gap-2 border-2 border-foreground px-3 py-1.5 text-sm font-medium shadow-[3px_3px_0_0_var(--foreground)]">
               <span className="size-2 rounded-full bg-brand" aria-hidden />
-              Currently building <span className="font-semibold">Book A Sloth</span> — India&rsquo;s calmest booking platform.
+              Currently building <span className="font-semibold">Meeticulous</span> — an AI-powered appointment booking app.
             </p>
           </Reveal>
         </Container>
       </Section>
 
-      {/* ───────────── Building ───────────── */}
+      {/* ───────────── Building (breadth) ───────────── */}
       <Section bleed className="border-b-2 border-foreground">
         <Container className="py-16 md:py-24">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                Building
-              </p>
+              <Eyebrow label="Building" />
               <h2 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                The companies and products
+                Everything I&rsquo;m building
               </h2>
             </div>
             <Link
               href="/projects"
               className="hidden shrink-0 items-center gap-1 text-sm font-medium transition-ui hover:text-brand sm:inline-flex"
             >
-              All of it <ArrowUpRight className="size-4" />
+              Full index <ArrowUpRight className="size-4" />
             </Link>
           </div>
 
           <ol className="mt-10 border-t-2 border-foreground">
             {companies.map((c, i) => {
+              const hasUrl = "url" in c && Boolean(c.url);
               const Row = (
-                <div className="group grid grid-cols-[auto_1fr] items-start gap-4 border-b-2 border-border py-6 transition-ui hover:border-foreground sm:grid-cols-[3rem_1fr_auto] sm:items-center">
+                <div className="group grid grid-cols-[2rem_1fr] items-start gap-4 border-b-2 border-border py-5 transition-ui hover:border-foreground sm:grid-cols-[2.5rem_1fr_auto] sm:items-center">
                   <span className="font-display text-sm font-bold text-muted-foreground">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                      <h3 className="font-display text-xl font-bold tracking-tight group-hover:text-brand">
+                      <h3 className="font-display text-lg font-bold tracking-tight group-hover:text-brand sm:text-xl">
                         {c.name}
                       </h3>
-                      <span className="border-2 border-foreground px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide">
+                      <span
+                        className={cn(
+                          "border-2 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide",
+                          statusTone[c.status] ?? statusTone.Idea,
+                        )}
+                      >
                         {c.status}
                       </span>
+                      <span className="text-xs text-muted-foreground">{c.kind}</span>
                     </div>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {c.kind} · since {c.since}
-                    </p>
-                    <p className="mt-2 max-w-xl text-sm leading-relaxed">{c.blurb}</p>
+                    <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-muted-foreground">{c.blurb}</p>
                   </div>
-                  {"url" in c && c.url ? (
+                  {hasUrl ? (
                     <ArrowUpRight className="col-start-2 size-5 text-muted-foreground transition-ui group-hover:text-brand sm:col-start-3" />
                   ) : (
                     <span className="col-start-2 hidden sm:col-start-3 sm:block" />
@@ -122,8 +148,8 @@ export default async function HomePage() {
               );
               return (
                 <li key={c.name}>
-                  {"url" in c && c.url ? (
-                    <a href={c.url} target="_blank" rel="noopener noreferrer" className="block">
+                  {hasUrl ? (
+                    <a href={(c as { url: string }).url} target="_blank" rel="noopener noreferrer" className="block">
                       {Row}
                     </a>
                   ) : (
@@ -141,12 +167,8 @@ export default async function HomePage() {
         <Container className="py-16 md:py-24">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                Writing
-              </p>
-              <h2 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                Thinking out loud
-              </h2>
+              <Eyebrow label="Writing" />
+              <h2 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl">Thinking out loud</h2>
             </div>
             <Link
               href="/blog"
@@ -169,9 +191,7 @@ export default async function HomePage() {
                         {p.title}
                       </span>
                       {p.excerpt && (
-                        <span className="mt-1 line-clamp-1 block text-sm text-muted-foreground">
-                          {p.excerpt}
-                        </span>
+                        <span className="mt-1 line-clamp-1 block text-sm text-muted-foreground">{p.excerpt}</span>
                       )}
                     </span>
                     <span className="shrink-0 text-xs text-muted-foreground">{fmtDate(p.date)}</span>
@@ -191,14 +211,83 @@ export default async function HomePage() {
         </Container>
       </Section>
 
+      {/* ───────────── Watch (YouTube) ───────────── */}
+      <Section bleed className="border-b-2 border-foreground">
+        <Container className="py-16 md:py-24">
+          <Eyebrow label="Watch" />
+          <div className="mt-6 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+            <h2 className="max-w-xl font-display text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
+              Build logs, teardowns and the occasional rant — on YouTube.
+            </h2>
+            <a
+              href={site.youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex shrink-0 items-center gap-2 border-2 border-foreground px-4 py-2.5 font-display text-sm font-semibold shadow-[3px_3px_0_0_var(--foreground)] transition-ui hover:bg-brand hover:text-brand-foreground"
+            >
+              <Play className="size-4 fill-current" />
+              Watch on YouTube
+            </a>
+          </div>
+        </Container>
+      </Section>
+
+      {/* ───────────── GitHub activity (only when handle set) ───────────── */}
+      {site.github ? (
+        <Section bleed className="border-b-2 border-foreground bg-card">
+          <Container className="py-16 md:py-24">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <Eyebrow label="In the open" />
+                <h2 className="mt-2 font-display text-2xl font-bold tracking-tight sm:text-3xl">Shipping, publicly</h2>
+              </div>
+              <a
+                href={`https://github.com/${site.github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden shrink-0 items-center gap-1 text-sm font-medium transition-ui hover:text-brand sm:inline-flex"
+              >
+                @{site.github} <ArrowUpRight className="size-4" />
+              </a>
+            </div>
+            <div className="mt-8 overflow-x-auto border-2 border-foreground p-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`https://ghchart.rshah.org/ff4800/${site.github}`}
+                alt={`GitHub contribution graph for ${site.github}`}
+                className="min-w-[640px] dark:invert dark:hue-rotate-180"
+              />
+            </div>
+          </Container>
+        </Section>
+      ) : null}
+
+      {/* ───────────── Newsletter ───────────── */}
+      <Section bleed className="border-b-2 border-foreground">
+        <Container className="py-16 md:py-24">
+          <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:items-center">
+            <div>
+              <Eyebrow label="Newsletter" />
+              <h2 className="mt-2 max-w-md font-display text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
+                One idea on building and marketing, every week.
+              </h2>
+              <p className="mt-3 max-w-md text-muted-foreground">
+                No noise, no fluff — just the one thing worth your attention. Unsubscribe anytime.
+              </p>
+            </div>
+            <div className="border-2 border-foreground p-5 shadow-[4px_4px_0_0_var(--foreground)]">
+              <NewsletterForm variant="block" />
+            </div>
+          </div>
+        </Container>
+      </Section>
+
       {/* ───────────── Now / About ───────────── */}
       <Section bleed>
         <Container className="py-16 md:py-24">
           <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
             <div>
-              <p className="font-display text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                The short version
-              </p>
+              <Eyebrow label="The short version" />
               <p className="mt-4 max-w-2xl text-balance font-display text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
                 {site.tagline}
               </p>

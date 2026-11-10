@@ -19,9 +19,18 @@ export const site = {
   bookingUrl: "https://bookasloth.com/sndatarkar",
   spotifyUrl: "https://open.spotify.com/playlist/1p5XuC8FEI1iYrBRZIxVSW",
   youtubeUrl: "https://www.youtube.com/@sndatarkar",
+  // GitHub username for the activity graph. Empty → module hidden. [CONFIRM]
+  github: "",
 } as const;
 
 export const companies = [
+  {
+    name: "Meeticulous",
+    kind: "AI Appointment Booking · Building",
+    since: "2026",
+    status: "Building",
+    blurb: "AI-powered appointment booking — scheduling that books itself.",
+  },
   {
     name: "The Bogus Company",
     kind: "Creative & Ads Studio",
@@ -45,7 +54,54 @@ export const companies = [
     blurb: "Internet products that compound while you sleep.",
     url: "https://timewheel.co.in",
   },
+  // ── DRAFT entries below (from the reference PDF). Statuses/URLs are
+  // placeholders for Shubham to confirm/correct. Not verified public metrics. ──
+  {
+    name: "SERP Sutra",
+    kind: "SEO & Search Tooling",
+    since: "2025",
+    status: "Idea",
+    blurb: "Search-marketing tooling — the craft of ranking, productised.",
+  },
+  {
+    name: "The Parliament",
+    kind: "Community / Platform",
+    since: "2025",
+    status: "Idea",
+    blurb: "A room where builders and founders actually talk.",
+  },
+  {
+    name: "Marketing Bug",
+    kind: "Newsletter / Content",
+    since: "2025",
+    status: "Idea",
+    blurb: "The marketing ideas worth catching, once a week.",
+  },
+  {
+    name: "WhatsLoom",
+    kind: "WhatsApp Engagement",
+    since: "2025",
+    status: "Idea",
+    blurb: "Turn WhatsApp into a customer engine, not a chaos inbox.",
+  },
+  {
+    name: "The Kalamwala",
+    kind: "Writing Identity",
+    since: "2021",
+    status: "Active",
+    blurb: "The pen name behind the copy, the essays, and the puns.",
+  },
 ] as const;
+
+// Status → chip tone. Keep the vocabulary small and honest.
+export const statusTone: Record<string, string> = {
+  Live: "border-success text-success",
+  Active: "border-foreground text-foreground",
+  Building: "border-brand text-brand",
+  Idea: "border-border text-muted-foreground",
+  Sold: "border-border text-muted-foreground line-through",
+  Paused: "border-border text-muted-foreground",
+};
 
 export type NavItem = {
   label: string;
