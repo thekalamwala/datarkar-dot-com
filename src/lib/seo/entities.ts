@@ -1,0 +1,200 @@
+import { site, sameAs } from "@/lib/site";
+
+/**
+ * Stable `@id` URIs for the site's core entities.
+ *
+ * Before this existed, `personSchema()` inlined a full Person node on all ~100
+ * pages, and `articleSchema`/`serviceSchema` each inlined another
+ * copy. Search engines saw ~100 unlinked Person entities instead of one entity
+ * referenced ~100 times. Every schema now references these IDs, and the full
+ * nodes are emitted exactly once each — the Person + WebSite in the root layout,
+ * the Organizations on /about.
+ */
+export const PERSON_ID = `${site.url}/#person`;
+export const WEBSITE_ID = `${site.url}/#website`;
+
+export const ORG_IDS = {
+  timewheel: `${site.url}/#org-timewheel`,
+  bogus: `${site.url}/#org-bogus`,
+  bookASloth: `${site.url}/#org-bookasloth`,
+  greyHawks: `${site.url}/#org-greyhawks`,
+} as const;
+
+/** A bare reference to the Person, for use as author / provider / itemReviewed. */
+export const personRef = { "@id": PERSON_ID } as const;
+
+/**
+ * The canonical Person node. Emitted once per page inside the root layout's
+ * `@graph`; everything else references {@link PERSON_ID}.
+ */
+export function personNode() {
+  return {
+    "@type": "Person",
+    "@id": PERSON_ID,
+    name: site.name,
+    alternateName: [site.alias, "Shubham N Datarkar"],
+    url: site.url,
+    email: `mailto:${site.email}`,
+    description: site.description,
+    jobTitle: [
+      "Founder & CEO, Timewheel Internet",
+      "Digital Marketer",
+      "SEO Consultant",
+      "AI Marketing Strategist",
+      "Copywriter",
+      "Founder",
+      "Full Stack Developer",
+    ],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Nagpur",
+      addressRegion: "Maharashtra",
+      addressCountry: "IN",
+    },
+    sameAs,
+    knowsAbout: [
+      "Digital Marketing",
+      "Search Engine Optimization",
+      "Technical SEO",
+      "On-page SEO",
+      "Off-page SEO",
+      "Local SEO",
+      "Programmatic SEO",
+      "Semantic SEO",
+      "Content SEO",
+      "Generative Engine Optimization",
+      "Answer Engine Optimization",
+      "Topical Authority",
+      "Internal Linking",
+      "Content Marketing",
+      "Copywriting",
+      "Conversion Copywriting",
+      "Email Marketing",
+      "Performance Marketing",
+      "Google Ads",
+      "Meta Ads",
+      "Growth Marketing",
+      "Marketing Automation",
+      "AI Workflows",
+      "AI Agents",
+      "AI for Marketing",
+      "SaaS Strategy",
+      "Product Marketing",
+      "MVP Development",
+      "Branding",
+      "Entrepreneurship",
+      "Next.js",
+      "React",
+      "Supabase",
+      "PostgreSQL",
+      "Node.js",
+    ],
+    worksFor: [
+      { "@id": ORG_IDS.timewheel },
+      { "@id": ORG_IDS.bogus },
+      { "@id": ORG_IDS.bookASloth },
+      { "@id": ORG_IDS.greyHawks },
+    ],
+    // No `aggregateRating` / `review` anywhere on the Person: Google review
+    // snippets reject Person as a rating parent or `itemReviewed` (GSC "Invalid
+    // object type"), and self-testimonials are self-serving reviews anyway.
+  };
+}
+
+/** The WebSite node. Emitted once per page inside the root layout's `@graph`. */
+export function websiteNode() {
+  return {
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    name: site.name,
+    alternateName: site.alias,
+    url: site.url,
+    publisher: { "@id": PERSON_ID },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${site.url}/search?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+}
+
+/**
+ * Site-wide JSON-LD: the Person, the WebSite, AND the four Organizations the
+ * Person `worksFor`, in one `@graph`. Emitted once, in the root layout, so
+ * every page carries the canonical entities — and so the `worksFor` references
+ * on `personNode()` resolve on every page, not only on /about (where the org
+ * nodes used to live alone, leaving the refs dangling everywhere else).
+ */
+export function siteGraph() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [personNode(), websiteNode(), ...orgNodes()],
+  };
+}
+
+/**
+ * The Organizations the Person is behind, each linked back to {@link PERSON_ID}.
+ * Focus areas and roles come from the founder brief; the three with a `since`
+ * are in `site.companies`, Grey Hawks is a co-founding role without a dedicated
+ * page. Now emitted globally via {@link siteGraph}; /about no longer re-emits.
+ */
+function orgNodes() {
+  return [
+    {
+        "@type": "Organization",
+        "@id": ORG_IDS.timewheel,
+        name: "Timewheel Internet",
+        legalName: "Timewheel Internet Pvt Ltd",
+        url: "https://timewheel.co.in",
+        description:
+          "Nagpur's top digital marketing, advertising and SaaS development company and agency, founded and led by Shubham Datarkar (Founder & CEO).",
+        founder: personRef,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Nagpur",
+          addressRegion: "Maharashtra",
+          addressCountry: "IN",
+        },
+        areaServed: ["Nagpur", "India"],
+        knowsAbout: [
+          "Digital Marketing",
+          "Advertising",
+          "SaaS Development",
+          "Search Engine Optimization",
+          "Performance Marketing",
+          "Internet Products",
+        ],
+      },
+      {
+        "@type": "Organization",
+        "@id": ORG_IDS.bogus,
+        name: "The Bogus Company",
+        description: "Creative and advertising studio — branding, copywriting, and campaigns.",
+        founder: personRef,
+        knowsAbout: ["Advertising", "Branding", "Copywriting", "Creative Strategy"],
+      },
+      {
+        "@type": "Organization",
+        "@id": ORG_IDS.bookASloth,
+        name: "Book A Sloth",
+        // Each org with a live public site carries its real url so the node is
+        // independently resolvable. The Bogus Company and Grey Hawks have no
+        // public site yet — omitted rather than fabricated.
+        url: "https://bookasloth.com",
+        description: "Booking and scheduling SaaS. Shubham Datarkar is CMO.",
+        employee: personRef,
+        knowsAbout: ["Booking Software", "Scheduling", "Business Automation"],
+      },
+      {
+        "@type": "Organization",
+        "@id": ORG_IDS.greyHawks,
+        name: "Grey Hawks Media",
+        description: "Performance marketing agency — SEO, paid media, and content.",
+        founder: personRef,
+        knowsAbout: ["Performance Marketing", "SEO", "Content Marketing", "Digital Strategy"],
+      },
+  ];
+}

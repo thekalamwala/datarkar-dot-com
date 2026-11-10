@@ -1,0 +1,29 @@
+import { buildMetadata } from "@/lib/seo";
+import { requireMember } from "@/lib/members/session";
+import { getMyDownloads } from "@/lib/members/member-queries";
+import { ResourceGrid } from "@/components/members/resource-grid";
+
+export const metadata = buildMetadata({ title: "Downloads", path: "/members/downloads", noIndex: true });
+
+export default async function DownloadsPage() {
+  const { capabilities, user } = await requireMember("/members/downloads");
+  const resources = await getMyDownloads(user!.id);
+
+  return (
+    <div className="space-y-6">
+      <header>
+        <h1 className="font-display text-2xl font-bold tracking-tight">Downloads</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Files you have downloaded — grab the latest versions anytime.
+        </p>
+      </header>
+
+      <ResourceGrid
+        resources={resources}
+        capabilities={capabilities}
+        emptyTitle="No downloads yet"
+        emptyDescription="Download any file resource and it will be listed here."
+      />
+    </div>
+  );
+}

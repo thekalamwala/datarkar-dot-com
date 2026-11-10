@@ -1,0 +1,44 @@
+import { buildMetadata } from "@/lib/seo";
+import { UpdateCard } from "@/components/support/update-card";
+import { getUpdatesFeed } from "@/lib/support/updates";
+
+export const dynamic = "force-dynamic";
+
+export const metadata = buildMetadata({
+  title: "What I'm Shipping Now",
+  description: "What I'm building, writing, and shipping — straight from the desk, newest first. Follow along as products, essays, and experiments ship.",
+  ogTitle: "What I'm building, writing, and shipping",
+  ogDescription: "Straight from the desk, newest first. Follow along as products, essays, and experiments ship.",
+  path: "/support/updates",
+});
+
+export default async function UpdatesPage() {
+  const updates = await getUpdatesFeed();
+
+  if (!updates.length) {
+    return (
+      <div className="rounded-card border border-border bg-card p-10 text-center">
+        <h2 className="font-display text-lg font-bold tracking-tight">No updates yet</h2>
+        <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
+          Check back soon — or support to follow along as things ship.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div>
+        <h2 className="font-display text-2xl font-bold tracking-tight">Updates</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          What I&apos;m building, writing, and shipping — newest first.
+        </p>
+      </div>
+      <div className="mt-5 grid gap-4">
+        {updates.map((u) => (
+          <UpdateCard key={u.code} update={u} />
+        ))}
+      </div>
+    </div>
+  );
+}

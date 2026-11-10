@@ -1,0 +1,185 @@
+/**
+ * Single source of truth for site-wide identity, navigation, and contact.
+ * Swap these values (or back them with a CMS) without touching components.
+ */
+
+export const site = {
+  name: "Shubham Datarkar",
+  alias: "The Kalamwala",
+  shortName: "SD",
+  role: "Founder · Marketer · Copywriter",
+  domain: "shubhamdatarkar.com",
+  url: "https://shubhamdatarkar.com",
+  email: "hello@shubhamdatarkar.com",
+  location: "Nagpur, India",
+  tagline: "Build what you market. Market what you build.",
+  description:
+    "Shubham Datarkar (The Kalamwala) is Founder & CEO of Timewheel Internet, Nagpur's top digital marketing, advertising and SaaS development company. Copywriter, marketer, and builder behind The Bogus Company, and CMO at Book A Sloth.",
+  // External booking software — Book A Sloth, his own scheduling product.
+  bookingUrl: "https://bookasloth.com/sndatarkar",
+  spotifyUrl: "https://open.spotify.com/playlist/1p5XuC8FEI1iYrBRZIxVSW",
+  youtubeUrl: "https://www.youtube.com/@sndatarkar",
+} as const;
+
+export const companies = [
+  {
+    name: "The Bogus Company",
+    kind: "Creative & Ads Studio",
+    since: "2021",
+    status: "Active",
+    blurb: "Where ideas dress up as ads and refuse to be ignored.",
+  },
+  {
+    name: "Book A Sloth",
+    kind: "Booking SaaS · CMO",
+    since: "2026",
+    status: "Building",
+    blurb: "Replacing “appointment milega kya?” with “Booked.” India's calmest booking platform.",
+    url: "https://bookasloth.com",
+  },
+  {
+    name: "Timewheel Internet",
+    kind: "Internet & SaaS Studio · Founder",
+    since: "2025",
+    status: "Building",
+    blurb: "Internet products that compound while you sleep.",
+    url: "https://timewheel.co.in",
+  },
+] as const;
+
+export type NavItem = {
+  label: string;
+  href: string;
+  description?: string;
+};
+
+export type NavGroup = {
+  label: string;
+  items: NavItem[];
+};
+
+// Dual-brain navigation. The header shows two entry points: a left burger
+// (Growth & Systems — the analytical, business-of-building side) and a right
+// kebab (Ideas & Play — the creative, human side). Each opens a themed drawer;
+// a toggle inside flips between the two on any screen size.
+export const leftBrain: NavGroup[] = [
+  {
+    label: "Services",
+    items: [
+      { label: "All Services", href: "/services", description: "How I can help" },
+      { label: "SEO & Organic Growth", href: "/services/seo", description: "Compounding traffic systems" },
+      { label: "Performance Marketing", href: "/services/performance", description: "Paid that pays back" },
+      { label: "AI Automation", href: "/services/ai-workflows", description: "Leverage at every layer" },
+    ],
+  },
+  {
+    label: "Proof",
+    items: [
+      { label: "Work", href: "/work", description: "Everything I've shipped" },
+      { label: "Case Studies", href: "/case-studies", description: "Real outcomes, real numbers" },
+      { label: "Companies", href: "/about#companies", description: "Three operating businesses" },
+      { label: "Testimonials", href: "/testimonials", description: "What clients say" },
+    ],
+  },
+  {
+    label: "Products",
+    items: [
+      { label: "Products", href: "/products", description: "Timewheel SaaS" },
+      { label: "Free Tools", href: "/tools", description: "Use them, no signup" },
+      { label: "Components", href: "/components", description: "The design system" },
+      { label: "Changelog", href: "/changelog", description: "What changed, and when" },
+    ],
+  },
+];
+
+export const rightBrain: NavGroup[] = [
+  {
+    label: "Content",
+    items: [
+      { label: "Blog", href: "/blog", description: "Essays, playbooks, teardowns" },
+      { label: "Newsletter", href: "/newsletter", description: "One signal every Tuesday" },
+      { label: "Resources", href: "/resources", description: "Frameworks & templates" },
+    ],
+  },
+  {
+    label: "Community & Play",
+    items: [
+      { label: "Community", href: "/community", description: "Build-in-public feed" },
+      { label: "Movies", href: "/movies", description: "Films I recommend" },
+      { label: "Games", href: "/games", description: "Daily word puzzles" },
+      { label: "AI Experiments", href: "/ai-experiments", description: "The lab" },
+    ],
+  },
+  {
+    label: "Story",
+    items: [
+      { label: "About", href: "/about", description: "The operating system behind me" },
+      { label: "My Story", href: "/my-story", description: "How I got here" },
+      { label: "Speaking", href: "/speaking", description: "Talks & workshops" },
+    ],
+  },
+];
+
+export const footerNav: NavGroup[] = [
+  {
+    label: "Explore",
+    items: [
+      { label: "Home", href: "/" },
+      { label: "Me", href: "/me" },
+      { label: "About", href: "/about" },
+      { label: "My Story", href: "/my-story" },
+      { label: "Now", href: "/now" },
+      { label: "Uses", href: "/uses" },
+      { label: "Roadmap", href: "/roadmap" },
+    ],
+  },
+  {
+    label: "Work",
+    items: [
+      { label: "Projects", href: "/work" },
+      { label: "Case Studies", href: "/case-studies" },
+      { label: "Services", href: "/services" },
+      { label: "Testimonials", href: "/testimonials" },
+      { label: "Speaking", href: "/speaking" },
+    ],
+  },
+  {
+    label: "Content",
+    items: [
+      { label: "Blog", href: "/blog" },
+      { label: "Newsletter", href: "/newsletter" },
+      { label: "Resources", href: "/resources" },
+      { label: "Tools", href: "/tools" },
+      { label: "Products", href: "/products" },
+      { label: "Movies", href: "/movies" },
+      { label: "Games", href: "/games" },
+    ],
+  },
+  {
+    label: "More",
+    items: [
+      { label: "Support", href: "/support" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Media Kit", href: "/media-kit" },
+      { label: "Changelog", href: "/changelog" },
+      { label: "Contact", href: "/contact" },
+      { label: "Components", href: "/components" },
+    ],
+  },
+];
+
+export type SocialLink = { label: string; href: string; handle: string };
+
+export const socials: SocialLink[] = [
+  { label: "X / Twitter", href: "https://x.com/sndatarkar", handle: "@sndatarkar" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/sndatarkar", handle: "in/sndatarkar" },
+  { label: "YouTube", href: "https://www.youtube.com/@sndatarkar", handle: "@sndatarkar" },
+  { label: "Instagram", href: "https://www.instagram.com/sndatarkar", handle: "@sndatarkar" },
+  { label: "Book A Sloth", href: site.bookingUrl, handle: "@sndatarkar" },
+];
+
+// sameAs feeds JSON-LD social-profile links — keep it to real identity
+// profiles, not the Book A Sloth booking page.
+export const sameAs = socials
+  .filter((s) => s.label !== "Book A Sloth")
+  .map((s) => s.href);

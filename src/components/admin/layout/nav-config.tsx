@@ -1,0 +1,145 @@
+import {
+  LayoutDashboard, FileText, Megaphone, Layers, FolderGit2, Package, Wrench,
+  Quote, Users, Mail, CreditCard, Share2, Link2, Plug, Gamepad2, Search,
+  Library, Tags, MessageSquarePlus, Bell, BarChart3, MessagesSquare,
+  Contact, Send, Inbox, Coins, Hammer, Gem, Images, Clapperboard, Film, ListMusic, BookMarked, BookOpen, CalendarCheck, type LucideIcon,
+} from "lucide-react";
+import { ENTITY_LIST } from "@/lib/content/registry";
+
+export type AdminNavItem = { label: string; href: string; icon: LucideIcon };
+export type AdminNavGroup = { heading: string; icon: LucideIcon; items: AdminNavItem[] };
+
+const ENTITY_ICONS: Record<string, LucideIcon> = {
+  "case-studies": Layers,
+  projects: FolderGit2,
+  products: Package,
+  services: Wrench,
+  testimonials: Quote,
+};
+
+const contentEntityItems: AdminNavItem[] = ENTITY_LIST.map((e) => ({
+  label: e.label,
+  href: `/admin/content/${e.key}`,
+  icon: ENTITY_ICONS[e.key] ?? Layers,
+}));
+
+export const ADMIN_NAV: AdminNavGroup[] = [
+  { heading: "Overview", icon: LayoutDashboard, items: [{ label: "Dashboard", href: "/admin", icon: LayoutDashboard }] },
+  {
+    heading: "Content",
+    icon: FileText,
+    items: [
+      { label: "Posts", href: "/admin/posts", icon: FileText },
+      { label: "Updates", href: "/admin/updates", icon: Megaphone },
+      { label: "Gallery", href: "/admin/gallery", icon: Images },
+      { label: "Movies", href: "/admin/movies", icon: Clapperboard },
+      { label: "Collections", href: "/admin/collections", icon: Film },
+      { label: "Playlists", href: "/admin/playlists", icon: ListMusic },
+      { label: "Books", href: "/admin/books", icon: BookMarked },
+      { label: "Shelves", href: "/admin/books/shelves", icon: BookOpen },
+      ...contentEntityItems,
+    ],
+  },
+  {
+    heading: "Library",
+    icon: Library,
+    items: [
+      { label: "Resources", href: "/admin/resources", icon: Library },
+      { label: "Taxonomy", href: "/admin/resources/taxonomy", icon: Tags },
+      { label: "Tools", href: "/admin/resources/tools", icon: Hammer },
+    ],
+  },
+  {
+    heading: "Audience",
+    icon: Users,
+    items: [
+      { label: "People", href: "/admin/people", icon: Contact },
+      { label: "Plans", href: "/admin/plans", icon: Gem },
+      { label: "Subscribers", href: "/admin/subscribers", icon: Users },
+      { label: "Contacts", href: "/admin/contacts", icon: Mail },
+      { label: "Bookings", href: "/admin/bookings", icon: CalendarCheck },
+      { label: "Broadcast", href: "/admin/broadcast", icon: Send },
+      { label: "Email Inbox", href: "/admin/inbox", icon: Inbox },
+      { label: "Analytics", href: "/admin/members/analytics", icon: BarChart3 },
+    ],
+  },
+  {
+    heading: "Community",
+    icon: MessagesSquare,
+    items: [
+      { label: "Community", href: "/admin/community", icon: MessagesSquare },
+      { label: "Announcements", href: "/admin/announcements", icon: Bell },
+      { label: "Requests", href: "/admin/requests", icon: MessageSquarePlus },
+    ],
+  },
+  {
+    heading: "Commerce",
+    icon: CreditCard,
+    items: [
+      { label: "Payments", href: "/admin/payments", icon: CreditCard },
+      { label: "Affiliate", href: "/admin/affiliate", icon: Share2 },
+    ],
+  },
+  {
+    heading: "Distribution",
+    icon: Share2,
+    items: [
+      { label: "Links", href: "/admin/links", icon: Link2 },
+      { label: "Games", href: "/admin/games", icon: Gamepad2 },
+      { label: "Integrations", href: "/admin/integrations", icon: Plug },
+    ],
+  },
+  {
+    heading: "SEO",
+    icon: Search,
+    items: [
+      { label: "SEO Overview", href: "/admin/seo", icon: Search },
+      { label: "Pages", href: "/admin/seo/pages", icon: FileText },
+      { label: "KalamAI Usage", href: "/admin/kalamai", icon: Coins },
+    ],
+  },
+];
+
+const ALL_ITEMS: AdminNavItem[] = ADMIN_NAV.flatMap((g) => g.items);
+
+/** The section (group) the current route lives in: the group owning the
+ *  deepest item that matches `pathname`. Unknown routes fall back to the
+ *  first group so the rail + panel always have an active section. */
+export function resolveActiveGroup(pathname: string): AdminNavGroup {
+  let best: { group: AdminNavGroup; len: number } | null = null;
+  for (const group of ADMIN_NAV) {
+    for (const item of group.items) {
+      if (isNavItemActive(pathname, item.href) && (!best || item.href.length > best.len)) {
+        best = { group, len: item.href.length };
+      }
+    }
+  }
+  return best?.group ?? ADMIN_NAV[0];
+}
+
+/** /admin matches only exactly; every other item matches itself + descendants. */
+export function isNavItemActive(pathname: string, href: string): boolean {
+  if (href === "/admin") return pathname === "/admin";
+  return pathname === href || pathname.startsWith(href + "/");
+}
+
+/** Breadcrumb trail: always Dashboard first, then the deepest matching nav
+ *  item, then a New/Edit leaf for create/detail routes. */
+export function resolveBreadcrumbs(pathname: string): { label: string; href: string }[] {
+  const crumbs: { label: string; href: string }[] = [{ label: "Dashboard", href: "/admin" }];
+  if (pathname === "/admin") return crumbs;
+
+  // Deepest non-Dashboard nav item that this path falls under.
+  const section = ALL_ITEMS
+    .filter((i) => i.href !== "/admin" && isNavItemActive(pathname, i.href))
+    .sort((a, b) => b.href.length - a.href.length)[0];
+  if (section) crumbs.push({ label: section.label, href: section.href });
+
+  if (pathname.endsWith("/new")) {
+    crumbs.push({ label: "New", href: pathname });
+  } else if (section && pathname !== section.href) {
+    // A deeper segment remains (e.g. an entity/post row id) → detail edit.
+    crumbs.push({ label: "Edit", href: pathname });
+  }
+  return crumbs;
+}
