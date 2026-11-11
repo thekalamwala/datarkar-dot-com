@@ -52,7 +52,7 @@ export default async function HomePage() {
         <Container className="py-14 md:py-20">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-16">
             {/* Profile */}
-            <div className="lg:sticky lg:top-24 lg:self-start">
+            <div className="lg:sticky lg:top-36 lg:self-start">
               <Reveal>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -133,7 +133,7 @@ export default async function HomePage() {
                             alt={c.name}
                             fill
                             sizes="(max-width: 1024px) 50vw, 420px"
-                            className={image.endsWith(".svg") ? "object-contain p-10" : "object-cover object-top"}
+                            className={/logo|\.svg$/.test(image) ? "object-contain p-10" : "object-cover object-top"}
                           />
                         ) : (
                           <span className={cn("absolute inset-0 grid place-items-center font-display text-5xl font-extrabold", accent.text)}>{initial}</span>
@@ -196,20 +196,18 @@ export default async function HomePage() {
       ) : null}
 
       {/* ───────────── Newsletter ───────────── */}
-      <Section bleed className="border-b border-border bg-card">
-        <Container className="py-16 md:py-24">
-          <div className="grid gap-8 rounded-3xl border border-border bg-background p-8 shadow-sm md:grid-cols-[1fr_1fr] md:items-center md:p-10">
+      <Section bleed className="border-b border-border">
+        <Container className="py-10 md:py-12">
+          <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center md:gap-10">
             <div>
-              <h2 className="max-w-md font-display text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
+              <h2 className="max-w-md font-display text-xl font-bold leading-snug tracking-tight sm:text-2xl">
                 One idea on building and marketing, every week.
               </h2>
-              <p className="mt-3 max-w-md text-muted-foreground">
+              <p className="mt-2 max-w-md text-sm text-muted-foreground">
                 No noise, no fluff — just the one thing worth your attention. Unsubscribe anytime.
               </p>
             </div>
-            <div>
-              <NewsletterForm variant="block" />
-            </div>
+            <NewsletterForm variant="inline" className="w-full md:w-80" />
           </div>
         </Container>
       </Section>

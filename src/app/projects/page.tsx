@@ -60,7 +60,7 @@ function VentureCard({ c }: { c: Company }) {
             alt={c.name}
             fill
             sizes="(max-width: 1024px) 50vw, 360px"
-            className={image.endsWith(".svg") ? "object-contain p-10" : "object-cover object-top"}
+            className={/logo|\.svg$/.test(image) ? "object-contain p-10" : "object-cover object-top"}
           />
         ) : (
           <span className={cn("absolute inset-0 grid place-items-center font-display text-5xl font-extrabold", accent.text)}>{initial}</span>

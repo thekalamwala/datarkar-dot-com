@@ -36,7 +36,7 @@ export const companies = [
   },
   {
     name: "Meeticulous",
-    image: "/ventures/meeticulous2.png",
+    image: "/ventures/meeticulous2.webp",
     kind: "Booking SaaS",
     since: "2026",
     status: "Building",
@@ -44,7 +44,7 @@ export const companies = [
   },
   {
     name: "Alluminaty",
-    image: "/ventures/alluminaty2.png",
+    image: "/ventures/alluminaty2.webp",
     kind: "Alumni Management",
     since: "2025",
     status: "Live",
@@ -52,7 +52,7 @@ export const companies = [
   },
   {
     name: "Coffee and Toffee",
-    image: "/ventures/coffee-toffee.png",
+    image: "/ventures/coffee-toffee.webp",
     kind: "Tips & Donations",
     since: "2025",
     status: "Live",
@@ -60,7 +60,7 @@ export const companies = [
   },
   {
     name: "Ticket Dino",
-    image: "/ventures/ticket-dino.png",
+    image: "/ventures/ticket-dino.webp",
     kind: "Events & Ticketing",
     since: "2025",
     status: "Live",
@@ -68,6 +68,7 @@ export const companies = [
   },
   {
     name: "Book A Sloth",
+    image: "/ventures/booksloth-logo.png",
     kind: "Booking SaaS · CMO",
     since: "2026",
     status: "Building",
