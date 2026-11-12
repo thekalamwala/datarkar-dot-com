@@ -5,7 +5,7 @@ import { Link2, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /** Share buttons for a blog post — open in a new tab; copy-link gives feedback. */
-export function ShareBar({ url, title, className }: { url: string; title: string; className?: string }) {
+export function ShareBar({ url, title, className, vertical = false }: { url: string; title: string; className?: string; vertical?: boolean }) {
   const [copied, setCopied] = React.useState(false);
   const e = encodeURIComponent;
 
@@ -41,7 +41,7 @@ export function ShareBar({ url, title, className }: { url: string; title: string
     "grid size-9 place-items-center rounded-full border border-border text-foreground transition-ui hover:bg-accent hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
   return (
-    <div className={cn("flex items-center gap-1.5", className)}>
+    <div className={cn("flex gap-1.5", vertical ? "flex-col items-center" : "items-center", className)}>
       {links.map((l) => (
         <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer" aria-label={l.label} className={btn}>
           {l.icon}

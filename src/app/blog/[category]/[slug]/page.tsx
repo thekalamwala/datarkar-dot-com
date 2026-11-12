@@ -10,12 +10,12 @@ import { buildExternalIndex } from "@/lib/blog/external-links";
 import type { Post } from "@/lib/data/types";
 import { Container, Section } from "@/components/layout/container";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
-import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ArticleBody } from "@/components/content/article-body";
 import { getAffiliateDomains } from "@/lib/content/affiliate-queries";
 import { ReadingProgress } from "@/components/content/reading-progress";
 import { PostFooter } from "@/components/blog/post-footer";
+import { ShareBar } from "@/components/blog/share-bar";
 import { JsonLd } from "@/components/seo/json-ld";
 import { formatDate, readingTime } from "@/lib/utils";
 
@@ -95,7 +95,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ catego
         ]}
       />
 
-      <Section bleed className="border-b border-border">
+      {/* Editorial header — kicker, title, lead, author */}
+      <Section bleed className="relative border-b border-border">
+        <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-brand" />
         <Container size="prose" className="py-14 md:py-20">
           <Breadcrumb
             items={[
@@ -105,41 +107,57 @@ export default async function ArticlePage({ params }: { params: Promise<{ catego
             ]}
             className="mb-8"
           />
-          <Badge variant="muted">{cat?.label}</Badge>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold uppercase tracking-[0.14em]">
+            <Link href={`/blog/${post.category}`} className="text-brand transition-ui hover:opacity-80">
+              {cat?.label ?? post.category}
+            </Link>
+            <span className="text-muted-foreground/50" aria-hidden>·</span>
+            <time dateTime={post.date} className="text-muted-foreground">{formatDate(post.date)}</time>
+            <span className="text-muted-foreground/50" aria-hidden>·</span>
+            <span className="text-muted-foreground">{readingTime(post.words)} min read</span>
+          </div>
           <ViewTransition name={`post-title-${post.slug}`}>
-            <h1 className="mt-4 text-balance text-3xl font-extrabold leading-tight tracking-tight md:text-4xl">
+            <h1 className="mt-5 text-balance font-display text-4xl font-extrabold leading-[1.1] tracking-tight md:text-5xl">
               {post.title}
             </h1>
           </ViewTransition>
-          <p className="mt-4 text-lg text-muted-foreground">{post.excerpt}</p>
-          <div className="mt-6 flex items-center gap-3">
-            <Avatar>
-              <AvatarFallback>{author.initials}</AvatarFallback>
-            </Avatar>
-            <div className="text-sm">
-              <Link href="/about" className="font-medium underline-offset-4 hover:underline">
-                {author.name}
-              </Link>
-              <div className="text-muted-foreground">
-                <time dateTime={post.date}>{formatDate(post.date)}</time> · {readingTime(post.words)} min read
+          <p className="mt-5 text-pretty text-xl leading-relaxed text-muted-foreground">{post.excerpt}</p>
+          <div className="mt-8 flex items-center justify-between gap-4 border-t border-border pt-6">
+            <div className="flex items-center gap-3">
+              <Avatar>
+                <AvatarFallback>{author.initials}</AvatarFallback>
+              </Avatar>
+              <div className="text-sm">
+                <Link href="/about" className="font-semibold underline-offset-4 hover:underline">
+                  {author.name}
+                </Link>
+                <div className="text-muted-foreground">{author.role}</div>
+                {post.dateModified &&
+                new Date(post.dateModified).getTime() - new Date(post.date).getTime() > 86_400_000 ? (
+                  <div className="text-xs text-muted-foreground">
+                    Updated <time dateTime={post.dateModified}>{formatDate(post.dateModified)}</time>
+                  </div>
+                ) : null}
               </div>
-              {post.dateModified &&
-              new Date(post.dateModified).getTime() - new Date(post.date).getTime() > 86_400_000 ? (
-                <div className="text-xs text-muted-foreground">
-                  Updated <time dateTime={post.dateModified}>{formatDate(post.dateModified)}</time>
-                </div>
-              ) : null}
             </div>
+            <ShareBar url={`${site.url}/blog/${post.category}/${post.slug}`} title={post.title} className="hidden sm:flex" />
           </div>
         </Container>
       </Section>
 
+      {/* Body — centered prose with a sticky share rail on wide screens */}
       <Section>
-        <Container size="prose">
+        <div className="relative mx-auto w-full max-w-[var(--container-prose)] px-6 md:px-8">
+          <div aria-hidden className="pointer-events-none absolute right-full top-0 hidden h-full pr-8 xl:block">
+            <div className="sticky top-28 flex flex-col items-center gap-2 pointer-events-auto">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Share</span>
+              <ShareBar vertical url={`${site.url}/blog/${post.category}/${post.slug}`} title={post.title} />
+            </div>
+          </div>
           <article>
             <ArticleBody blocks={linkedBody} affiliateDomains={affiliateDomains} relatedPosts={allPublished} />
           </article>
-        </Container>
+        </div>
       </Section>
 
       <PostFooter
