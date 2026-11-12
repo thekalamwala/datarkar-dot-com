@@ -65,14 +65,18 @@ export default function SpeakingPage() {
         <Container>
           <SectionHeading eyebrow="Talk topics" title="What I speak about" />
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-2">
-            {topics.map((t) => (
-              <StaggerItem key={t.title}>
-                <Card className="h-full p-6">
-                  <h3 className="text-lg font-semibold tracking-tight">{t.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.detail}</p>
-                </Card>
-              </StaggerItem>
-            ))}
+            {topics.map((t, i) => {
+              const bar = ["bg-brand", "bg-plum", "bg-green"][i % 3];
+              return (
+                <StaggerItem key={t.title}>
+                  <Card className="relative h-full overflow-hidden p-6 pl-7">
+                    <span className={`absolute inset-y-0 left-0 w-1 ${bar}`} aria-hidden />
+                    <h3 className="text-lg font-semibold tracking-tight">{t.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.detail}</p>
+                  </Card>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         </Container>
       </Section>
@@ -81,14 +85,17 @@ export default function SpeakingPage() {
         <Container>
           <SectionHeading eyebrow="Formats" title="Built to fit your event" />
           <Stagger className="mt-10 grid gap-4 sm:grid-cols-3">
-            {formats.map((f) => (
-              <StaggerItem key={f.name}>
-                <Card className="h-full p-6">
-                  <h3 className="text-base font-semibold">{f.name}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{f.detail}</p>
-                </Card>
-              </StaggerItem>
-            ))}
+            {formats.map((f, i) => {
+              const tone = ["text-brand", "text-plum", "text-green"][i % 3];
+              return (
+                <StaggerItem key={f.name}>
+                  <Card className="h-full p-6">
+                    <h3 className={`font-display text-base font-bold ${tone}`}>{f.name}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">{f.detail}</p>
+                  </Card>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         </Container>
       </Section>

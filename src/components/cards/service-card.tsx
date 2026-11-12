@@ -20,7 +20,7 @@ export function ServiceCard({ service }: { service: Service }) {
         <Link href={`/services/${service.slug}`} className="after:absolute after:inset-0 focus-visible:outline-none">
           Explore service
         </Link>
-        <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+        <ArrowRight className="size-4" />
       </span>
     </Card>
   );

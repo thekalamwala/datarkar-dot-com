@@ -21,7 +21,7 @@ export function PlatformCard({ platform }: { platform: Platform }) {
           >
             <Icon name={platform.icon} className="size-5 text-zinc-900" />
           </span>
-          <ArrowUpRight className="size-4 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5" />
+          <ArrowUpRight className="size-4 text-muted-foreground" />
         </div>
         <div className="mt-5 flex items-center gap-2">
           <h3 className="text-lg font-semibold tracking-tight">{platform.name}</h3>

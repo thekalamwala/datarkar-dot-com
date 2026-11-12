@@ -42,7 +42,7 @@ const GROUPS: { title: string; items: { q: string; a: string }[] }[] = [
     title: "Privacy & data",
     items: [
       { q: "What data do you store?", a: "Only what you submit (contact details, newsletter email) plus aggregate analytics. See the Privacy Policy." },
-      { q: "Can I delete my data?", a: "Yes — email hello@shubhamdatarkar.com and it's removed." },
+      { q: "Can I delete my data?", a: "Yes — email hello@datarkar.com and it's removed." },
     ],
   },
 ];
@@ -59,21 +59,26 @@ export default function HelpPage() {
       <Section>
         <Container size="narrow">
           <div className="flex flex-col gap-10">
-            {GROUPS.map((g) => (
-              <section key={g.title}>
-                <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                  {g.title}
-                </h2>
-                <dl className="mt-4 divide-y divide-border rounded-card border border-border">
-                  {g.items.map((it) => (
-                    <div key={it.q} className="p-4">
-                      <dt className="font-medium">{it.q}</dt>
-                      <dd className="mt-1 text-sm text-muted-foreground">{it.a}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </section>
-            ))}
+            {GROUPS.map((g, i) => {
+              const tone = ["text-brand", "text-plum", "text-green"][i % 3];
+              const bar = ["bg-brand", "bg-plum", "bg-green"][i % 3];
+              return (
+                <section key={g.title}>
+                  <h2 className={`font-display text-sm font-bold uppercase tracking-[0.12em] ${tone}`}>
+                    {g.title}
+                  </h2>
+                  <dl className="relative mt-4 divide-y divide-border overflow-hidden rounded-card border border-border">
+                    <span className={`absolute inset-y-0 left-0 w-1 ${bar}`} aria-hidden />
+                    {g.items.map((it) => (
+                      <div key={it.q} className="p-4 pl-5">
+                        <dt className="font-medium">{it.q}</dt>
+                        <dd className="mt-1 text-sm text-muted-foreground">{it.a}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              );
+            })}
 
             <div className="flex flex-wrap items-center gap-3 rounded-card border border-border p-6">
               <p className="text-sm text-muted-foreground">Didn&apos;t find your answer?</p>

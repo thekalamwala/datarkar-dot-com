@@ -123,7 +123,7 @@ async function BlogFeed() {
             <p className="mt-3 flex-1 text-muted-foreground">{lead.excerpt}</p>
             <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium">
               Read article
-              <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              <ArrowRight className="size-4" />
             </span>
           </div>
         </Card>

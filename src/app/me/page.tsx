@@ -41,7 +41,7 @@ export const metadata = buildMetadata({
 
 function ViewAll({ href, label }: { href: string; label: string }) {
   return (
-    <Link href={href} className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-ui hover:gap-2">
+    <Link href={href} className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-ui hover:text-brand">
       {label}
       <ArrowRight className="size-4" />
     </Link>
@@ -129,9 +129,9 @@ export default async function BuildingInPublicPage() {
               <StaggerItem key={c.href}>
                 <Link href={c.href} className="group block h-full">
                   <Card interactive className="flex h-full flex-col p-6">
-                    <h3 className="flex items-center gap-1 text-lg font-semibold tracking-tight">
+                    <h3 className="flex items-center gap-1 text-lg font-semibold tracking-tight transition-ui group-hover:text-brand">
                       {c.label}
-                      <ArrowRight className="size-4 text-muted-foreground transition-ui group-hover:translate-x-0.5" />
+                      <ArrowRight className="size-4 text-muted-foreground" />
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.detail}</p>
                   </Card>
@@ -169,17 +169,20 @@ export default async function BuildingInPublicPage() {
             description="Most marketers can't build. Most builders can't market. The work below is what happens when you refuse to choose."
           />
           <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {capabilities.map((c) => (
-              <StaggerItem key={c.title}>
-                <Card className="flex h-full flex-col p-6">
-                  <div className="flex size-11 items-center justify-center rounded-card bg-muted text-foreground">
-                    <Icon name={c.icon} />
-                  </div>
-                  <h3 className="mt-5 text-lg font-semibold tracking-tight">{c.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.text}</p>
-                </Card>
-              </StaggerItem>
-            ))}
+            {capabilities.map((c, i) => {
+              const tile = ["bg-brand/12 text-brand", "bg-plum/12 text-plum", "bg-green/12 text-green"][i % 3];
+              return (
+                <StaggerItem key={c.title}>
+                  <Card className="flex h-full flex-col p-6">
+                    <div className={`flex size-11 items-center justify-center rounded-card ${tile}`}>
+                      <Icon name={c.icon} />
+                    </div>
+                    <h3 className="mt-5 text-lg font-semibold tracking-tight">{c.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.text}</p>
+                  </Card>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         </Container>
       </Section>

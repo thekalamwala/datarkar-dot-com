@@ -19,10 +19,12 @@ function P({ children }: { children: React.ReactNode }) {
   return <p className="text-[17px] leading-8 text-foreground/90">{children}</p>;
 }
 
-function Pull({ children }: { children: React.ReactNode }) {
+function Pull({ children, tone = "brand" }: { children: React.ReactNode; tone?: "brand" | "plum" | "green" }) {
+  const border = { brand: "border-brand", plum: "border-plum", green: "border-green" }[tone];
+  const text = { brand: "text-brand", plum: "text-plum", green: "text-green" }[tone];
   return (
-    <blockquote className="border-l-2 border-foreground pl-5">
-      <p className="font-display text-xl font-medium leading-snug tracking-tight">{children}</p>
+    <blockquote className={`border-l-4 ${border} pl-5`}>
+      <p className={`font-display text-xl font-medium leading-snug tracking-tight ${text}`}>{children}</p>
     </blockquote>
   );
 }
@@ -71,7 +73,7 @@ export default function MyStoryPage() {
               prepare soil before expecting harvest. You respect cycles. You learn patience.
             </P>
             <P>That experience stayed with me. It reshaped how I see business.</P>
-            <Pull>Growth is not forced. It is designed.</Pull>
+            <Pull tone="plum">Growth is not forced. It is designed.</Pull>
             <P>
               Over time, I stopped asking, &ldquo;How do we promote this?&rdquo; and started asking, &ldquo;How should
               this be built?&rdquo; That shift moved me from services to systems.
@@ -84,7 +86,7 @@ export default function MyStoryPage() {
               Under my pen name, The Kalamwala, I explore ideas through essays and fiction — because writing remains the
               sharpest way I know to clarify thought.
             </P>
-            <Pull>I don&rsquo;t chase trends. I build assets.</Pull>
+            <Pull tone="green">I don&rsquo;t chase trends. I build assets.</Pull>
             <P>Some experiments will scale. Some will fail. Both are useful.</P>
             <P>
               The thread connecting everything — from childhood curiosity to software products — is simple: I am

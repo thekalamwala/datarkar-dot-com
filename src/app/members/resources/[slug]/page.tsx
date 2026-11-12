@@ -156,7 +156,7 @@ export default async function ResourcePage({
               {next.title}
             </div>
           </div>
-          <ArrowRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+          <ArrowRight className="size-4 text-muted-foreground" />
         </Link>
       )}
     </div>

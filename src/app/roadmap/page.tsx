@@ -16,11 +16,16 @@ export const metadata = buildMetadata({
   path: "/roadmap",
 });
 
-const columns: { status: RoadmapItem["status"]; variant: "success" | "default" | "muted" | "outline" }[] = [
-  { status: "Shipped", variant: "success" },
-  { status: "In Progress", variant: "default" },
-  { status: "Planned", variant: "muted" },
-  { status: "Exploring", variant: "outline" },
+const columns: {
+  status: RoadmapItem["status"];
+  variant: "success" | "default" | "muted" | "outline";
+  tone: string;
+  bar: string;
+}[] = [
+  { status: "Shipped", variant: "success", tone: "text-green", bar: "bg-green" },
+  { status: "In Progress", variant: "default", tone: "text-brand", bar: "bg-brand" },
+  { status: "Planned", variant: "muted", tone: "text-plum", bar: "bg-plum" },
+  { status: "Exploring", variant: "outline", tone: "text-muted-foreground", bar: "bg-border" },
 ];
 
 export default function RoadmapPage() {
@@ -40,8 +45,8 @@ export default function RoadmapPage() {
               const items = roadmap.filter((r) => r.status === col.status);
               return (
                 <div key={col.status} className="flex flex-col gap-4">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+                  <div className="flex items-center justify-between border-b-2 border-border pb-2">
+                    <h2 className={`font-display text-sm font-bold uppercase tracking-[0.12em] ${col.tone}`}>
                       {col.status}
                     </h2>
                     <span className="text-xs text-muted-foreground">{items.length}</span>
@@ -49,7 +54,8 @@ export default function RoadmapPage() {
                   <Stagger className="flex flex-col gap-3">
                     {items.map((item) => (
                       <StaggerItem key={item.title}>
-                        <Card className="p-5">
+                        <Card className="relative overflow-hidden p-5 pt-6">
+                          <span className={`absolute inset-x-0 top-0 h-1 ${col.bar}`} aria-hidden />
                           <div className="flex items-center justify-between gap-2">
                             <Badge variant={col.variant}>{col.status}</Badge>
                             <span className="text-xs text-muted-foreground">{item.quarter}</span>

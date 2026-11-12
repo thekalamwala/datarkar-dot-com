@@ -155,7 +155,7 @@ export default async function ToolDetailPage({ params }: { params: Promise<{ slu
         <Container>
           <div className="mb-8 flex items-end justify-between">
             <h2 className="text-2xl font-bold tracking-tight">More tools</h2>
-            <Link href="/tools" className="inline-flex items-center gap-1 text-sm font-medium hover:gap-2">
+            <Link href="/tools" className="inline-flex items-center gap-1 text-sm font-medium">
               All tools <ArrowRight className="size-4" />
             </Link>
           </div>

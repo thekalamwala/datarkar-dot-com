@@ -38,7 +38,7 @@ export function PostCard({ post }: { post: Post }) {
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{post.excerpt}</p>
         <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground">
           Read more
-          <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+          <ArrowUpRight className="size-4" />
         </span>
       </Card>
     </Link>

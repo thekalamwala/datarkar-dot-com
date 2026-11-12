@@ -24,21 +24,26 @@ export default function UsesPage() {
       <Section>
         <Container size="narrow">
           <Stagger className="flex flex-col gap-10">
-            {uses.map((group) => (
-              <StaggerItem key={group.category}>
-                <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-                  {group.category}
-                </h2>
-                <ul className="mt-4 divide-y divide-border rounded-card border border-border">
-                  {group.items.map((item) => (
-                    <li key={item.name} className="flex flex-col gap-1 p-4 sm:flex-row sm:items-baseline sm:gap-4">
-                      <span className="w-48 shrink-0 font-medium">{item.name}</span>
-                      <span className="text-sm text-muted-foreground">{item.note}</span>
-                    </li>
-                  ))}
-                </ul>
-              </StaggerItem>
-            ))}
+            {uses.map((group, i) => {
+              const tone = ["text-brand", "text-plum", "text-green"][i % 3];
+              const bar = ["bg-brand", "bg-plum", "bg-green"][i % 3];
+              return (
+                <StaggerItem key={group.category}>
+                  <h2 className={`font-display text-sm font-bold uppercase tracking-[0.12em] ${tone}`}>
+                    {group.category}
+                  </h2>
+                  <ul className="relative mt-4 divide-y divide-border overflow-hidden rounded-card border border-border">
+                    <span className={`absolute inset-y-0 left-0 w-1 ${bar}`} aria-hidden />
+                    {group.items.map((item) => (
+                      <li key={item.name} className="flex flex-col gap-1 p-4 pl-5 sm:flex-row sm:items-baseline sm:gap-4">
+                        <span className="w-48 shrink-0 font-medium">{item.name}</span>
+                        <span className="text-sm text-muted-foreground">{item.note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         </Container>
       </Section>

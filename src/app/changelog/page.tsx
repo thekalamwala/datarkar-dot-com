@@ -37,32 +37,37 @@ export default function ChangelogPage() {
       <Section>
         <Container size="narrow">
           <Stagger className="flex flex-col gap-10">
-            {changelog.map((entry) => (
-              <StaggerItem key={entry.version}>
-                <article className="grid gap-4 sm:grid-cols-[140px_1fr]">
-                  <div className="flex flex-row items-center gap-3 sm:flex-col sm:items-start">
-                    <time className="text-sm font-medium text-muted-foreground" dateTime={entry.date}>
-                      {formatDate(entry.date)}
-                    </time>
-                    <span className="font-display text-xs font-bold text-muted-foreground/70">{entry.version}</span>
-                  </div>
-                  <div className="rounded-card border border-border bg-card p-6">
-                    <div className="flex items-center gap-3">
-                      <Badge variant={typeVariant[entry.type]}>{entry.type}</Badge>
-                      <h2 className="text-base font-semibold">{entry.title}</h2>
+            {changelog.map((entry, i) => {
+              const tone = ["text-brand", "text-plum", "text-green"][i % 3];
+              const bar = ["bg-brand", "bg-plum", "bg-green"][i % 3];
+              return (
+                <StaggerItem key={entry.version}>
+                  <article className="grid gap-4 sm:grid-cols-[140px_1fr]">
+                    <div className="flex flex-row items-center gap-3 sm:flex-col sm:items-start">
+                      <time className="text-sm font-medium text-muted-foreground" dateTime={entry.date}>
+                        {formatDate(entry.date)}
+                      </time>
+                      <span className={`font-display text-xs font-bold ${tone}`}>{entry.version}</span>
                     </div>
-                    <ul className="mt-4 flex flex-col gap-2">
-                      {entry.notes.map((n) => (
-                        <li key={n} className="flex gap-3 text-sm text-muted-foreground">
-                          <span className="mt-2 size-1 shrink-0 rounded-full bg-foreground/40" aria-hidden />
-                          <span>{n}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              </StaggerItem>
-            ))}
+                    <div className="relative overflow-hidden rounded-card border border-border bg-card p-6 pl-7">
+                      <span className={`absolute inset-y-0 left-0 w-1 ${bar}`} aria-hidden />
+                      <div className="flex items-center gap-3">
+                        <Badge variant={typeVariant[entry.type]}>{entry.type}</Badge>
+                        <h2 className="text-base font-semibold">{entry.title}</h2>
+                      </div>
+                      <ul className="mt-4 flex flex-col gap-2">
+                        {entry.notes.map((n) => (
+                          <li key={n} className="flex gap-3 text-sm text-muted-foreground">
+                            <span className={`mt-1.5 size-1.5 shrink-0 rounded-full ${bar}`} aria-hidden />
+                            <span>{n}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                </StaggerItem>
+              );
+            })}
           </Stagger>
         </Container>
       </Section>

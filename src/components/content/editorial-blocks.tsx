@@ -544,7 +544,7 @@ export function ResourceList({ items }: { items: { title: string; kind: string; 
             {r.kind}
           </Badge>
           <span className="flex-1 text-sm font-medium">{r.title}</span>
-          <ArrowUpRight className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden />
+          <ArrowUpRight className="size-4 text-muted-foreground" aria-hidden />
         </Link>
       ))}
     </div>
