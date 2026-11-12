@@ -28,7 +28,7 @@ export default function PhilosophyPage() {
             {principles.map((p, i) => (
               <StaggerItem key={p.title}>
                 <div className="flex gap-6 border-b border-border py-8 last:border-b-0">
-                  <span className="font-display text-2xl font-extrabold tabular-nums text-muted-foreground/50">
+                  <span className={`font-display text-2xl font-extrabold tabular-nums ${["text-brand", "text-plum", "text-green"][i % 3]}`}>
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
@@ -41,8 +41,8 @@ export default function PhilosophyPage() {
             ))}
           </Stagger>
           <Reveal className="mt-10">
-            <blockquote className="border-l-2 border-foreground pl-5">
-              <p className="font-display text-xl font-medium leading-snug tracking-tight">
+            <blockquote className="border-l-4 border-brand pl-5">
+              <p className="font-display text-xl font-medium leading-snug tracking-tight text-brand">
                 Think in decades, ship in weeks. The cadence is what compounds — not the heroics.
               </p>
             </blockquote>

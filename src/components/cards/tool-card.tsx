@@ -8,10 +8,12 @@ import { compactNumber } from "@/lib/utils";
 
 export function ToolCard({ tool }: { tool: Tool }) {
   const available = tool.status !== "Soon";
+  const tile = ["bg-brand/12 text-brand", "bg-plum/12 text-plum", "bg-green/12 text-green"][tool.slug.length % 3];
+  const link = ["text-brand", "text-plum", "text-green"][tool.slug.length % 3];
   const body = (
     <Card interactive={available} className="group relative flex h-full flex-col p-6">
       <div className="flex items-start justify-between">
-        <div className="flex size-11 items-center justify-center rounded-card bg-muted text-foreground">
+        <div className={`flex size-11 items-center justify-center rounded-card ${tile}`}>
           <Icon name={tool.icon} />
         </div>
         <Badge variant={tool.status === "Live" ? "success" : tool.status === "Beta" ? "warning" : "muted"}>
@@ -23,7 +25,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
       <div className="mt-5 flex items-center justify-between text-sm">
         <span className="text-muted-foreground">{tool.category}</span>
         {available ? (
-          <span className="inline-flex items-center gap-1 font-medium text-foreground">
+          <span className={`inline-flex items-center gap-1 font-medium ${link}`}>
             Open tool
             <ArrowUpRight className="size-4" />
           </span>

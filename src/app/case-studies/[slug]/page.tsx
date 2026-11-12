@@ -41,10 +41,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   });
 }
 
-function Block({ title, children }: { title: string; children: React.ReactNode }) {
+function Block({ title, children, tone = "text-brand" }: { title: string; children: React.ReactNode; tone?: string }) {
   return (
     <Reveal className="border-t border-border pt-10">
-      <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">{title}</h2>
+      <h2 className={`font-display text-sm font-bold uppercase tracking-[0.12em] ${tone}`}>{title}</h2>
       <div className="mt-4">{children}</div>
     </Reveal>
   );
@@ -124,7 +124,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
           <h1 className="text-balance text-3xl font-extrabold tracking-tight md:text-4xl">{study.title}</h1>
           <div className="mt-10 flex flex-col gap-2 rounded-card border border-border bg-card p-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <div className="font-display text-5xl font-extrabold tracking-tight">{study.heroMetric.value}</div>
+              <div className="font-display text-5xl font-extrabold tracking-tight text-brand">{study.heroMetric.value}</div>
               <div className="mt-1 text-sm text-muted-foreground">{study.heroMetric.label}</div>
             </div>
             <div className="text-sm text-muted-foreground">{study.client}</div>
@@ -155,7 +155,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               <p className="text-[17px] leading-8 text-foreground/90">{study.problem}</p>
             </Reveal>
 
-            <Block title="The constraints">
+            <Block title="The constraints" tone="text-plum">
               <ul className="flex flex-col gap-2">
                 {study.constraints.map((c) => (
                   <li key={c} className="flex gap-3 text-[17px] leading-8 text-foreground/90">
@@ -166,7 +166,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               </ul>
             </Block>
 
-            <Block title="The strategy">
+            <Block title="The strategy" tone="text-green">
               <p className="text-[17px] leading-8 text-foreground/90">{study.strategy}</p>
             </Block>
 
@@ -174,7 +174,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               <ol className="flex flex-col gap-3">
                 {study.execution.map((step, i) => (
                   <li key={step} className="flex gap-4 text-[17px] leading-8 text-foreground/90">
-                    <span className="mt-1 font-display text-sm font-bold text-muted-foreground">
+                    <span className={`mt-1 font-display text-sm font-bold ${["text-brand", "text-plum", "text-green"][i % 3]}`}>
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>{step}</span>
@@ -183,7 +183,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               </ol>
             </Block>
 
-            <Block title="The results">
+            <Block title="The results" tone="text-plum">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -213,14 +213,15 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
               </p>
             </Block>
 
-            <Block title="Key learnings">
+            <Block title="Key learnings" tone="text-green">
               <p className="text-[17px] leading-8 text-foreground/90">{study.learnings}</p>
             </Block>
 
             {study.quote && (
               <Reveal className="border-t border-border pt-10">
-                <Card className="bg-card p-8">
-                  <Quote className="size-6 text-muted-foreground" aria-hidden />
+                <Card className="relative overflow-hidden bg-card p-8 pt-9">
+                  <span className="absolute inset-x-0 top-0 h-1 bg-brand" aria-hidden />
+                  <Quote className="size-6 text-brand" aria-hidden />
                   <blockquote className="mt-4 font-display text-xl font-medium leading-snug tracking-tight">
                     {study.quote.text}
                   </blockquote>
@@ -279,7 +280,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                 >
                   <div className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{r.sector}</div>
                   <div className="mt-2 font-semibold leading-snug tracking-tight">{r.title}</div>
-                  <div className="mt-3 font-display text-2xl font-bold tracking-tight">{r.heroMetric.value}</div>
+                  <div className="mt-3 font-display text-2xl font-bold tracking-tight text-brand">{r.heroMetric.value}</div>
                   <div className="text-xs text-muted-foreground">{r.heroMetric.label}</div>
                 </Link>
               ))}

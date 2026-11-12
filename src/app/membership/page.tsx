@@ -86,17 +86,18 @@ export default function MembershipPage() {
       {/* Benefits — the core "what you get" grid */}
       <Section>
         <Container>
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+          <h2 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-brand">
             What&rsquo;s inside
           </h2>
           <Stagger className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {m.benefits.map((b) => {
+            {m.benefits.map((b, i) => {
               const Icon = ICONS[b.icon];
+              const tile = ["bg-brand/12 text-brand", "bg-plum/12 text-plum", "bg-green/12 text-green"][i % 3];
               return (
                 <StaggerItem key={b.title} className={cn(b.wide && "sm:col-span-2")}>
                   <Card className="flex h-full flex-col p-6">
                     <div className="flex items-center justify-between gap-3">
-                      <span className="flex size-10 items-center justify-center rounded-btn bg-foreground text-background">
+                      <span className={`flex size-10 items-center justify-center rounded-btn ${tile}`}>
                         <Icon className="size-5" />
                       </span>
                       {b.status === "soon" && (
@@ -125,7 +126,7 @@ export default function MembershipPage() {
       {/* Pricing */}
       <Section id="pricing" className="pt-0">
         <Container>
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+          <h2 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-plum">
             Simple pricing
           </h2>
           <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:max-w-3xl">
@@ -133,16 +134,17 @@ export default function MembershipPage() {
               <Reveal key={p.name}>
                 <Card
                   className={cn(
-                    "flex h-full flex-col p-6",
-                    p.highlight && "border-foreground ring-1 ring-foreground",
+                    "relative flex h-full flex-col overflow-hidden p-6",
+                    p.highlight && "border-brand ring-1 ring-brand",
                   )}
                 >
+                  {p.highlight && <span className="absolute inset-x-0 top-0 h-1 bg-brand" aria-hidden />}
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="font-semibold">{p.name}</h3>
                     {p.badge && <Badge>{p.badge}</Badge>}
                   </div>
                   <div className="mt-3 flex items-baseline gap-1.5">
-                    <span className="font-display text-4xl font-extrabold tracking-tight">{inr(p.price)}</span>
+                    <span className={cn("font-display text-4xl font-extrabold tracking-tight", p.highlight && "text-brand")}>{inr(p.price)}</span>
                     <span className="text-sm text-muted-foreground">/ {p.cadence}</span>
                   </div>
                   {p.cadence === "year" && annualSaving > 0 && (
@@ -153,7 +155,7 @@ export default function MembershipPage() {
                   <ul className="mt-5 flex flex-1 flex-col gap-2.5 text-sm">
                     {p.features.map((f) => (
                       <li key={f} className="flex items-start gap-2.5">
-                        <Check className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+                        <Check className="mt-0.5 size-4 shrink-0 text-green" />
                         <span>{f}</span>
                       </li>
                     ))}
@@ -178,13 +180,13 @@ export default function MembershipPage() {
       {/* How it works — sets honest expectations (account first, then join) */}
       <Section className="pt-0">
         <Container>
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+          <h2 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-green">
             How it works
           </h2>
           <ol className="mt-6 grid gap-6 sm:grid-cols-3">
             {m.steps.map((s, i) => (
               <li key={s.step} className="flex flex-col gap-3">
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-foreground font-display text-xs font-bold text-background">
+                <span className={`flex size-8 shrink-0 items-center justify-center rounded-full font-display text-xs font-bold text-white ${["bg-brand", "bg-plum", "bg-green"][i % 3]}`}>
                   {i + 1}
                 </span>
                 <div>
@@ -200,7 +202,7 @@ export default function MembershipPage() {
       {/* FAQ */}
       <Section className="pt-0">
         <Container>
-          <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-muted-foreground">FAQ</h2>
+          <h2 className="font-display text-sm font-bold uppercase tracking-[0.12em] text-brand">FAQ</h2>
           <Accordion type="single" collapsible className="mt-2">
             {m.faqs.map((f) => (
               <AccordionItem key={f.question} value={f.question}>

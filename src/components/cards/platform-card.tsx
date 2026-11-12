@@ -13,7 +13,8 @@ export function PlatformCard({ platform }: { platform: Platform }) {
       rel="noopener noreferrer"
       className="group block focus-visible:outline-none"
     >
-      <Card interactive className="flex h-full flex-col p-6">
+      <Card interactive className="relative flex h-full flex-col overflow-hidden p-6 pt-7">
+        <span className="absolute inset-x-0 top-0 h-1" style={{ background: platform.accent }} aria-hidden />
         <div className="flex items-start justify-between">
           <span
             className="grid size-11 place-items-center rounded-card"

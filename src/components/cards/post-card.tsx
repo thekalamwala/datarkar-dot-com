@@ -11,6 +11,7 @@ import { formatDate, readingTime } from "@/lib/utils";
 export function PostCard({ post }: { post: Post }) {
   const category = blogCategories.find((c) => c.slug === post.category);
   const href = `/blog/${post.category}/${post.slug}`;
+  const tone = ["text-brand", "text-plum", "text-green"][post.slug.length % 3];
 
   return (
     // Whole card is one link — thumbnail, title, and "Read more" all navigate.
@@ -36,7 +37,7 @@ export function PostCard({ post }: { post: Post }) {
           <h3 className="mt-4 text-lg font-semibold leading-snug tracking-tight">{post.title}</h3>
         </ViewTransition>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{post.excerpt}</p>
-        <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-foreground">
+        <span className={`mt-4 inline-flex items-center gap-1 text-sm font-medium ${tone}`}>
           Read more
           <ArrowUpRight className="size-4" />
         </span>

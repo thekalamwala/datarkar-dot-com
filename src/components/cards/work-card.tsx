@@ -5,8 +5,10 @@ import { Badge } from "@/components/ui/badge";
 
 /** A single portfolio entry. Links out when the item has a live URL. */
 export function WorkCard({ item }: { item: WorkItem }) {
+  const bar = ["bg-brand", "bg-plum", "bg-green"][item.name.length % 3];
   const inner = (
-    <Card interactive={!!item.url} className="flex h-full flex-col p-5">
+    <Card interactive={!!item.url} className="relative flex h-full flex-col overflow-hidden p-5 pl-6">
+      <span className={`absolute inset-y-0 left-0 w-1 ${bar}`} aria-hidden />
       <div className="flex items-start justify-between gap-2">
         <Badge variant="muted">{item.tag}</Badge>
         {item.url && (

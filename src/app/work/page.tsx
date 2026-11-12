@@ -30,9 +30,9 @@ export default function WorkPage() {
       <Section bleed className="border-b border-border bg-card py-12">
         <Container>
           <div className="grid grid-cols-2 gap-px overflow-hidden rounded-card border border-border bg-border md:grid-cols-5">
-            {portfolioCounts.map((c) => (
+            {portfolioCounts.map((c, i) => (
               <div key={c.label} className="bg-card p-5 text-center">
-                <div className="font-display text-3xl font-extrabold tracking-tight">{c.count}</div>
+                <div className={`font-display text-3xl font-extrabold tracking-tight ${["text-brand", "text-plum", "text-green"][i % 3]}`}>{c.count}</div>
                 <div className="mt-1 text-xs text-muted-foreground">{c.label}</div>
               </div>
             ))}
@@ -52,7 +52,7 @@ export default function WorkPage() {
           <Container>
             <div className="flex items-baseline gap-3">
               <h2 className="text-2xl font-bold tracking-tight md:text-3xl">{group.label}</h2>
-              <span className="font-display text-sm font-bold text-muted-foreground">{group.count}</span>
+              <span className={`font-display text-sm font-bold ${["text-brand", "text-plum", "text-green"][i % 3]}`}>{group.count}</span>
             </div>
             <p className="mt-1 text-muted-foreground">{group.blurb}</p>
             <Stagger className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
