@@ -28,7 +28,6 @@ export default async function MembersAnalyticsPage() {
         <KPIWidget label="Accounts" value={stats.accounts} href="/admin/members" />
         <KPIWidget label="Active premium (paid)" value={stats.activePremium} href="/admin/members" />
         <KPIWidget label="Gifted members" value={stats.giftedMembers} href="/admin/members" />
-        <KPIWidget label="Published resources" value={stats.publishedResources} href="/admin/resources" />
         <KPIWidget label="Views (30d)" value={stats.viewsLast30d} />
         <KPIWidget label="Downloads (30d)" value={stats.downloadsLast30d} />
         <KPIWidget label="Open requests" value={stats.openRequests} href="/admin/requests" />

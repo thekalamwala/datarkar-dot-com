@@ -3,9 +3,7 @@ import path from "node:path";
 import type { PageEntry } from "./types";
 import { isIndexable, isPrivate, pageTypeOf } from "./routes";
 import { blogCategories } from "@/lib/data/posts";
-import { caseStudies } from "@/lib/data/case-studies";
 import { services } from "@/lib/data/services";
-import { tools } from "@/lib/data/tools";
 import { products } from "@/lib/data/products";
 import { supportProjects } from "@/lib/data/support-content";
 import { seoCities } from "@/lib/data/seo-cities";
@@ -53,14 +51,6 @@ const DYNAMIC_EXPANSIONS: DynamicExpansion[] = [
   {
     pattern: /^\/products\/\[slug\]$/,
     expand: () => products.map((p) => ({ route: `/products/${p.slug}` })),
-  },
-  {
-    pattern: /^\/case-studies\/\[slug\]$/,
-    expand: () => caseStudies.map((c) => ({ route: `/case-studies/${c.slug}` })),
-  },
-  {
-    pattern: /^\/tools\/\[slug\]$/,
-    expand: () => tools.map((t) => ({ route: `/tools/${t.slug}` })),
   },
   {
     pattern: /^\/projects\/\[slug\]$/,

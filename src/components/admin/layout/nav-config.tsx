@@ -1,8 +1,8 @@
 import {
   LayoutDashboard, FileText, Megaphone, Layers, FolderGit2, Package, Wrench,
   Quote, Users, Mail, CreditCard, Share2, Link2, Plug, Gamepad2, Search,
-  Library, Tags, MessageSquarePlus, Bell, BarChart3, MessagesSquare,
-  Contact, Send, Inbox, Coins, Hammer, Gem, Images, Clapperboard, Film, ListMusic, BookMarked, BookOpen, CalendarCheck, type LucideIcon,
+  MessageSquarePlus, Bell, BarChart3, MessagesSquare,
+  Contact, Send, Inbox, Images, Clapperboard, Film, ListMusic, BookMarked, BookOpen, CalendarCheck, type LucideIcon,
 } from "lucide-react";
 import { ENTITY_LIST } from "@/lib/content/registry";
 
@@ -41,20 +41,10 @@ export const ADMIN_NAV: AdminNavGroup[] = [
     ],
   },
   {
-    heading: "Library",
-    icon: Library,
-    items: [
-      { label: "Resources", href: "/admin/resources", icon: Library },
-      { label: "Taxonomy", href: "/admin/resources/taxonomy", icon: Tags },
-      { label: "Tools", href: "/admin/resources/tools", icon: Hammer },
-    ],
-  },
-  {
     heading: "Audience",
     icon: Users,
     items: [
       { label: "People", href: "/admin/people", icon: Contact },
-      { label: "Plans", href: "/admin/plans", icon: Gem },
       { label: "Subscribers", href: "/admin/subscribers", icon: Users },
       { label: "Contacts", href: "/admin/contacts", icon: Mail },
       { label: "Bookings", href: "/admin/bookings", icon: CalendarCheck },
@@ -95,7 +85,6 @@ export const ADMIN_NAV: AdminNavGroup[] = [
     items: [
       { label: "SEO Overview", href: "/admin/seo", icon: Search },
       { label: "Pages", href: "/admin/seo/pages", icon: FileText },
-      { label: "KalamAI Usage", href: "/admin/kalamai", icon: Coins },
     ],
   },
 ];

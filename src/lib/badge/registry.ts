@@ -1,5 +1,4 @@
 import { getPublishedPosts } from "@/lib/blog/queries";
-import { caseStudies } from "@/lib/data/case-studies";
 import { supabaseAdmin } from "@/lib/supabase/server";
 import type { BadgeData } from "./render";
 
@@ -16,9 +15,6 @@ export const BADGES: Record<string, () => Promise<BadgeData>> = {
   posts: async () => {
     const posts = await getPublishedPosts();
     return { label: "Published posts", value: String(posts.length) };
-  },
-  "latest-case-study": async () => {
-    return { label: "Latest case study", value: caseStudies[0]?.title ?? "Coming soon" };
   },
   members: async () => {
     // Public aggregate count only — no PII. Guarded so the badge degrades

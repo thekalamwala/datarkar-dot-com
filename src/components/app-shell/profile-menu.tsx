@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import {
-  Crown, Zap, Settings, HelpCircle, Shield, LogOut,
+  Crown, Settings, HelpCircle, Shield, LogOut,
   Monitor, Sun, Moon, Flame,
 } from "lucide-react";
 import {
@@ -72,9 +72,6 @@ export function ProfileMenu({
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem asChild>
-          <Link href="/tools/kalamai"><Zap /> <span>Try KalamAI</span></Link>
-        </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/members/account"><Settings /> <span>Settings &amp; Privacy</span></Link>
         </DropdownMenuItem>

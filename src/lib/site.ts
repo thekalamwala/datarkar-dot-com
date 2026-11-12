@@ -124,7 +124,6 @@ export const leftBrain: NavGroup[] = [
     label: "Building",
     items: [
       { label: "What I'm building", href: "/projects", description: "Products, companies, experiments" },
-      { label: "Case Studies", href: "/case-studies", description: "Real outcomes, real numbers" },
       { label: "Changelog", href: "/changelog", description: "What shipped, and when" },
     ],
   },
@@ -159,7 +158,6 @@ export const rightBrain: NavGroup[] = [
     items: [
       { label: "About", href: "/about", description: "Who I am, how I work" },
       { label: "My Story", href: "/my-story", description: "How I got here" },
-      { label: "Me", href: "/me", description: "The short version" },
     ],
   },
   {
@@ -187,7 +185,6 @@ export const footerNav: NavGroup[] = [
     label: "Building",
     items: [
       { label: "Projects", href: "/projects" },
-      { label: "Case Studies", href: "/case-studies" },
       { label: "Shop", href: "/products" },
       { label: "Changelog", href: "/changelog" },
     ],

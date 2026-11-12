@@ -5,11 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import { blogCategories } from "@/lib/data/posts";
-import { tools } from "@/lib/data/tools";
-import { caseStudies } from "@/lib/data/case-studies";
-import { services } from "@/lib/data/services";
 import { products } from "@/lib/data/products";
-import { portfolioItems } from "@/lib/data/portfolio";
 import type { Post } from "@/lib/data/types";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -29,16 +25,7 @@ const AD: Entry = {
 };
 
 const staticIndex: Entry[] = [
-  ...caseStudies.map((c) => ({
-    title: c.title,
-    href: `/case-studies/${c.slug}`,
-    type: "Case study",
-    description: `${c.client} · ${c.heroMetric.value} ${c.heroMetric.label}`,
-  })),
-  ...services.map((s) => ({ title: s.name, href: `/services/${s.slug}`, type: "Service", description: s.outcome })),
-  ...tools.map((t) => ({ title: t.name, href: `/tools/${t.slug}`, type: "Tool", description: t.description })),
   ...products.map((p) => ({ title: p.name, href: `/products/${p.slug}`, type: "Product", description: p.tagline })),
-  ...portfolioItems.map((p) => ({ title: p.name, href: "/work", type: "Work", description: p.description })),
   ...blogCategories.map((c) => ({ title: `${c.label} articles`, href: `/blog/${c.slug}`, type: "Category", description: c.description })),
 ];
 
