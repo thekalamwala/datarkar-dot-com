@@ -35,7 +35,7 @@ export function SupporterStrip({ supporters }: { supporters: RecentSupporter[] }
         <span className="font-medium text-foreground">{lead}</span>
         {others > 0 ? ` and ${others} others supported recently.` : " supported recently."}
       </p>
-      <Heart className="ml-auto size-4 shrink-0 text-muted-foreground" />
+      <Heart className="ml-auto size-4 shrink-0 fill-brand text-brand" />
     </div>
   );
 }

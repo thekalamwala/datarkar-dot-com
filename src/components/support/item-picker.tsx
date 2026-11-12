@@ -5,6 +5,7 @@ import { type SupportItem, QTY_MIN, QTY_MAX } from "@/lib/support/config";
 import { cn } from "@/lib/utils";
 
 const ICON = { coffee: Coffee, toffee: Candy } as const;
+const TILE = { coffee: "bg-brand/12 text-brand", toffee: "bg-plum/12 text-plum" } as const;
 
 /** One controlled item row: icon + label, quantity chips, units input — all inline. */
 export function ItemPicker({
@@ -25,7 +26,7 @@ export function ItemPicker({
   return (
     <div className="rounded-card border border-border bg-card p-4">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="flex size-10 items-center justify-center rounded-btn border border-border bg-muted/50">
+        <span className={cn("flex size-10 items-center justify-center rounded-btn", TILE[item.key])}>
           <Icon className="size-5" />
         </span>
         <p className="mr-1 font-semibold leading-tight">{item.label}</p>

@@ -25,7 +25,7 @@ export function SupportNav() {
             className={cn(
               "-mb-px border-b-2 px-4 py-3 text-sm font-medium transition-ui",
               active
-                ? "border-foreground text-foreground"
+                ? "border-brand text-brand"
                 : "border-transparent text-muted-foreground hover:text-foreground",
             )}
           >
