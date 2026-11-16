@@ -9,6 +9,11 @@ import { Container, Section } from "@/components/layout/container";
 import { buttonVariants } from "@/components/ui/button";
 import { NewsletterForm } from "@/components/sections/newsletter-form";
 import { HomeHero } from "@/components/landing/home-hero";
+import { Sponsors } from "@/components/landing/sponsors";
+import { Insights } from "@/components/landing/insights";
+import { Community } from "@/components/landing/community";
+import { Bookshelf } from "@/components/landing/bookshelf";
+import { SkillCloud } from "@/components/landing/skill-cloud";
 import { cn } from "@/lib/utils";
 
 export const metadata = buildMetadata({
@@ -51,23 +56,40 @@ export default async function HomePage() {
         </Container>
       </Section>
 
-      {/* ───────────── GitHub (only when handle set) ───────────── */}
-      {site.github ? (
-        <Section bleed className="border-b border-border bg-card">
-          <Container className="py-16 md:py-24">
-            <div className="flex items-end justify-between gap-4">
-              <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">Shipping, in the open</h2>
-              <a href={`https://github.com/${site.github}`} target="_blank" rel="noopener noreferrer" className="text-sm font-medium transition-ui hover:text-brand">
-                @{site.github}
-              </a>
-            </div>
-            <div className="mt-8 overflow-x-auto rounded-2xl border border-border bg-background p-5 shadow-sm">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`https://ghchart.rshah.org/ff4800/${site.github}`} alt={`GitHub contributions for ${site.github}`} className="min-w-[640px]" />
-            </div>
+      {/* ───────────── Sponsors ───────────── */}
+      <Sponsors />
+
+      {/* ───────────── Insights ───────────── */}
+      <Insights />
+
+      {/* ───────────── Community ───────────── */}
+      <Community />
+
+      {/* ───────────── Bookshelf ───────────── */}
+      <Section bleed className="border-b border-border">
+        <div className="border-b border-border bg-muted/30">
+          <Container className="py-4">
+            <h2 className="font-display text-lg font-semibold tracking-tight">On the shelf</h2>
           </Container>
-        </Section>
-      ) : null}
+        </div>
+        <Container className="py-10 md:py-14">
+          <p className="mb-6 max-w-md text-sm text-muted-foreground">Books that shaped how I build and market. Tap a spine.</p>
+          <Bookshelf />
+        </Container>
+      </Section>
+
+      {/* ───────────── Skills ───────────── */}
+      <Section bleed className="border-b border-border">
+        <div className="border-b border-border bg-muted/30">
+          <Container className="py-4">
+            <h2 className="font-display text-lg font-semibold tracking-tight">Skills</h2>
+          </Container>
+        </div>
+        <Container className="py-10 md:py-14">
+          <p className="mb-6 max-w-md text-sm text-muted-foreground">What I work with. Drag them around.</p>
+          <SkillCloud />
+        </Container>
+      </Section>
 
       {/* ───────────── Newsletter ───────────── */}
       <Section bleed className="border-b border-border">

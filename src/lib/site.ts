@@ -20,7 +20,7 @@ export const site = {
   spotifyUrl: "https://open.spotify.com/playlist/1p5XuC8FEI1iYrBRZIxVSW",
   youtubeUrl: "https://www.youtube.com/@sndatarkar",
   // GitHub username for the activity graph. Empty → module hidden. [CONFIRM]
-  github: "",
+  github: "thekalamwala",
   photo: "https://company-assets.bookasloth.in/images/sd/website/profile.webp",
 } as const;
 
