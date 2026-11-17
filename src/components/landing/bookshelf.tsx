@@ -12,7 +12,13 @@ export type Book = {
   title: string;
   author: string;
   accent: Accent;
+  isbn?: string;
 };
+
+// Real front covers from the Open Library covers API (public book catalog).
+// `default=false` → 404 when no cover exists, so onError drops to the CSS cover.
+const coverUrl = (isbn?: string) =>
+  isbn ? `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg?default=false` : undefined;
 
 // Static class strings per accent so Tailwind keeps them (no dynamic `bg-${x}`).
 const ACCENT: Record<Accent, { spine: string; edge: string; cover: string }> = {
@@ -27,20 +33,22 @@ const withAccent = (
 ): Book[] => shelf.map((b, i) => ({ ...b, accent: ACCENTS[i % ACCENTS.length] }));
 
 export const DEFAULT_BOOKS: Book[] = withAccent([
-  { id: "mom-test", title: "The Mom Test", author: "Rob Fitzpatrick" },
-  { id: "zero-to-sold", title: "Zero to Sold", author: "Arvid Kahl" },
-  { id: "make", title: "Make", author: "Pieter Levels" },
-  { id: "hooked", title: "Hooked", author: "Nir Eyal" },
-  { id: "obviously-awesome", title: "Obviously Awesome", author: "April Dunford" },
-  { id: "this-is-marketing", title: "This Is Marketing", author: "Seth Godin" },
-  { id: "almanack-naval", title: "The Almanack of Naval", author: "Eric Jorgenson" },
-  { id: "deep-work", title: "Deep Work", author: "Cal Newport" },
+  { id: "mom-test", title: "The Mom Test", author: "Rob Fitzpatrick", isbn: "9781492180746" },
+  { id: "zero-to-sold", title: "Zero to Sold", author: "Arvid Kahl", isbn: "9783982195728" },
+  { id: "make", title: "Make", author: "Pieter Levels", isbn: "9798671211565" },
+  { id: "hooked", title: "Hooked", author: "Nir Eyal", isbn: "9780241184837" },
+  { id: "obviously-awesome", title: "Obviously Awesome", author: "April Dunford", isbn: "9781999023003" },
+  { id: "this-is-marketing", title: "This Is Marketing", author: "Seth Godin", isbn: "9780241370148" },
+  { id: "almanack-naval", title: "The Almanack of Naval Ravikant", author: "Eric Jorgenson", isbn: "9781544514215" },
+  { id: "deep-work", title: "Deep Work", author: "Cal Newport", isbn: "9780349411903" },
 ]);
 
 export function Bookshelf({ books = DEFAULT_BOOKS, className }: { books?: Book[]; className?: string }) {
   const reduce = useReducedMotion();
   const [openId, setOpenId] = useState<string | null>(null);
+  const [failed, setFailed] = useState<Set<string>>(new Set());
   const railRef = useRef<HTMLDivElement>(null);
+  const markFailed = (id: string) => setFailed((prev) => new Set(prev).add(id));
 
   // Escape or a click outside the rail closes the open book.
   useEffect(() => {
@@ -104,15 +112,24 @@ export function Bookshelf({ books = DEFAULT_BOOKS, className }: { books?: Book[]
                   animate={{ opacity: 1 }}
                   exit={{ opacity: reduce ? 1 : 0 }}
                   transition={{ duration: reduce ? 0 : 0.38, ease: "easeOut" }}
-                  className={cn(
-                    "absolute inset-0 flex flex-col justify-end gap-1 overflow-hidden rounded-2xl p-3 text-left",
-                    "border border-border",
-                    accent.cover,
-                  )}
+                  className="absolute inset-0 overflow-hidden rounded-2xl border border-border bg-card"
                 >
-                  <span className={cn("absolute inset-y-0 left-0 w-1.5", accent.edge)} aria-hidden />
-                  <span className="font-display text-sm font-bold leading-tight text-foreground">{book.title}</span>
-                  <span className="text-xs text-muted-foreground">{book.author}</span>
+                  {coverUrl(book.isbn) && !failed.has(book.id) ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={coverUrl(book.isbn)}
+                      alt={`${book.title} cover`}
+                      loading="lazy"
+                      onError={() => markFailed(book.id)}
+                      className="size-full object-cover"
+                    />
+                  ) : (
+                    <span className={cn("flex size-full flex-col justify-end gap-1 p-3 text-left", accent.cover)}>
+                      <span className={cn("absolute inset-y-0 left-0 w-1.5", accent.edge)} aria-hidden />
+                      <span className="font-display text-sm font-bold leading-tight text-foreground">{book.title}</span>
+                      <span className="text-xs text-muted-foreground">{book.author}</span>
+                    </span>
+                  )}
                 </motion.span>
               ) : (
                 <motion.span
